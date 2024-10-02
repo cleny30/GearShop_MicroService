@@ -1,17 +1,17 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/customers/{everything}",
+      "DownstreamPathTemplate": "/api/manager/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7166
+          "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/gateway/customers/{everything}",
+      "UpstreamPathTemplate": "/gateway/manager/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "SwaggerKey": "customers"
+      "SwaggerKey": "manager"
     },
     {
       "DownstreamPathTemplate": "/api/products/{everything}",
@@ -29,12 +29,12 @@
   ],
   "SwaggerEndPoints": [
     {
-      "Key": "customers",
+      "Key": "manager",
       "Config": [
         {
-          "Name": "Customers API",
+          "Name": "Manager API",
           "Version": "v1",
-          "Url": "https://localhost:7166/swagger/v1/swagger.json"
+          "Url": "https://localhost:5001/swagger/v1/swagger.json"
         }
       ]
     },
