@@ -1,4 +1,4 @@
-﻿using BusinessObject.Models;
+﻿using BusinessObject.Models.Entity;
 using DataAccess.IRepository;
 using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;

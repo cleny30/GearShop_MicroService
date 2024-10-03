@@ -1,4 +1,4 @@
-﻿using BusinessObject.Models;
+﻿using BusinessObject.Models.Entity;
 using DataAccess.DAO;
 using DataAccess.IRepository;
 using System;

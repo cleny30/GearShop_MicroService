@@ -1,5 +1,5 @@
 ﻿using BusinessObject.Core;
-using BusinessObject.Models;
+using BusinessObject.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace DataAccess.DAO
             var list = new List<Manager>();
             try
             {
-                using (var context = new GearShopContext())
+                using (var context = new ManagerContext())
                 {
                     list = context.Managers.ToList();
                 }

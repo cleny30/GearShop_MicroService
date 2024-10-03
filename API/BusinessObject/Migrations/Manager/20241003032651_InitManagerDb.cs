@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace BusinessObject.Migrations
+namespace BusinessObject.Migrations.Manager
 {
     /// <inheritdoc />
-    public partial class InitDatabase : Migration
+    public partial class InitManagerDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

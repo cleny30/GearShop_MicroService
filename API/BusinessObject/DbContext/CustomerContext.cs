@@ -1,4 +1,4 @@
-﻿using BusinessObject.Models;
+﻿using BusinessObject.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.Core
 {
-    public class GearShopContext :DbContext
+    public  class CustomerContext : DbContext
     {
-        public GearShopContext()
+        public CustomerContext()
         {
 
         }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,8 +24,7 @@ namespace BusinessObject.Core
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             IConfigurationRoot configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDefaultContext"));
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("CustomerContext"));
         }
-        public virtual DbSet<Manager> Managers { get; set; }
     }
 }

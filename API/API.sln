@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObject", "BusinessO
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.API Service", "2.API Service", "{1970B6F4-CB0B-433E-A8A2-ACBEE0C159C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerService", "ManagerService\ManagerService.csproj", "{F99FADDE-245B-4A02-B88B-F41CE239EE3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerService", "ManagerService\ManagerService.csproj", "{F99FADDE-245B-4A02-B88B-F41CE239EE3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Data Access", "4. Data Access", "{E94D8953-7A1F-4E54-B56F-5EB8A8F7FF06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{558F7B0A-2E0B-42C9-8DCC-17BC8DFF3576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{558F7B0A-2E0B-42C9-8DCC-17BC8DFF3576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
