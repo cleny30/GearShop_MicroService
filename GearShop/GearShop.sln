@@ -27,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. WPF Dashboard", "6. WPF 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashboardAdmin", "DashboardAdmin\DashboardAdmin.csproj", "{4A1E96C0-B56A-4ADB-9A2C-F589703D9BB9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Unit Test", "7. Unit Test", "{EF8DE53E-7692-40B1-9D47-604AC834F161}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerUnitTest", "ManagerUnitTest\ManagerUnitTest.csproj", "{ACFA63CF-3709-4696-A44E-41564E189F88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,10 @@ Global
 		{4A1E96C0-B56A-4ADB-9A2C-F589703D9BB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A1E96C0-B56A-4ADB-9A2C-F589703D9BB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A1E96C0-B56A-4ADB-9A2C-F589703D9BB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACFA63CF-3709-4696-A44E-41564E189F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACFA63CF-3709-4696-A44E-41564E189F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACFA63CF-3709-4696-A44E-41564E189F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACFA63CF-3709-4696-A44E-41564E189F88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +76,7 @@ Global
 		{558F7B0A-2E0B-42C9-8DCC-17BC8DFF3576} = {E94D8953-7A1F-4E54-B56F-5EB8A8F7FF06}
 		{0F2FF923-B71D-4831-A6BB-A0A98906302A} = {3E1EBD7E-9757-4408-BE92-9861B074ABD3}
 		{4A1E96C0-B56A-4ADB-9A2C-F589703D9BB9} = {F95B0C9F-19A6-4AA4-A28E-A6C0A49341C2}
+		{ACFA63CF-3709-4696-A44E-41564E189F88} = {EF8DE53E-7692-40B1-9D47-604AC834F161}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B224301-0B35-410E-8D1B-9D0B4C868A8A}
