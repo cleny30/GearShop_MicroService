@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Managers{everything}",
+      "DownstreamPathTemplate": "/api/managers{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -11,25 +11,82 @@
       ],
       "UpstreamPathTemplate": "/gateway/managers/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "SwaggerKey": "manager"
+      "SwaggerKey": "managers"
     },
+
     {
       "DownstreamPathTemplate": "/api/products/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7101
+          "Port": 5002
         }
       ],
       "UpstreamPathTemplate": "/gateway/products/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "SwaggerKey": "products"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/customers/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/customers/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "customers"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/carts/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/carts/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "carts"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/orders/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/orders/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "orders"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/ImportProducts/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ImportProducts/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "ImportProducts"
     }
   ],
   "SwaggerEndPoints": [
     {
-      "Key": "manager",
+      "Key": "managers",
       "Config": [
         {
           "Name": "Manager API",
@@ -44,7 +101,47 @@
         {
           "Name": "Products API",
           "Version": "v1",
-          "Url": "http://localhost:7101/swagger/v1/swagger.json"
+          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "customers",
+      "Config": [
+        {
+          "Name": "Customers API",
+          "Version": "v1",
+          "Url": "http://localhost:5003/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "carts",
+      "Config": [
+        {
+          "Name": "Carts API",
+          "Version": "v1",
+          "Url": "http://localhost:5004/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "orders",
+      "Config": [
+        {
+          "Name": "Orders API",
+          "Version": "v1",
+          "Url": "http://localhost:5005/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "ImportProducts",
+      "Config": [
+        {
+          "Name": "Import Products API",
+          "Version": "v1",
+          "Url": "http://localhost:5006/swagger/v1/swagger.json"
         }
       ]
     }
