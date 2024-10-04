@@ -23,5 +23,20 @@ namespace ManagerService.Controllers
             return _repository.GetAll();
         }
 
+
+        [HttpGet("CheckUsernameExisted")]
+        public async Task<ActionResult> CheckUsernameExisted(string username)
+        {
+            bool exists = await _repository.CheckUsernameExistedAsync(username);
+            return Ok(exists);
+        }
+
+        [HttpGet("CheckManagerExisted")]
+        public async Task<ActionResult> CheckManagerExisted(string username, string password)
+        {
+            bool exists = await _repository.CheckManagerExistedAsync(username, password);
+            return Ok(exists);
+        }
+
     }
 }
