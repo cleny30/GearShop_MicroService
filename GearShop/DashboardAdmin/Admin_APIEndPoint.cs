@@ -13,5 +13,17 @@ namespace DashboardAdmin
         public const string CheckUsernameExisted = BaseURL + "/gateway/managers/CheckUsernameExisted";
 
         public const string CheckManagerExisted = BaseURL + "/gateway/managers/CheckManagerExisted";
+
+        public const string GetCompletedOrder = BaseURL ;
+
+        public const string GetIncome = BaseURL;
+
+        public const string GetRevenue = BaseURL;
+
+        public const string GetProductList = BaseURL;
+
+        public const string GetAllOrderDetailList = BaseURL;
+
+        public const string GetTop10Customer = BaseURL;
     }
 }
