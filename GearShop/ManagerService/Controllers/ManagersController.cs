@@ -1,6 +1,5 @@
 ﻿using BusinessObject.Models.Entity;
 using DataAccess.IRepository;
-using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +7,12 @@ namespace ManagerService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ManagerController : ControllerBase
+    public class ManagersController : ControllerBase
     {
+
         private IManagerRepository _repository;
 
-        public ManagerController(IManagerRepository repository)
+        public ManagersController(IManagerRepository repository)
         {
             _repository = repository;
         }
@@ -22,5 +22,6 @@ namespace ManagerService.Controllers
         {
             return _repository.GetAll();
         }
+
     }
 }
