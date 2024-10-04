@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
+using DataAccess.IRepository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImportProductService.Controllers
@@ -7,5 +10,23 @@ namespace ImportProductService.Controllers
     [ApiController]
     public class ImportProductsController : ControllerBase
     {
+        private IImportProductRepository _repository;
+
+        public ImportProductsController(IImportProductRepository repository)
+        {
+            _repository = repository;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ImportProductModel>>> GetImportProductsList()
+        {
+            return await _repository.GetImportProductsList();
+        }
+
+        [HttpGet("GetMoneySpent")]
+        public async Task<double> GetMoneySpent()
+        {
+            return await _repository.GetMoneySpent();
+        }
     }
 }

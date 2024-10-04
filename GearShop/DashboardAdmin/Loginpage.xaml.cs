@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Models.Entity;
 using DashboardAdmin;
+using DashboardAdmin.Admin_APIEndPoint_Manager;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -99,13 +100,13 @@ namespace Dashboard_Admin
             errorUsername.Text = "";
             errorPassword.Text = "";
 
-            response = await client.GetAsync($"{Admin_APIEndPoint.CheckUsernameExisted}?username={txtUsername.Text}");
+            response = await client.GetAsync($"{Admin_APIEndPoint_Manager.CheckUsernameExisted}?username={txtUsername.Text}");
             strData = await response.Content.ReadAsStringAsync();
             Boolean UsernameExisted = JsonSerializer.Deserialize<Boolean>(strData, options);
 
             if (JsonSerializer.Deserialize<Boolean>(strData, options))
             {
-                response = await client.GetAsync($"{Admin_APIEndPoint.CheckManagerExisted}?username={txtUsername.Text}&password={txtPassword.Password}");
+                response = await client.GetAsync($"{Admin_APIEndPoint_Manager.CheckManagerExisted}?username={txtUsername.Text}&password={txtPassword.Password}");
                 strData = await response.Content.ReadAsStringAsync();
 
                 if (!JsonSerializer.Deserialize<Boolean>(strData, options))

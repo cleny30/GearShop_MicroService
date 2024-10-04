@@ -2,6 +2,8 @@
 using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +14,8 @@ namespace DataAccess.DAO
 {
     public class OrderDAO
     {
-
-        public List<OrderModel> GetOrderList()
+        private static DateTime currentDate = DateTime.Now;
+        public static List<OrderModel> GetOrderList()
         {
             List<Order> orders;
             try
@@ -34,8 +36,7 @@ namespace DataAccess.DAO
                 return null;
             }
         }
-
-        public List<OrderDataForDashboard> GetOrderListForDashboard()
+        public static List<OrderDataForDashboard> GetOrderListForDashboard()
         {
             List<Order> orders;
             try
@@ -56,8 +57,7 @@ namespace DataAccess.DAO
                 return null;
             }
         }
-
-        public int GetCompletedOrder()
+        public static int GetCompletedOrder()
         {
             var OrderList = GetOrderListForDashboard();
             var CompletedOrder = new List<OrderDataForDashboard>();
@@ -72,22 +72,21 @@ namespace DataAccess.DAO
 
             return CompletedOrder.Count;
         }
-
-        public List<Tuple<string, double>> GetTop10Customer()
+        public static async Task<List<Tuple<string, double>>> GetTop10CustomerAsync()
         {
             using (var orderContext = new OrderContext())
             using (var customerContext = new CustomerContext())
             {
-                // Load orders with status 4 into memory
-                var orders = orderContext.Orders
+                // Load orders with status 4 into memory asynchronously
+                var orders = await orderContext.Orders
                     .Where(order => order.Status == 4)
                     .Select(order => new { order.Username, order.TotalPrice })
-                    .ToList();
+                    .ToListAsync();
 
-                // Load customers into memory
-                var customers = customerContext.Customers
+                // Load customers into memory asynchronously
+                var customers = await customerContext.Customers
                     .Select(customer => new { customer.Username, customer.Fullname })
-                    .ToList();
+                    .ToListAsync();
 
                 // Perform the join in memory
                 var topCustomers = orders
@@ -104,6 +103,22 @@ namespace DataAccess.DAO
 
                 return topCustomers;
             }
+        }
+        public static async Task<double> GetIncomeAsync()
+        {
+            int currentYear = currentDate.Year;
+            int currentMonth = currentDate.Month;
+
+            // Assuming GetOrderListAsync is an asynchronous method
+            var orders = (GetOrderList())?.ToList() ?? new List<OrderModel>();
+
+            var incomeList = orders
+                .Where(o => o.Status == 4 && o.EndDate != null &&
+                            o.EndDate.Value.Year == currentYear && o.EndDate.Value.Month == currentMonth)
+                .Select(o => o.TotalPrice)
+                .ToList();
+
+            return incomeList.Any() ? incomeList.Sum() : 0;
         }
     }
 }
