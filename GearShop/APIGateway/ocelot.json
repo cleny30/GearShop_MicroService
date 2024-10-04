@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/managers{everything}",
+      "DownstreamPathTemplate": "/api/managers/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
