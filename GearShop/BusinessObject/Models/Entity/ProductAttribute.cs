@@ -5,7 +5,7 @@ namespace BusinessObject.Models.Entity
 {
     public class ProductAttribute
     {
-        [Key]
+        [Required]
         [Column(TypeName = "varchar")]
         [StringLength(10)]
         public string ProId { get; set; }
