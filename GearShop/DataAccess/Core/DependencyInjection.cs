@@ -14,6 +14,8 @@ namespace DataAccess.Core
         public static void ConfigureDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<IManagerRepository, ManagerRepository>();
+            services.AddScoped<IImportProductRepository, ImportProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
         }
     }
 }
