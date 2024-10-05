@@ -1,8 +1,11 @@
-﻿using BusinessObject.Models.Entity;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using DataAccess.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
+using ProductService.SubService;
+using System.Collections.Generic;
 
 namespace ProductService.Controllers
 {
@@ -18,9 +21,14 @@ namespace ProductService.Controllers
         }
 
         [HttpGet("GetAllProducts")]
-        public ActionResult<List<Product>> GetAllProducts()
+        public ActionResult<List<ProductData>> GetAllProducts()
         {
-            return _repository.GetProducts();
+            SubService.ProductService _service = new SubService.ProductService();
+            List<Product> list = _repository.GetProducts();
+            List<ProductImage> imgs = _repository.GetProductImages();
+            List<ProductAttribute> atts = _repository.GetProductAttributes();
+
+            return _service.GetProducts(list,imgs,atts);
         }
 
         [HttpGet("GetProductImages")]

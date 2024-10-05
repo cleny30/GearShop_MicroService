@@ -1,4 +1,5 @@
-﻿using BusinessObject.Models.Entity;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -12,15 +13,13 @@ namespace WebClient.Controllers
     {
         private readonly HttpClient client = null;
         private readonly ShopService _shopService;
-        private readonly ProductService _proService;
 
-        public ShopController(ShopService shopService, ProductService proService)
+        public ShopController(ShopService shopService)
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
             _shopService = shopService;
-            _proService = proService;
         }
 
         [HttpGet]
@@ -35,28 +34,21 @@ namespace WebClient.Controllers
             HttpResponseMessage _productcResponse = await client.GetAsync(ApiEndpoints.GET_ALL_PRODUCTS);
             HttpResponseMessage _brandResponse = await client.GetAsync(ApiEndpoints.GET_ALL_BRANDS);
             HttpResponseMessage _categoryResponse = await client.GetAsync(ApiEndpoints.GET_ALL_CATEGORIES);
-            HttpResponseMessage _proImgResponse = await client.GetAsync(ApiEndpoints.GET_ALL_PRODUCT_IMAGES);
-            HttpResponseMessage _proAttResponse = await client.GetAsync(ApiEndpoints.GET_ALL_PRODUCT_ATTRIBUTES);
 
             string strProduct = await _productcResponse.Content.ReadAsStringAsync();
             string strBrand = await _brandResponse.Content.ReadAsStringAsync();
             string strCategory = await _categoryResponse.Content.ReadAsStringAsync();
-            string strProImg = await _proImgResponse.Content.ReadAsStringAsync();
-            string strProAtt = await _proAttResponse.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
 
-            List<Product> productList = JsonSerializer.Deserialize<List<Product>>(strProduct, options);
-            List<ProductImage> proImgList = JsonSerializer.Deserialize<List<ProductImage>>(strProImg, options);
-            List<ProductAttribute> ProAttList = JsonSerializer.Deserialize<List<ProductAttribute>>(strProAtt, options);
+            List<ProductData> productList = JsonSerializer.Deserialize<List<ProductData>>(strProduct, options);
             List<Brand> brandList = JsonSerializer.Deserialize<List<Brand>>(strBrand, options);
             List<Category> categoryList = JsonSerializer.Deserialize<List<Category>>(strCategory, options);
 
-            List<ProductData> productDatas = _proService.GetProducts(productList, proImgList, ProAttList);
-            ShopModel data = _shopService.GetData(productDatas, brandList, categoryList, sortFilter, orderFilter, category, brand, currentPage);
+            ShopModel data = _shopService.GetData(productList, brandList, categoryList, sortFilter, orderFilter, category, brand, currentPage);
             return View(data);
         }
     }

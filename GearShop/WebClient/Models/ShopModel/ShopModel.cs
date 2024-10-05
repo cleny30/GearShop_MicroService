@@ -1,4 +1,6 @@
 ﻿
+using BusinessObject.DTOS;
+
 namespace WebClient.Models
 {
     public class ShopModel

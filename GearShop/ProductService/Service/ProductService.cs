@@ -1,8 +1,8 @@
-﻿using BusinessObject.Models.Entity;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
-using WebClient.Models;
 
-namespace WebClient.Service
+namespace ProductService.SubService
 {
     public class ProductService
     {

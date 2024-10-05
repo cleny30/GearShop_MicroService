@@ -1,4 +1,5 @@
-﻿using BusinessObject.Models.Entity;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
 using WebClient.Models;
 
@@ -103,7 +104,7 @@ namespace WebClient.Service
 
             ShopModel model = new ShopModel
             {
-                products = productToshow.ToList(),
+                products = productToshow!=null? productToshow.ToList():null,
                 brandModels = brandModels,
                 categoryModels = categoryModels,
                 navigationModel = new PageNavigationModel
