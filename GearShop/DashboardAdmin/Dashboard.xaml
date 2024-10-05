@@ -105,9 +105,9 @@ Style="{StaticResource MaterialDesignFilledTabControl}" Height="492" RenderTrans
                                         <DataGrid x:Name="TopProductDataGrid" Margin="-5,0,0,-1" Background="White" AutoGenerateColumns="False"
                             IsReadOnly="True" HeadersVisibility="None">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn  Binding="{Binding productID}" Width="370"/>
-                                                <DataGridTextColumn  Binding="{Binding productName}" Width="380"/>
-                                                <DataGridTextColumn  Binding="{Binding quantity}" Width="Auto"/>
+                                                <DataGridTextColumn  Binding="{Binding ProId}" Width="370"/>
+                                                <DataGridTextColumn  Binding="{Binding ProName}" Width="380"/>
+                                                <DataGridTextColumn  Binding="{Binding Quantity}" Width="Auto"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </ScrollViewer>
@@ -135,11 +135,11 @@ Style="{StaticResource MaterialDesignFilledTabControl}" Height="492" RenderTrans
                                         <DataGrid x:Name="TopCustomerDataGrid" Margin="-5,0,0,-1" Background="White" AutoGenerateColumns="False"
                             IsReadOnly="True" HeadersVisibility="None">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn  Binding="{Binding Item1}" Width="430"/>
+                                                <DataGridTextColumn  Binding="{Binding item1}" Width="430"/>
                                                 <DataGridTemplateColumn Header="Item2" Width="380">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding Item2, StringFormat=\{0\} $}" />
+                                                            <TextBlock Text="{Binding item2, StringFormat=\{0\} $}" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>

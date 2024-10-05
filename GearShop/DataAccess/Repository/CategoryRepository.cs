@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Models.Entity;
+using BusinessObject.DTOS;
 using DataAccess.DAO;
 using DataAccess.IRepository;
 using System;
@@ -12,5 +13,7 @@ namespace DataAccess.Repository
     public class CategoryRepository : ICategoryRepository
     {
         public List<Category> GetCategories()=>CategoryDAO.GetCategories();
+        public async Task<List<CategoryModel>> GetCategoryList()
+        => await CategoryDAO.GetCategoryList();
     }
 }

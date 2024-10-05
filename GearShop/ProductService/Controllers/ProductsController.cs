@@ -1,6 +1,7 @@
 ﻿using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using DataAccess.IRepository;
+using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
@@ -14,10 +15,13 @@ namespace ProductService.Controllers
     public class ProductsController : ControllerBase
     {
         private IProductRepository _repository;
-
-        public ProductsController(IProductRepository repository)
+        private IBrandRepository _brandRepository;
+        private ICategoryRepository _categoryRepository;
+        public ProductsController(IProductRepository repository, IBrandRepository brandRepository, ICategoryRepository categoryRepository)
         {
             _repository = repository;
+            _categoryRepository = categoryRepository;
+            _brandRepository = brandRepository;
         }
 
         [HttpGet("GetAllProducts")]
@@ -31,6 +35,13 @@ namespace ProductService.Controllers
             return _service.GetProducts(list,imgs,atts);
         }
 
+        [HttpGet("GetProductListWithoutBrandAndCategory")]
+        public async Task<IActionResult> GetProductListWithoutBrandAndCategory()
+        {
+            List<ProductModel> list = await _repository.GetProductListAdmin();
+            return Ok(list);
+        }
+
         [HttpGet("GetProductImages")]
         public ActionResult<List<ProductImage>> GetProductImages()
         {
@@ -41,6 +52,22 @@ namespace ProductService.Controllers
         public ActionResult<List<ProductAttribute>> GetProductAttributes()
         {
             return _repository.GetProductAttributes();
+        }
+
+        [HttpGet("GetProductList")]
+        public async Task<IActionResult> GetProductList()
+        {
+            List<ProductModel> productList = await _repository.GetProductListAdmin();
+            List<BrandModel> brandList = await _brandRepository.GetBrandList();
+            List<CategoryModel> categoriesList = await _categoryRepository.GetCategoryList();
+
+            foreach (ProductModel items in productList)
+            {
+                items.BrandName = brandList.FirstOrDefault(b => b.BrandId == items.BrandId).BrandName;
+                items.CateName = categoriesList.FirstOrDefault(b => b.CateId == items.CateId).CateName;
+            }
+
+            return Ok(productList);
         }
     }
 }

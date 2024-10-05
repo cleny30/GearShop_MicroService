@@ -1,5 +1,4 @@
 ﻿using BusinessObject.DTOS;
-using BusinessObject.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.IRepository
 {
-    public interface IBrandRepository
+    public interface IOrderDetailRepository
     {
-        public List<Brand> GetBrands();
-        public Task<List<BrandModel>> GetBrandList();
+        public Task<List<OrderDetailModel>> GetAllOrderDetailList();
     }
 }

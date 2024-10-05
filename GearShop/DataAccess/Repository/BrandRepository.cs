@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Models.Entity;
+using BusinessObject.DTOS;
 using DataAccess.DAO;
 using DataAccess.IRepository;
 using System;
@@ -12,5 +13,7 @@ namespace DataAccess.Repository
     public class BrandRepository : IBrandRepository
     {
         public List<Brand> GetBrands()=>BrandDAO.GetBrands();
+        public async Task<List<BrandModel>> GetBrandList()
+        => await BrandDAO.GetBrandList();
     }
 }
