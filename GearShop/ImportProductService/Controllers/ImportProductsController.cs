@@ -17,7 +17,7 @@ namespace ImportProductService.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("GetImportProductList")]
         public async Task<ActionResult<List<ImportProductModel>>> GetImportProductsList()
         {
             return await _repository.GetImportProductsList();
