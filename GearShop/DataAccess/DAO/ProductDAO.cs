@@ -90,35 +90,29 @@ namespace DataAccess.DAO
         public static async Task<List<ProductData>> SearchProductByName(string productName)
         {
             List<Product> products = new List<Product>();
+            List<ProductData> productModels = new List<ProductData>();
 
-            List<ProductData> model = new List<ProductData>();
             try
             {
                 var dbContext = new ProductContext();
-                products = await dbContext.Products.Where(p => p.ProName.Contains(productName)).ToListAsync();
-                if (products != null)
+                products = await dbContext.Products
+                    .Where(p => p.ProName.Contains(productName))
+                    .ToListAsync();
+
+                foreach (var product in products)
                 {
-                    foreach (var product in products)
-                    {
-
-
-                        model.Add(new ProductData
-                        {
-                            ProId = product.ProId,
-                            ProName = product.ProName,
-                            Discount = product.Discount,
-                            IsAvailable = product.IsAvailable,
-                            ProPrice = product.ProPrice
-                        });
-                    }
+                    ProductData productModel = new ProductData();
+                    productModel.CopyProperties(product);
+                    productModels.Add(productModel);
                 }
-                return model;
+
+                return productModels;
             }
             catch (Exception ex)
             {
                 return null;
             }
         }
-    
+
     }
 }

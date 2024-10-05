@@ -98,12 +98,13 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="/Shop/Search" method="get">
+                <form action="/ShopSearch/Search" method="get" onsubmit="return false;">
+                    <!-- Ngăn không cho gửi biểu mẫu -->
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products" name="pattern" id="search-item" onkeyup="Search(this)" onblur="clearSearch()">
+                        <input type="text" class="form-control" placeholder="Search for products" name="pattern" id="search-item" onkeyup="Search(this)" onblur="clearSearch()" onkeydown="return disableEnter(event);" oninput="updateIcon(this);"> <!-- Ngăn không cho nhấn Enter -->
                         <div class="input-group-append">
-                            <button class="input-group-text bg-transparent text-primary" type="reset">
-                                <i class="fa fa-undo"></i>
+                            <button class="input-group-text bg-transparent text-primary" type="reset" id="search-icon" onclick="resetSearch();">
+                                <i class="fa fa-search" id="icon"></i> 
                             </button>
                         </div>
                     </div>
@@ -112,8 +113,6 @@
                     <div class="product-list d-none" id="product-list">
                        
                     </div>
-
-                   
                 </div>
             </div>
 
@@ -314,6 +313,8 @@
             // Toggle the state
             isDropdownMB = !isDropdownMB;
         }
+
+
 
     </script>
 
