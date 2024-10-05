@@ -27,17 +27,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Unit Test", "7. Unit Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway", "APIGateway\APIGateway.csproj", "{3F05681D-2C2E-46FD-BB4C-22B981FD15DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerService", "ManagerService\ManagerService.csproj", "{2F951A86-A193-4BEB-9F01-257F622780CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerService", "ManagerService\ManagerService.csproj", "{2F951A86-A193-4BEB-9F01-257F622780CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService", "ProductService\ProductService.csproj", "{D6E907FB-8C2F-41EB-9FE2-806D8D0768B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService", "ProductService\ProductService.csproj", "{D6E907FB-8C2F-41EB-9FE2-806D8D0768B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerService", "CustomerService\CustomerService.csproj", "{69E90557-06B6-4564-A648-E44E041717A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerService", "CustomerService\CustomerService.csproj", "{69E90557-06B6-4564-A648-E44E041717A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService", "CartService\CartService.csproj", "{7CBDDA6C-097D-4410-A524-C6D20FD4227D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService", "CartService\CartService.csproj", "{7CBDDA6C-097D-4410-A524-C6D20FD4227D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService", "OrderService\OrderService.csproj", "{1B273D6A-B5F6-45DE-96FD-113486875CFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService", "OrderService\OrderService.csproj", "{1B273D6A-B5F6-45DE-96FD-113486875CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportProductService", "ImportProductService\ImportProductService.csproj", "{FD638AF5-7421-4340-A177-24AB9F6240AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImportProductService", "ImportProductService\ImportProductService.csproj", "{FD638AF5-7421-4340-A177-24AB9F6240AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{F13A74E4-8839-471B-8188-136184F5D988}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{40D7AA90-7CC0-4D92-B69A-26785EC8EA84}"
+	ProjectSection(SolutionItems) = preProject
+		build.yml = build.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +112,7 @@ Global
 		{7CBDDA6C-097D-4410-A524-C6D20FD4227D} = {1970B6F4-CB0B-433E-A8A2-ACBEE0C159C1}
 		{1B273D6A-B5F6-45DE-96FD-113486875CFB} = {1970B6F4-CB0B-433E-A8A2-ACBEE0C159C1}
 		{FD638AF5-7421-4340-A177-24AB9F6240AD} = {1970B6F4-CB0B-433E-A8A2-ACBEE0C159C1}
+		{40D7AA90-7CC0-4D92-B69A-26785EC8EA84} = {F13A74E4-8839-471B-8188-136184F5D988}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B224301-0B35-410E-8D1B-9D0B4C868A8A}
