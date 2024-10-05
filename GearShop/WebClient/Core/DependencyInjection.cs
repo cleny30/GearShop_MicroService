@@ -7,7 +7,6 @@ namespace WebClient.Core
         public static void ConfigureDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<ShopService>();
-            services.AddScoped<ProductService>();
         }
     }
 }
