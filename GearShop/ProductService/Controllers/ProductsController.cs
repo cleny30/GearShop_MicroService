@@ -17,10 +17,22 @@ namespace ProductService.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllProducts")]
         public ActionResult<List<Product>> GetAllProducts()
         {
             return _repository.GetProducts();
+        }
+
+        [HttpGet("GetProductImages")]
+        public ActionResult<List<ProductImage>> GetProductImages()
+        {
+            return _repository.GetProductImages();
+        }
+
+        [HttpGet("GetProductAttributes")]
+        public ActionResult<List<ProductAttribute>> GetProductAttributes()
+        {
+            return _repository.GetProductAttributes();
         }
     }
 }

@@ -10,5 +10,7 @@ namespace DataAccess.IRepository
     public interface IProductRepository
     {
         public List<Product> GetProducts();
+        public List<ProductImage> GetProductImages();
+        public List<ProductAttribute> GetProductAttributes();
     }
 }

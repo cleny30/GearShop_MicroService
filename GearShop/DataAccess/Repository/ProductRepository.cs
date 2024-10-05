@@ -11,6 +11,10 @@ namespace DataAccess.Repository
 {
     public class ProductRepository : IProductRepository
     {
+        public List<ProductAttribute> GetProductAttributes() => ProductDAO.GetProductAttributes();
+
+        public List<ProductImage> GetProductImages() => ProductDAO.GetProductImages();
+
         public List<Product> GetProducts() => ProductDAO.GetProducts();
     }
 }

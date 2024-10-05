@@ -26,5 +26,39 @@ namespace DataAccess.DAO
             }
             return list;
         }
+
+        public static List<ProductAttribute> GetProductAttributes()
+        {
+            var list = new List<ProductAttribute>();
+            try
+            {
+                using (var context = new ProductContext())
+                {
+                    list = context.ProductAttributes.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return list;
+        }
+
+        public static List<ProductImage> GetProductImages()
+        {
+            var list = new List<ProductImage>();
+            try
+            {
+                using (var context = new ProductContext())
+                {
+                    list = context.ProductImages.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return list;
+        }
     }
 }
