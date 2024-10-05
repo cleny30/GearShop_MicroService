@@ -4,6 +4,7 @@ using DataAccess.IRepository;
 using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using NuGet.Protocol.Core.Types;
 using ProductService.SubService;
 using System.Collections.Generic;
@@ -68,6 +69,20 @@ namespace ProductService.Controllers
             }
 
             return Ok(productList);
+        }
+
+        [HttpGet("GetProductByName/{name}")]
+        public async Task<ActionResult<IEnumerable<ProductData>>> GetProductsByName(string name)
+        {
+
+            List<ProductData> result = await _repository.SearchProductsByName(name);
+            List<ProductImage> imgs =  _repository.GetProductImages();
+
+            foreach (ProductData pro in result)
+            {
+                pro.ProImg = imgs.Where(img => img.ProId == pro.ProId).Select(img => img.ProImg).ToList();
+            }
+            return result;
         }
     }
 }

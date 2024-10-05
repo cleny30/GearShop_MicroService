@@ -51,5 +51,32 @@ namespace WebClient.Controllers
             ShopModel data = _shopService.GetData(productList, brandList, categoryList, sortFilter, orderFilter, category, brand, currentPage);
             return View(data);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern))
+            {
+                return Json(new { result = new List<ProductData>() });
+            }
+
+            // Make a request to the API to get the products based on the search pattern
+            var response = await client.GetAsync($"{ApiEndpoints.GET_PRODUCT_BY_NAME}/{pattern}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var jsonData = await response.Content.ReadAsStringAsync();
+                List<ProductData> productList = JsonSerializer.Deserialize<List<ProductData>>(jsonData, options);
+
+                return Json(new { result = productList });
+            }
+
+            return Json(new { result = new List<ProductData>() });
+        }
+
+
+
     }
 }

@@ -3,6 +3,7 @@ using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,5 +86,39 @@ namespace DataAccess.DAO
                 return null;
             }
         }
+
+        public static async Task<List<ProductData>> SearchProductByName(string productName)
+        {
+            List<Product> products = new List<Product>();
+
+            List<ProductData> model = new List<ProductData>();
+            try
+            {
+                var dbContext = new ProductContext();
+                products = await dbContext.Products.Where(p => p.ProName.Contains(productName)).ToListAsync();
+                if (products != null)
+                {
+                    foreach (var product in products)
+                    {
+
+
+                        model.Add(new ProductData
+                        {
+                            ProId = product.ProId,
+                            ProName = product.ProName,
+                            Discount = product.Discount,
+                            IsAvailable = product.IsAvailable,
+                            ProPrice = product.ProPrice
+                        });
+                    }
+                }
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+    
     }
 }

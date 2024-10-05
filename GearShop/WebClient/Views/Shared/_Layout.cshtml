@@ -98,9 +98,9 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="/Home/Search" method="get">
+                <form action="/Shop/Search" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products" name="pattern" id="search-item" onkeyup="Search(this)" onblur="Clear(this)">
+                        <input type="text" class="form-control" placeholder="Search for products" name="pattern" id="search-item" onkeyup="Search(this)" onblur="clearSearch()">
                         <div class="input-group-append">
                             <button class="input-group-text bg-transparent text-primary" type="reset">
                                 <i class="fa fa-undo"></i>
@@ -110,9 +110,13 @@
                 </form>
                 <div class="search-results" id="search-results">
                     <div class="product-list d-none" id="product-list">
+                       
                     </div>
+
+                   
                 </div>
             </div>
+
             <div class="col-lg-4 col-6 text-right">
                 <p class="m-0">Customer Service</p>
                 <h5 class="m-0">+333 744 591</h5>
