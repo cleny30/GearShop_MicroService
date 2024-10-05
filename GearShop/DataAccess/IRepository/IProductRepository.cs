@@ -1,4 +1,5 @@
 ﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,9 @@ namespace DataAccess.IRepository
 {
     public interface IProductRepository
     {
+        public List<Product> GetProducts();
+        public List<ProductImage> GetProductImages();
+        public List<ProductAttribute> GetProductAttributes();
         public Task<List<ProductModel>> GetProductListAdmin();
     }
 }

@@ -1,4 +1,5 @@
-﻿using BusinessObject.DTOS;
+﻿using BusinessObject.Models.Entity;
+using BusinessObject.DTOS;
 using DataAccess.DAO;
 using DataAccess.IRepository;
 using System;
@@ -11,6 +12,11 @@ namespace DataAccess.Repository
 {
     public class ProductRepository : IProductRepository
     {
+        public List<ProductAttribute> GetProductAttributes() => ProductDAO.GetProductAttributes();
+
+        public List<ProductImage> GetProductImages() => ProductDAO.GetProductImages();
+
+        public List<Product> GetProducts() => ProductDAO.GetProducts();
         public async Task<List<ProductModel>> GetProductListAdmin()
         => await ProductDAO.GetProductListAdmin();
     }

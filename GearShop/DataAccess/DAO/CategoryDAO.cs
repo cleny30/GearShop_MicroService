@@ -13,6 +13,23 @@ namespace DataAccess.DAO
 {
     public class CategoryDAO
     {
+        public static List<Category> GetCategories()
+        {
+            var list = new List<Category>();
+            try
+            {
+                using (var context = new ProductContext())
+                {
+                    list = context.Categorys.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return list;
+        }
+
         public static async Task<List<CategoryModel>> GetCategoryList()
         {
             List<Category> categories;

@@ -1,4 +1,5 @@
 ﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace DataAccess.IRepository
 {
     public interface ICategoryRepository
     {
+        public List<Category> GetCategories();
         public Task<List<CategoryModel>> GetCategoryList();
     }
 }
