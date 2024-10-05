@@ -2,25 +2,24 @@
 using DataAccess.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
 
 namespace ProductService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class BrandsController : ControllerBase
     {
-        private IProductRepository _repository;
+        private IBrandRepository _repository;
 
-        public ProductsController(IProductRepository repository)
+        public BrandsController(IBrandRepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        public ActionResult<List<Product>> GetAllProducts()
+        public ActionResult<List<Brand>> GetAllBrands()
         {
-            return _repository.GetProducts();
+            return _repository.GetBrands();
         }
     }
 }

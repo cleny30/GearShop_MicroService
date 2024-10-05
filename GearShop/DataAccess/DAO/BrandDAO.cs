@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DAO
 {
-    public class ProductDAO
+    public class BrandDAO
     {
-        public static List<Product> GetProducts()
+        public static List<Brand> GetBrands()
         {
-            var list = new List<Product>();
+            var list = new List<Brand>();
             try
             {
                 using (var context = new ProductContext())
                 {
-                    list = context.Products.ToList();
+                    list = context.Brands.ToList();
                 }
             }
             catch (Exception e)

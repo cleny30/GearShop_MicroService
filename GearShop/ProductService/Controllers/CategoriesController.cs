@@ -2,25 +2,24 @@
 using DataAccess.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
 
 namespace ProductService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
-        private IProductRepository _repository;
+        private ICategoryRepository _repository;
 
-        public ProductsController(IProductRepository repository)
+        public CategoriesController(ICategoryRepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        public ActionResult<List<Product>> GetAllProducts()
+        public ActionResult<List<Category>> GetAllCategories()
         {
-            return _repository.GetProducts();
+            return _repository.GetCategories();
         }
     }
 }
