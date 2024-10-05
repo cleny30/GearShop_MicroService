@@ -8,10 +8,10 @@ namespace DashboardAdmin
 {
     public class Admin_APIEndPoint_Manager
     {
-        public const string BaseURL = "http://localhost:5000";
+        public const string BASE_URL = "http://localhost:5000";
 
-        public const string CheckUsernameExisted = BaseURL + "/gateway/managers/CheckUsernameExisted";
+        public const string CHECK_USERNAME_EXISTED = BASE_URL + "/gateway/managers/CheckUsernameExisted";
 
-        public const string CheckManagerExisted = BaseURL + "/gateway/managers/CheckManagerExisted";   
+        public const string CHECK_MANAGER_EXISTED = BASE_URL + "/gateway/managers/CheckManagerExisted";
     }
 }
