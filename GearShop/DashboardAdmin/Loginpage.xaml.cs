@@ -98,7 +98,16 @@ namespace Dashboard_Admin
             bool Check = true;
             errorUsername.Text = "";
             errorPassword.Text = "";
-
+            if (string.IsNullOrEmpty(txtUsername.Text))
+            {
+                errorUsername.Text = "Please enter username";
+                return false;
+            }
+            if(string.IsNullOrEmpty(txtPassword.Password))
+            {
+                errorPassword.Text = "Please enter password";
+                return false;
+            }
             response = await client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_USERNAME_EXISTED}?username={txtUsername.Text}");
             strData = await response.Content.ReadAsStringAsync();
             Boolean UsernameExisted = JsonSerializer.Deserialize<Boolean>(strData, options);
