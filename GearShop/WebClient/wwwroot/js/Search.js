@@ -20,7 +20,8 @@
                     data.result.forEach(product => {
                         if (product.isAvailable == true) {
                           
-                            const productDiv = $('<div class="product">');
+                            var url = '/ProductDetail?proId=' + product.proId;
+                            var productDiv = $('<div class="product" onclick="location.href=\'' + url + '\'">');
                             productDiv.append('<img src="' + product.proImg[0] + '" alt="" style="width:100px;">');
                             const pDetailsDiv = $('<div class="p-details">');
                             pDetailsDiv.append('<h2>' + product.proName + '</h2>');
