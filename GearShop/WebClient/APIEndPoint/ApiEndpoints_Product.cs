@@ -1,6 +1,6 @@
 ﻿namespace WebClient.APIEndPoint
 {
-    public static class ApiEndpoints
+    public static class ApiEndpoints_Product
     {
         public const string BASE_URL = "http://localhost:5000";
 

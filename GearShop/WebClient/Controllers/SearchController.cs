@@ -28,7 +28,7 @@ namespace WebClient.Controllers
             }
 
             // Make a request to the API to get the products based on the search pattern
-            var response = await client.GetAsync($"{ApiEndpoints.GET_PRODUCT_BY_NAME}/{pattern}");
+            var response = await client.GetAsync($"{ApiEndpoints_Product.GET_PRODUCT_BY_NAME}/{pattern}");
 
             if (response.IsSuccessStatusCode)
             {
