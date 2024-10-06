@@ -14,5 +14,6 @@ namespace DataAccess.IRepository
         public List<ProductImage> GetProductImages();
         public List<ProductAttribute> GetProductAttributes();
         public Task<List<ProductModel>> GetProductListAdmin();
+        public Task<List<ProductData>> SearchProductsByName(string productName);
     }
 }
