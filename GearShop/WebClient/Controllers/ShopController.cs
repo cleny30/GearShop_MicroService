@@ -31,9 +31,9 @@ namespace WebClient.Controllers
             string brand = Request.Query["brand"].ToString();
             int currentPage = Request.Query["page"].ToString() != "" ? Convert.ToInt32(Request.Query["page"]) : 1;
 
-            HttpResponseMessage _productcResponse = await client.GetAsync(ApiEndpoints.GET_ALL_PRODUCTS);
-            HttpResponseMessage _brandResponse = await client.GetAsync(ApiEndpoints.GET_ALL_BRANDS);
-            HttpResponseMessage _categoryResponse = await client.GetAsync(ApiEndpoints.GET_ALL_CATEGORIES);
+            HttpResponseMessage _productcResponse = await client.GetAsync(ApiEndpoints_Product.GET_ALL_PRODUCTS);
+            HttpResponseMessage _brandResponse = await client.GetAsync(ApiEndpoints_Product.GET_ALL_BRANDS);
+            HttpResponseMessage _categoryResponse = await client.GetAsync(ApiEndpoints_Product.GET_ALL_CATEGORIES);
 
             string strProduct = await _productcResponse.Content.ReadAsStringAsync();
             string strBrand = await _brandResponse.Content.ReadAsStringAsync();
