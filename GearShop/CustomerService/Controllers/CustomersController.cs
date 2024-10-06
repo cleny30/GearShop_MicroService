@@ -1,5 +1,7 @@
 ﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using DataAccess.IRepository;
+using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,16 +18,16 @@ namespace CustomerService.Controllers
             _customerRepository = customerRepository;
         }
 
-        // GET: api/Customers/{name}
-        [HttpGet("{name}")]
-        public IActionResult GetCustomerByName(string name)
+        // GET: api/Customers/{username}
+        [HttpGet("{username}")]
+        public IActionResult GetCustomerByName(string username)
         {
             try
             {
-                var customer = _customerRepository.GetCustomerByName(name);
+                var customer = _customerRepository.GetCustomerByUserName(username);
                 if (customer == null)
                 {
-                    return NotFound($"Customer with username '{name}' not found.");
+                    return NotFound($"Customer with username '{username}' not found.");
                 }
                 return Ok(customer);
             }
@@ -36,18 +38,15 @@ namespace CustomerService.Controllers
         }
 
         // PUT: api/Customers
-        [HttpPut]
-        public IActionResult UpdateCustomer([FromBody] CustomerModel customer)
+        [HttpPut("{username}")]
+        public IActionResult UpdateCustomer(string username, CustomerModel customer)
         {
             try
             {
-                if (customer == null || string.IsNullOrEmpty(customer.Username))
-                {
-                    return BadRequest("Invalid customer data.");
-                }
-
+                var cus = _customerRepository.GetCustomerByUserName(username);
+                if (cus == null) return NotFound();
                 _customerRepository.UpdateCustomer(customer);
-                return NoContent(); // 204 No Content
+                return Ok();
             }
             catch (Exception ex)
             {

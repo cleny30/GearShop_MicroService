@@ -26,7 +26,7 @@ namespace WebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            HttpContext.Session.SetString("username", "tuan1703");
+            HttpContext.Session.SetString("username", "cleny");
             string sortFilter = Request.Query["sort"].ToString();
             string orderFilter = Request.Query["order"].ToString();
             string category = Request.Query["category"].ToString();

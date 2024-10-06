@@ -6,7 +6,6 @@
 
         public const string GET_CUSTOMER_BY_USERNAME = $"{BASE_URL}/gateway/customers";
 
-        public const string UPDATE_CUSTOMER_BY_USERNAME = $"{BASE_URL}/gateway/customers";
-
+        public const string UPDATE_CUSTOMER_BY_USERNAME = $"{BASE_URL}/gateway/customers/{{0}}";
     }
 }

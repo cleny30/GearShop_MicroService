@@ -59,45 +59,20 @@ namespace WebClient.Controllers
             }
         }
 
-        [HttpPost("/Customer/UpdateProfile")]
-        public async Task<IActionResult> UpdateProfile(CustomerModel accountModel, string username)
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(CustomerModel accountModel)
         {
-          
-             username = httpContextAccessor.HttpContext.Session.GetString("username");
-
-           
-            if (string.IsNullOrEmpty(username))
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+            var options = new JsonSerializerOptions
             {
-                return NotFound();
-            }
-
-            
-            var jsonContent = JsonContent.Create(accountModel);
-
-           
-            HttpResponseMessage response = await client.PutAsync($"{ApiEndpoints_Customer.UPDATE_CUSTOMER_BY_USERNAME}/{username}", jsonContent);
-           
-            string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Response Status Code: {response.StatusCode}");
-            Console.WriteLine($"Response Content: {responseContent}");
-            if (response.IsSuccessStatusCode)
-            {
-               
-                TempData["SuccessMessage"] = "Update sucessfull!";
-
-                // Redirect to the Details page
-                return RedirectToAction("Details");
-            }
-            else
-            {
-                // If the API returns an error, retrieve error content and display it in the view
-                string errorContent = await response.Content.ReadAsStringAsync();
-                ViewBag.ErrorMessage = $"Error updating account data: {errorContent}";
-                return View(accountModel); // Return the view with the current model to show validation errors
-            }
+                PropertyNameCaseInsensitive = true
+            };
+            accountModel.Username = username;
+            string jsonData = JsonSerializer.Serialize(accountModel, options);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            string url = string.Format(ApiEndpoints_Customer.UPDATE_CUSTOMER_BY_USERNAME, username);
+            HttpResponseMessage response = await client.PutAsync(url, content);
+            return Ok(true);
         }
-
-
-
     }
 }

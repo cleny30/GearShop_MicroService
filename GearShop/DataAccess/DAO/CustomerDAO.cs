@@ -13,7 +13,7 @@ namespace DataAccess.DAO
 {
     public class CustomerDAO
     {
-        public static CustomerModel GetCustomerByName(string name)
+        public static CustomerModel GetCustomerByUserName(string username)
         {
             var customer = new CustomerModel();
             try
@@ -21,7 +21,7 @@ namespace DataAccess.DAO
                 using (var context = new CustomerContext())
                 {
                     Customer customer1 = new Customer();
-                    customer1 = context.Customers.ToList().FirstOrDefault(x => x.Username == name);
+                    customer1 = context.Customers.ToList().FirstOrDefault(x => x.Username == username);
                     customer.CopyProperties(customer1);
                 }
             }

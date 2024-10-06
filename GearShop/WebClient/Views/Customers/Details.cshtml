@@ -77,29 +77,26 @@
 
         <div class="col-lg-8 mb-5">
             <div class="bg-light p-30 mb-3" style="height: 100%;">
-                <form method="post" action="/Customer/UpdateProfile" class="update_profile">
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>Full name</label>
-                            <input class="form-control" id="fullnameUpdate" type="text" name="fullname" value="@Model.Fullname">
-                            <p style="color:red; text-align:left"></p>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>E-mail</label>
-                            <input class="form-control" id="emailUpdate" type="text" name="email" value="@Model.Email">
-                            <p style="color:red; text-align:left"></p>
-                            <p style="color: red; text-align: left" id="smsEmail"></p>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Phone number</label>
-                            <input class="form-control" id="phoneUpdate" type="text" name="phone" value="@Model.Phone">
-                            <p style="color:red; text-align:left"></p>
-                        </div>
-                        <div class="col-md-12 form-group" style="  text-align: center;">
-                            <input class="button-32" type="submit" value="Update" name="btnAddnewAddress">
-                        </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Full name</label>
+                        <input class="form-control" id="fullnameUpdate" type="text" name="fullname" value="@Model.Fullname" readonly>
+                        <p style="color:red; text-align:left" id="errorFullname"></p>
                     </div>
-                </form>
+                    <div class="col-md-6 form-group">
+                        <label>E-mail</label>
+                        <input class="form-control" id="emailUpdate" type="text" name="email" value="@Model.Email" readonly>
+                        <p style="color:red; text-align:left" id="errorEmail"></p>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Phone number</label>
+                        <input class="form-control" id="phoneUpdate" type="text" name="phone" value="@Model.Phone" readonly>
+                        <p style="color:red; text-align:left" id="errorPhone"></p>
+                    </div>
+                    <div class="col-md-12 form-group" style="text-align: center;">
+                        <button id="editUpdateButton" onclick="toggleEditMode()" class="button-32">Edit</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -107,3 +104,4 @@
 
 <!-- Contact End -->
 <script src="~/js/address/addressvalidate.js"></script>
+<script src="~/js/account/updateprofile.js"></script>
