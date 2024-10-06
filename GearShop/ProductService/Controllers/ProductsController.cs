@@ -84,5 +84,12 @@ namespace ProductService.Controllers
             }
             return result;
         }
+
+        [HttpGet("GetNewProductID/{CatID}")]
+        public async Task<IActionResult> GetNewProductID(int CatID)
+        {
+            string ProductID = await _repository.GetNewProductID(CatID);
+            return Ok(ProductID);
+        }
     }
 }

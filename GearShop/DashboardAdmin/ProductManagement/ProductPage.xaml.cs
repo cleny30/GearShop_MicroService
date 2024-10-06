@@ -120,7 +120,13 @@ namespace DashboardAdmin.ProductManagement
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            Boolean IsUpdate;
+            ProductModel product = null;
+            List<ProductImageModel> productImages = null;
+            List<ProductAttributeModel> productAttributes = null;
+            AddProduct addProductWindow = new AddProduct(IsUpdate = false, product, productImages, productAttributes);
+            addProductWindow.AddProductWindowClosed += AddProductWindow_AddProductWindowClosed;
+            addProductWindow.ShowDialog();
         }
 
         private void AddProductWindow_AddProductWindowClosed(object sender, EventArgs e)

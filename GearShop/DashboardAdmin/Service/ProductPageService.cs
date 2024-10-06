@@ -52,5 +52,17 @@ namespace DashboardAdmin.Service
 
             return JsonSerializer.Deserialize<List<CategoryModel>>(strData, options);
         }
+
+        public async Task<string> GetNewProductID(int CatID)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            // Kiểm tra xem tên người dùng có tồn tại không
+            var response = await _client.GetAsync(Admin_APIEndPoint_Product.GET_NEW_PRODUCT_ID + CatID);
+            var strData = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<string>(strData, options);
+        }
+
     }
 }

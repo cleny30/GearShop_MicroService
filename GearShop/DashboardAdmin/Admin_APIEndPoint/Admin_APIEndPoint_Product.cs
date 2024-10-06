@@ -19,5 +19,7 @@ namespace DashboardAdmin.Admin_APIEndPoint
 
         public const string GET_CATEGORY_LIST = BASE_URL + "/gateway/Categories";
 
+        public const string GET_NEW_PRODUCT_ID = BASE_URL + "/gateway/products/GetNewProductID/";
+
     }
 }

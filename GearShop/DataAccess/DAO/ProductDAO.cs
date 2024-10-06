@@ -114,5 +114,51 @@ namespace DataAccess.DAO
             }
         }
 
+        public static async Task<string> GetNewProductID(int CatID)
+        {
+            try
+            {
+                using (var dbContext = new ProductContext())
+                {
+                    var lastProductId = await dbContext.Products
+                        .Where(p => p.CateId == CatID)
+                        .OrderByDescending(p => p.ProId)
+                        .Select(p => p.ProId)
+                        .FirstOrDefaultAsync();
+
+                    if (lastProductId == null)
+                    {
+                        var categoryKeyword = await dbContext.Categorys
+                            .Where(c => c.CateId == CatID)
+                            .Select(c => c.Keyword)
+                            .FirstOrDefaultAsync();
+
+                        if (categoryKeyword != null)
+                        {
+                            string newProductId = $"{categoryKeyword}001";
+                            return newProductId;
+                        }
+                    }
+                    else
+                    {
+                        string numericPart = lastProductId.Substring(2);
+                        int currentNumber = int.Parse(numericPart);
+                        int newNumber = currentNumber + 1;
+                        string newProductId = $"{lastProductId.Substring(0, 2)}{newNumber:D3}";
+                        return newProductId;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // You might want to rethrow the exception here for handling further up the call stack.
+            }
+
+            // Return null only if an exception occurs or no product ID is found
+            return null;
+        }
+
     }
 }
