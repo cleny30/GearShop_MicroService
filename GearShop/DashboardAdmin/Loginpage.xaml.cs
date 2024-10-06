@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Models.Entity;
 using DashboardAdmin;
+using DashboardAdmin.Service;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -88,39 +89,43 @@ namespace Dashboard_Admin
 
         private async Task<bool> VerificationAsync()
         {
-            HttpResponseMessage response;
-            string strData;
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
+            // Khởi tạo HttpClient và LoginService
+            var client = new HttpClient();
+            var loginService = new LoginService(client);
 
-            bool Check = true;
+            // Xóa thông báo lỗi trước đó
             errorUsername.Text = "";
             errorPassword.Text = "";
 
-            response = await client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_USERNAME_EXISTED}?username={txtUsername.Text}");
-            strData = await response.Content.ReadAsStringAsync();
-            Boolean UsernameExisted = JsonSerializer.Deserialize<Boolean>(strData, options);
-
-            if (JsonSerializer.Deserialize<Boolean>(strData, options))
+            // Kiểm tra xem tên người dùng và mật khẩu có được nhập không
+            if (string.IsNullOrEmpty(txtUsername.Text.Trim()))
             {
-                response = await client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_MANAGER_EXISTED}?username={txtUsername.Text}&password={txtPassword.Password}");
-                strData = await response.Content.ReadAsStringAsync();
-
-                if (!JsonSerializer.Deserialize<Boolean>(strData, options))
-                {
-                    errorPassword.Text = "Username or Password does not exist";
-                    Check = false;
-                }
+                errorUsername.Text = "Please enter username";
+                return false;
             }
-            else
+            if (string.IsNullOrEmpty(txtPassword.Password.Trim()))
+            {
+                errorPassword.Text = "Please enter password";
+                return false;
+            }
+
+            // Kiểm tra xem tài khoản có tồn tại không
+            bool usernameExists = await loginService.CheckUsernameExistsAsync(txtUsername.Text);
+            if (!usernameExists)
             {
                 errorUsername.Text = "Username does not exist";
-                Check = false;
+                return false;
             }
 
-            return Check;
+            // Gọi phương thức VerifyCredentialsAsync từ LoginService
+            bool isValid = await loginService.VerifyCredentialsAsync(txtUsername.Text, txtPassword.Password);
+
+            if (!isValid)
+            {
+                errorPassword.Text = "Username or Password does not exist";
+            }
+
+            return isValid;
         }
 
         public class Settings
