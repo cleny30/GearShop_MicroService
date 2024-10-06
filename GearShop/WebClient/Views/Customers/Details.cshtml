@@ -1,0 +1,37 @@
+﻿@model BusinessObject.DTOS.CustomerModel
+
+<h2>Customer Details</h2>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fullname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fullname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+    <p>
+        <a asp-action="Update" asp-route-username="@Model.Username" class="btn btn-primary">Edit</a>
+    </p>
+</div>
