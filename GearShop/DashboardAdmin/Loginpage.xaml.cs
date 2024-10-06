@@ -98,12 +98,12 @@ namespace Dashboard_Admin
             errorPassword.Text = "";
 
             // Kiểm tra xem tên người dùng và mật khẩu có được nhập không
-            if (string.IsNullOrEmpty(txtUsername.Text))
+            if (string.IsNullOrEmpty(txtUsername.Text.Trim()))
             {
                 errorUsername.Text = "Please enter username";
                 return false;
             }
-            if (string.IsNullOrEmpty(txtPassword.Password))
+            if (string.IsNullOrEmpty(txtPassword.Password.Trim()))
             {
                 errorPassword.Text = "Please enter password";
                 return false;
