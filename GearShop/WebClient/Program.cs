@@ -13,17 +13,15 @@ builder.Services.AddHttpContextAccessor();
 
 // Configure Dependency Injection (if you have custom DI configuration)
 builder.Services.ConfigureDependencyInjection();
-
-builder.Services.AddHttpClient();
-
-// Add session support
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddDistributedMemoryCache();
+// Add session configuration
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Adjust the timeout as needed
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true; // Necessary for cookie consent
+    options.Cookie.IsEssential = true;
 });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,9 +38,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Shop}/{action=Index}/{id?}");
-
+app.UseSession();
 app.Run();

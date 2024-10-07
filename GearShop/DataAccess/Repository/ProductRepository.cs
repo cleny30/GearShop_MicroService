@@ -19,5 +19,8 @@ namespace DataAccess.Repository
         public List<Product> GetProducts() => ProductDAO.GetProducts();
         public async Task<List<ProductModel>> GetProductListAdmin()
         => await ProductDAO.GetProductListAdmin();
+
+        public async Task<List<ProductData>> SearchProductsByName(string productName)
+        => await ProductDAO.SearchProductByName(productName);
     }
 }
