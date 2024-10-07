@@ -27,5 +27,9 @@ namespace DashboardAdmin.Admin_APIEndPoint
 
         public const string ADD_PRODUCT_ATTRIBUTE = BASE_URL + "/gateway/products/InsertProductAttribute";
 
+        public const string GET_PRODUCT_IMAGE_BY_ID = BASE_URL + "";
+
+        public const string GET_PRODUCT_ATTRIBUTE_BY_ID = BASE_URL + "";
+
     }
 }

@@ -13,5 +13,8 @@ namespace DataAccess.Repository
     {
         public async Task<bool> AddImageOfSpecificProduct(List<ProductImageModel> imageLink)
         => await ProductImageDAO.AddImageOfSpecificProduct(imageLink);
+
+        public async Task<List<ProductImageModel>> GetProductImagesByID(string ProId)
+        => await ProductImageDAO.GetProductImagesByID(ProId);
     }
 }

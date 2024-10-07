@@ -131,7 +131,8 @@ namespace DashboardAdmin.ProductManagement
 
         private void AddProductWindow_AddProductWindowClosed(object sender, EventArgs e)
         {
-            
+            Reset();
+            LoadProducts(true);
         }
 
         private void CategoryButton_Click(object sender, RoutedEventArgs e)
@@ -154,7 +155,16 @@ namespace DashboardAdmin.ProductManagement
 
         private void ShowButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (DisableProduct.Content == "Show Enable Products")
+            {
+                LoadProducts(true);
+                DisableProduct.Content = "Show Disable Products";
+            }
+            else
+            {
+                LoadProducts(false);
+                DisableProduct.Content = "Show Enable Products";
+            }
         }
 
         private void ViewButton_Click(object sender, RoutedEventArgs e)

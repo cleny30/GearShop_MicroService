@@ -187,5 +187,36 @@ namespace DataAccess.DAO
             }
         }
 
+        public static async Task<ProductModel> GetProductByID(string ProId)
+        {
+            Product product = new Product();
+            ProductModel model = new ProductModel();
+            try
+            {
+                var dbContext = new ProductContext();
+                product = dbContext.Products.FirstOrDefault(p => p.ProId.Equals(ProId));
+                if (product != null)
+                {
+                    model = new ProductModel
+                    {
+                        ProId = product.ProId,
+                        BrandId = product.BrandId,
+                        CateId = product.CateId,
+                        Discount = product.Discount,
+                        ProPrice = product.ProPrice,
+                        ProName = product.ProName,
+                        ProDes = product.ProDes,
+                        ProQuan = product.ProQuan,
+                        IsAvailable = product.IsAvailable,
+                    };
+                }
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

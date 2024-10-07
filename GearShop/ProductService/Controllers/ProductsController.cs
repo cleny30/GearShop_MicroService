@@ -117,5 +117,26 @@ namespace ProductService.Controllers
             bool isSuccess = await _productAttributeRepository.AddProductAttribute(productAttributes);
             return Ok(isSuccess);
         }
+
+        [HttpGet("GetProductByID/{ProId}")]
+        public async Task<IActionResult> GetProductByID(string ProId)
+        {
+            ProductModel product = await _repository.GetProductByID(ProId);
+            return Ok(product); 
+        }
+
+        [HttpGet("GetProductImageByID/{ProId}")]
+        public async Task<IActionResult> GetProductImageByID(string ProId)
+        {
+            List<ProductImageModel> list = await _productImageRepository.GetProductImagesByID(ProId);
+            return Ok(list);
+        }
+
+        [HttpGet("GetProductAttributeByID/{ProId}")]
+        public async Task<IActionResult> GetProductAttributeByID(string ProId)
+        {
+            List<ProductAttributeModel> list = await _productAttributeRepository.GetProductAttributesByID(ProId);
+            return Ok(list);
+        }
     }
 }

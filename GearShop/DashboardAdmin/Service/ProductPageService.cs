@@ -146,7 +146,6 @@ namespace DashboardAdmin.Service
                     }
                 }
             }
-
             return result;
         }
     }

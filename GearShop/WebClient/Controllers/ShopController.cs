@@ -13,18 +13,20 @@ namespace WebClient.Controllers
     {
         private readonly HttpClient client = null;
         private readonly ShopService _shopService;
-
-        public ShopController(ShopService shopService)
+        private readonly IHttpContextAccessor httpContextAccessor;
+        public ShopController(ShopService shopService, IHttpContextAccessor httpContextAccessor)
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
             _shopService = shopService;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            HttpContext.Session.SetString("username", "cleny");
             string sortFilter = Request.Query["sort"].ToString();
             string orderFilter = Request.Query["order"].ToString();
             string category = Request.Query["category"].ToString();

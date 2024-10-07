@@ -1,7 +1,9 @@
-﻿using BusinessObject.Core;
+﻿using Azure.Core;
+using BusinessObject.Core;
 using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
+using Microsoft.CodeAnalysis.Elfie.Model;
 using System;
 using System.Collections.Generic;
 using System.Formats.Asn1;
@@ -35,5 +37,27 @@ namespace DataAccess.DAO
             return false;
         }
 
+        public static async Task<List<ProductAttributeModel>> GetProductAttributesByID(string ProId)
+        {
+            List<ProductAttribute> _img = new List<ProductAttribute>(); 
+            List<ProductAttributeModel> model = new List<ProductAttributeModel>();
+            try
+            {
+                var dbContext = new ProductContext();
+                _img = dbContext.ProductAttributes.ToList();
+                foreach(var items in _img)
+                {
+                    ProductAttributeModel _item = new ProductAttributeModel();
+                    _item.CopyProperties(items);
+                    model.Add(_item);
+                }
+                return model;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return null;
+        }
     }
 }

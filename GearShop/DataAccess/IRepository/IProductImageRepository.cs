@@ -10,5 +10,7 @@ namespace DataAccess.IRepository
     public interface IProductImageRepository
     {
         public Task<bool> AddImageOfSpecificProduct(List<ProductImageModel> imageLink);
+
+        public Task<List<ProductImageModel>> GetProductImagesByID(string ProId);
     }
 }

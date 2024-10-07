@@ -34,5 +34,28 @@ namespace DataAccess.DAO
             }
             return false;
         }
+
+        public static async Task<List<ProductImageModel>> GetProductImagesByID(string ProId)
+        {
+            List<ProductImage> _img = new List<ProductImage>();
+            List<ProductImageModel> model = new List<ProductImageModel>();
+            try
+            {
+                var dbContext = new ProductContext();
+                _img = dbContext.ProductImages.ToList();
+                foreach (var items in _img)
+                {
+                    ProductImageModel _item = new ProductImageModel();
+                    _item.CopyProperties(items);
+                    model.Add(_item);
+                }
+                return model;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return null;
+        }
     }
 }
