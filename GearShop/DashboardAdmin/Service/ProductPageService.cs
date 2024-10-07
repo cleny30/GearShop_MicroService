@@ -93,10 +93,14 @@ namespace DashboardAdmin.Service
                 {
                     List<string> imageLink = new List<string>();
 
+                    List<CategoryModel> _category = await GetCategoryList();
+
+                    string CatName = _category.FirstOrDefault(c => c.CateId == product.CateId).CateName;
+
                     foreach (string items in SelectedFiles)
                     {
                         // Assuming Upload is an async method
-                        string cloudinaryLink = await cloud.Upload(items, "Products");
+                        string cloudinaryLink = await cloud.Upload(items, $"Products/{CatName}");
                         imageLink.Add(cloudinaryLink);
                     }
 
