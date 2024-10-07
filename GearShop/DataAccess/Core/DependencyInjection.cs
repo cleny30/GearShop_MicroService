@@ -21,6 +21,8 @@ namespace DataAccess.Core
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
+            services.AddScoped<IProductImageRepository, ProductImageRepository>();
         }
     }
 }
