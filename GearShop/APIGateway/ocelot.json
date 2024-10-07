@@ -69,19 +69,6 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "SwaggerKey": "customers"
     },
-    {
-      "DownstreamPathTemplate": "/api/Customers/GetCustomerByUsername/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5003
-        }
-      ],
-      "UpstreamPathTemplate": "/gateway/Customers/GetCustomerByUsername/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "SwaggerKey": "customers"
-    },
 
     {
       "DownstreamPathTemplate": "/api/carts/{everything}",

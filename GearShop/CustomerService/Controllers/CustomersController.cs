@@ -57,10 +57,10 @@ namespace CustomerService.Controllers
             }
         }
 
-        [HttpGet("GetCustomerByUsername/{username}")]
-        public async Task<IActionResult> LoginAsync(string username)
+        [HttpGet("GetCustomerByUsername/{username}/{pass}")]
+        public async Task<IActionResult> LoginAsync(string username, string pass)
         {
-            var account = await _accountRepository.LoginCustomer(username);
+            var account = await _accountRepository.LoginCustomer(username, pass);
 
             if (account != null)
             {

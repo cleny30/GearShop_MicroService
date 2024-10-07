@@ -23,6 +23,7 @@ namespace WebClient.Controllers
         public IActionResult Index()
         {
             string username = _contx.HttpContext.Session.GetString("username");
+            username = null;
             if (string.IsNullOrEmpty(username))
             {
                 var usernameCookie = _contx.HttpContext.Request.Cookies["username"];
@@ -50,9 +51,9 @@ namespace WebClient.Controllers
                     Username = username,
                     Password = password
                 };
-                
-             
-                var url = string.Format(ApiEndpoints_Customer.GET_CUSTOMER_BY_USERNAME_LOGIN, username);
+                var passClient = accountService.CalculateMD5Hash(model.Password);
+
+                var url = string.Format(ApiEndpoints_Customer.GET_CUSTOMER_BY_USERNAME_LOGIN, username,passClient);
                 var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
@@ -68,9 +69,6 @@ namespace WebClient.Controllers
                     }
                     else
                     {
-                        var passClient = accountService.CalculateMD5Hash(model.Password);
-                        if (passClient == customer.Password)
-                        {
                             data.Message = "Login success";
                             data.Result = model;
 
@@ -82,10 +80,8 @@ namespace WebClient.Controllers
                                     Expires = DateTime.Now.AddDays(3),
                                 });
                             }
-                            return Redirect("/Home");
-                        }
-                    }
-                   
+                            return Redirect("/Home");     
+                    }                 
                 }
                 else
                 {                 
@@ -99,9 +95,6 @@ namespace WebClient.Controllers
                 return Content($"Error: {ex.Message}");
             }
 
-            data.Message = "Unexpected error";
-            data.IsSuccess = false;
-            return Content(data.IsSuccess.ToString());
         }
 
     }

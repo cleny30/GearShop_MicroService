@@ -12,11 +12,11 @@ namespace DataAccess.DAO
 {
     public class AccountDAO
     {
-        public static async Task<LoginAccountModel> ClientLogin(string username)
+        public static async Task<LoginAccountModel> ClientLogin(string username, string pass)
         {
             using (var context = new CustomerContext())
             {
-                var customer = await context.Customers.FirstOrDefaultAsync(c => c.Username == username);
+                var customer = await context.Customers.FirstOrDefaultAsync(c => c.Username == username && c.Password == pass);
                 if (customer != null)
                 {
 

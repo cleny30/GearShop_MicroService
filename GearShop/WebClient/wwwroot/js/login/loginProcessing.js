@@ -73,11 +73,8 @@ const handleLogin = () => {
          
             if (data === "False") {
                 showError("errLogin", "Username or password is incorrect");
-            } else {
-               
-                    sessionStorage.setItem("username", username);
-                    window.location.href = '/Home';
-                
+            } else {               
+                    window.location.href = '/Home';             
             }
         },
         error: function () {

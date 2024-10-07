@@ -9,6 +9,6 @@ namespace DataAccess.IRepository
 {
     public interface IAccountRepository
     {
-        public Task<LoginAccountModel> LoginCustomer(string userLogin);
+        public Task<LoginAccountModel> LoginCustomer(string userLogin, string pass);
     }
 }

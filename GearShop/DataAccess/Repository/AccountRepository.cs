@@ -11,7 +11,7 @@ namespace DataAccess.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        public Task<LoginAccountModel> LoginCustomer(string userLogin)
-         => AccountDAO.ClientLogin(userLogin);
+        public Task<LoginAccountModel> LoginCustomer(string userLogin, string pass)
+         => AccountDAO.ClientLogin(userLogin, pass);
     }
 }
