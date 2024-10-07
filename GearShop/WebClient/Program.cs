@@ -1,10 +1,30 @@
 using WebClient.Core;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using WebClient.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<HeaderService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Explicitly add IHttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
+// Configure Dependency Injection (if you have custom DI configuration)
 builder.Services.ConfigureDependencyInjection();
+
+builder.Services.AddHttpClient();
+
+// Add session support
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Adjust the timeout as needed
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Necessary for cookie consent
+});
 
 var app = builder.Build();
 
@@ -15,7 +35,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

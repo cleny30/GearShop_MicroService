@@ -25,7 +25,7 @@ namespace ISUZU_NEXT.Server.Core.Extentions
         /// </summary>
         /// <param name="propertyName"></param>
         /// <param name="value"></param>
-        public static void SetProperty<T>(this T data, string propertyName, object? value)
+       /* public static void SetProperty<T>(this T data, string propertyName, object? value)
         {
             var property = data ?.GetType().GetProperty(propertyName);
             if (property == null)
@@ -48,14 +48,14 @@ namespace ISUZU_NEXT.Server.Core.Extentions
             catch
             {
             }
-        }
+        }*/
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="model"></param>
         /// <param name="value"></param>
-        public static void CopyProperties<TModel, KModel>(this TModel model, KModel value)
+        /*public static void CopyProperties<TModel, KModel>(this TModel model, KModel value)
         {
             if (model == null || value == null)
             {
@@ -76,6 +76,6 @@ namespace ISUZU_NEXT.Server.Core.Extentions
                     }
                 }
             }
-        }
+        }*/
     }
 }

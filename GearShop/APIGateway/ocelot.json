@@ -27,7 +27,19 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "SwaggerKey": "products"
     },
-
+    {
+      "DownstreamPathTemplate": "/api/Home/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Home/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "products"
+    },
     {
       "DownstreamPathTemplate": "/api/Categories/{everything}",
       "DownstreamScheme": "http",

@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService", "OrderServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImportProductService", "ImportProductService\ImportProductService.csproj", "{FD638AF5-7421-4340-A177-24AB9F6240AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Manager", "Test_Manager\Test_Manager.csproj", "{50944DFE-6D0B-4440-ABE2-78009782E4D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_Manager", "Test_Manager\Test_Manager.csproj", "{50944DFE-6D0B-4440-ABE2-78009782E4D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

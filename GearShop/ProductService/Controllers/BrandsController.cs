@@ -21,5 +21,9 @@ namespace ProductService.Controllers
         {
             return _repository.GetBrands();
         }
+        public ActionResult<List<Brand>> GetHomeBrands()
+        {
+            return _repository.GetBrands();
+        }
     }
 }
