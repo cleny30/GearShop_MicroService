@@ -23,7 +23,7 @@ namespace WebClient.Controllers
         public IActionResult Index()
         {
             string username = _contx.HttpContext.Session.GetString("username");
-         
+
             if (string.IsNullOrEmpty(username))
             {
                 var usernameCookie = _contx.HttpContext.Request.Cookies["username"];
@@ -53,7 +53,7 @@ namespace WebClient.Controllers
                 };
                 var passClient = accountService.CalculateMD5Hash(model.Password);
 
-                var url = string.Format(ApiEndpoints_Customer.GET_CUSTOMER_BY_USERNAME_LOGIN, username,passClient);
+                var url = string.Format(ApiEndpoints_Customer.GET_CUSTOMER_BY_USERNAME_LOGIN, username, passClient);
                 var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
@@ -62,29 +62,28 @@ namespace WebClient.Controllers
                     var customer = JsonConvert.DeserializeObject<LoginAccountModel>(jsonString);
 
                     if (customer == null)
-                    {                     
+                    {
                         data.Message = "Login fail";
                         data.IsSuccess = false;
                         return Content(data.IsSuccess.ToString());
                     }
                     else
                     {
-                            data.Message = "Login success";
-                            data.Result = model;
-
-                            if (isRemember)
+                        data.Message = "Login success";
+                        data.Result = model;
+                        HttpContext.Session.SetString("username", username);
+                        if (isRemember)
+                        {
+                            HttpContext.Response.Cookies.Append("username", username, new Microsoft.AspNetCore.Http.CookieOptions
                             {
-                                HttpContext.Session.SetString("username", username);
-                                HttpContext.Response.Cookies.Append("username", username, new Microsoft.AspNetCore.Http.CookieOptions
-                                {
-                                    Expires = DateTime.Now.AddDays(3),
-                                });
-                            }
-                            return Redirect("/Home");     
-                    }                 
+                                Expires = DateTime.Now.AddDays(3),
+                            });
+                        }
+                        return Redirect("/Home");
+                    }
                 }
                 else
-                {                 
+                {
                     data.Message = "Login fail";
                     data.IsSuccess = false;
                     return Content(data.IsSuccess.ToString());
