@@ -16,5 +16,8 @@ namespace DataAccess.Repository
 
         public async Task<List<ProductImageModel>> GetProductImagesByID(string ProId)
         => await ProductImageDAO.GetProductImagesByID(ProId);
+
+        public async Task<bool> RemoveImageByID(List<ProductImageModel> imageLink)
+        => await ProductImageDAO.RemoveImageByID(imageLink);
     }
 }

@@ -64,8 +64,13 @@ namespace DashboardAdmin.ProductManagement
             _ProductAttribute = ProductAttribute;
 
             InitializeComponent();
-            InitializeBrandAsync();
-            //InputDataForUpdating();
+            _ = awaitMethod();
+        }
+
+        public async Task awaitMethod()
+        {
+            await InitializeBrandAsync();
+            await InputDataForUpdating();
         }
 
         //Select Files for image
@@ -257,6 +262,33 @@ namespace DashboardAdmin.ProductManagement
                         {
                             MessageBox.Show("An Error Has Occured!");
                         }
+                    } else
+                    {
+                        ProductData productModel = new ProductData
+                        {
+                            ProId = txtProductID.Text,
+                            ProName = txtProductName.Text,
+                            ProPrice = double.Parse(txtProductPrice.Text),
+                            CateId = (int)cbCategory.SelectedValue,
+                            BrandId = (int)cbBrand.SelectedValue,
+                            Discount = int.Parse(txtProductDiscount.Text),
+                            ProDes = txtProductDescription.Text,
+                            IsAvailable = true
+                        };
+                        var productPageService = new ProductPageService(client);
+
+                        UpdateProductResult result = await productPageService.UpdateProduct(productModel, SelectedFilesDelete, SelectedFilesUpdate, attributesList, descriptionsList);
+
+                        if(result.UpdateProductSuccessful && result.UpdateProductImageSuccessful && result.UpdateProductAttributeSuccessful)
+                        {
+                            MessageBox.Show($"Update Product with ID {productModel.ProId} Successful");
+                            this.Close();
+                            AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+                        }
+                        else
+                        {
+                            MessageBox.Show("An Error Has Occured!");
+                        }
                     }
                 }
             } catch (Exception ex)
@@ -328,7 +360,7 @@ namespace DashboardAdmin.ProductManagement
             //AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void InitializeBrandAsync()
+        private async Task InitializeBrandAsync()
         {
             var productPageService = new ProductPageService(client);
             List<BrandModel> brands = await productPageService.GetBrandList();
@@ -543,6 +575,63 @@ namespace DashboardAdmin.ProductManagement
         private async void Disable_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private async Task InputDataForUpdating()
+        {
+            if (_IsUpdate == true)
+            {
+                Title.Text = "UPDATE " + _Product.ProId;
+                //Add Into Product
+                txtProductID.Text = _Product.ProId;
+                txtProductName.Text = _Product.ProName;
+                txtProductPrice.Text = _Product.ProPrice.ToString();
+                txtProductDiscount.Text = _Product.Discount.ToString();
+                txtProductDescription.Text = _Product.ProDes;
+                cbBrand.SelectedValue = _Product.BrandId;
+                cbCategory.IsEnabled = false;
+
+                //Disable for readonly
+                txtProductID.IsEnabled = false;
+                txtProductName.IsEnabled = false;
+                txtProductPrice.IsEnabled = false;
+                txtProductDiscount.IsEnabled = false;
+                txtProductDescription.IsEnabled = false;
+                cbBrand.IsEnabled = false;
+                SelectedFileButton.IsEnabled = false;
+                AddDescriptionButton.IsEnabled = false;
+                SubmitButton.IsEnabled = false;
+                OverlayUpdate.Visibility = Visibility.Visible;
+                OverlayAttribute.Visibility = Visibility.Visible;
+                OverlayImage.Visibility = Visibility.Visible;
+
+                if (!_Product.IsAvailable)
+                {
+                    DisableButton.Content = "Enable";
+                }
+                DisableButton.Visibility = Visibility.Visible;
+                DisableButton.IsEnabled = false;
+
+                //Add Into Product Image
+                foreach (ProductImageModel fileName in _ProductImage)
+                {
+                    SelectedFiles.Add(fileName.ProImg);
+                }
+
+                foreach (ProductAttributeModel attribute in _ProductAttribute)
+                {
+                    //Create attribute textbox
+                    TextBox att = CreateAttribute();
+                    att.Text = attribute.Feature;
+
+                    //Create description Textbox
+                    TextBox des = CreateDescription();
+                    des.Text = attribute.Description;
+
+                    //Create Stackpanel
+                    CreateStackPanel(att, des);
+                }
+            }
         }
 
     }

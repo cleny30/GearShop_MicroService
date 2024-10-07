@@ -138,5 +138,26 @@ namespace ProductService.Controllers
             List<ProductAttributeModel> list = await _productAttributeRepository.GetProductAttributesByID(ProId);
             return Ok(list);
         }
+
+        [HttpPut("UpdateProduct")]
+        public async Task<IActionResult> UpdateProduct(ProductData product)
+        {
+            bool isSuccess = await _repository.UpdateProduct(product);
+            return Ok(isSuccess);
+        }
+
+        [HttpPut("DeleteImageBaseOnProductID")]
+        public async Task<IActionResult> DeleteImage(List<ProductImageModel> imageLink)
+        {
+            bool isSuccess = await _productImageRepository.RemoveImageByID(imageLink);
+            return Ok(isSuccess);
+        }
+
+        [HttpDelete("DeleteAttributeByID")]
+        public async Task<IActionResult> DeleteAttribute(string ProId)
+        {
+            bool isSuccess = await _productAttributeRepository.DeleteProductAttributeByID(ProId);
+            return Ok(isSuccess);
+        }
     }
 }

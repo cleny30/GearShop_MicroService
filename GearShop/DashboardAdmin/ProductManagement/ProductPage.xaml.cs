@@ -167,9 +167,26 @@ namespace DashboardAdmin.ProductManagement
             }
         }
 
-        private void ViewButton_Click(object sender, RoutedEventArgs e)
+        private async void ViewButton_Click(object sender, RoutedEventArgs e)
         {
-           
+            var productPageService = new ProductPageService(client);
+
+            var button = sender as Button;
+            var dataContext = button.DataContext as ProductModel;
+
+            if(dataContext != null)
+            {
+                var ProId = dataContext.ProId;
+                Boolean IsUpdate;
+
+                var product = await productPageService.GetProductById(ProId);
+                var productImages = await productPageService.GetProductImageById(ProId);
+                var productAttributes = await productPageService.GetProductAttributeById(ProId);
+
+                AddProduct addProductWindowUpdate = new AddProduct(IsUpdate = true, product, productImages, productAttributes);
+                addProductWindowUpdate.AddProductWindowClosed += AddProductWindow_AddProductWindowClosed;
+                addProductWindowUpdate.ShowDialog();
+            }
         }
 
         private void StudentDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

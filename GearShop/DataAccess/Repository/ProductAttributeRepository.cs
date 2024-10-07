@@ -13,7 +13,8 @@ namespace DataAccess.Repository
     {
         public async Task<bool> AddProductAttribute(List<ProductAttributeModel> productAttributes)
         => await ProductAttributeDAO.AddProductAttribute(productAttributes);
-
+        public async Task<bool> DeleteProductAttributeByID(string ProId)
+        => await ProductAttributeDAO.DeleteProductAttributeByID(ProId);
         public async Task<List<ProductAttributeModel>> GetProductAttributesByID(string ProId)
         => await ProductAttributeDAO.GetProductAttributesByID(ProId);
     }

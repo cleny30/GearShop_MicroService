@@ -27,9 +27,17 @@ namespace DashboardAdmin.Admin_APIEndPoint
 
         public const string ADD_PRODUCT_ATTRIBUTE = BASE_URL + "/gateway/products/InsertProductAttribute";
 
-        public const string GET_PRODUCT_IMAGE_BY_ID = BASE_URL + "";
+        public const string GET_PRODUCT_IMAGE_BY_ID = BASE_URL + "/gateway/products/GetProductImageByID/";
 
-        public const string GET_PRODUCT_ATTRIBUTE_BY_ID = BASE_URL + "";
+        public const string GET_PRODUCT_ATTRIBUTE_BY_ID = BASE_URL + "/gateway/products/GetProductAttributeByID/";
+
+        public const string GET_PRODUCT_BY_ID = BASE_URL + "/gateway/products/GetProductByID/";
+
+        public const string UPDATE_PRODUCT = BASE_URL + "/gateway/products/UpdateProduct";
+
+        public const string DELETE_IMAGE_BY_ID = BASE_URL + "/gateway/products/DeleteImageBaseOnProductID";
+
+        public const string DELETE_ATTRIBUTE_BY_ID = BASE_URL + "/gateway/products/DeleteAttributeByID";
 
     }
 }

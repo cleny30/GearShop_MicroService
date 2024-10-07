@@ -44,7 +44,7 @@ namespace DataAccess.DAO
             try
             {
                 var dbContext = new ProductContext();
-                _img = dbContext.ProductAttributes.ToList();
+                _img = dbContext.ProductAttributes.Where(i => i.ProId.Equals(ProId)).ToList();
                 foreach(var items in _img)
                 {
                     ProductAttributeModel _item = new ProductAttributeModel();
@@ -58,6 +58,27 @@ namespace DataAccess.DAO
 
             }
             return null;
+        }
+
+
+        public static async Task<bool> DeleteProductAttributeByID(string ProId)
+        {
+            try
+            {
+                var dbContext = new ProductContext();
+                List<ProductAttribute> productAttributes = dbContext.ProductAttributes.Where(p => p.ProId.Equals(ProId)).ToList();
+                foreach (var items in productAttributes)
+                {
+                    dbContext.ProductAttributes.Remove(items);
+                    await dbContext.SaveChangesAsync();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
         }
     }
 }

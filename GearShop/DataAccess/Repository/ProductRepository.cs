@@ -31,5 +31,8 @@ namespace DataAccess.Repository
 
         public async Task<ProductModel> GetProductByID(string ProId)
         => await ProductDAO.GetProductByID(ProId);
+
+        public async Task<bool> UpdateProduct(ProductData product)
+        => await ProductDAO.UpdateProduct(product);
     }
 }

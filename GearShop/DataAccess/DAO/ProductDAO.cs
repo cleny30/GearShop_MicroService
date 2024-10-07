@@ -218,5 +218,34 @@ namespace DataAccess.DAO
             }
         }
 
+        public static async Task<bool> UpdateProduct(ProductData product)
+        {
+            Product _product = new Product
+            {
+                ProId = product.ProId,
+                ProName = product.ProName,
+                BrandId = product.BrandId,
+                CateId = product.CateId,
+                Discount = product.Discount,
+                ProDes = product.ProDes,
+                ProPrice = product.ProPrice,
+                IsAvailable = product.IsAvailable,
+                ProQuan = 0
+            };
+
+            try
+            {
+                var dbContext = new ProductContext();
+                dbContext.Entry<Product>(_product).State = EntityState.Modified;
+                await dbContext.SaveChangesAsync();
+                return true;
+            } catch (Exception ex)
+            {
+
+            }
+            return false;
+            
+        }
+
     }
 }
