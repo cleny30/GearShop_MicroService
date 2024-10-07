@@ -4,6 +4,7 @@ using DataAccess.IRepository;
 using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 
 namespace CustomerService.Controllers
 {
@@ -12,10 +13,12 @@ namespace CustomerService.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public CustomersController(ICustomerRepository customerRepository)
+        public CustomersController(ICustomerRepository customerRepository, IAccountRepository accountRepository)
         {
             _customerRepository = customerRepository;
+            _accountRepository = accountRepository;
         }
 
         // GET: api/Customers/{username}
@@ -52,6 +55,18 @@ namespace CustomerService.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
             }
+        }
+
+        [HttpGet("GetCustomerByUsername/{username}")]
+        public async Task<IActionResult> LoginAsync(string username)
+        {
+            var account = await _accountRepository.LoginCustomer(username);
+
+            if (account != null)
+            {
+                return Ok(account);
+            }
+            return NotFound();
         }
     }
 }
