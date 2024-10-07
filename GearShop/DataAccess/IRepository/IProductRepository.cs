@@ -15,6 +15,11 @@ namespace DataAccess.IRepository
         public List<ProductAttribute> GetProductAttributes();
         public Task<List<ProductModel>> GetProductListAdmin();
         public Task<List<ProductData>> SearchProductsByName(string productName);
+        public Task<string> GetNewProductID(int CatID);
+        public Task<bool> InsertProduct(ProductData product);
+        public Task<ProductModel> GetProductByID(string ProId);
+        public Task<bool> UpdateProduct(ProductData product);
+        public Task<bool> ChangeProductStatus(string ProId, bool Status);
         public Task<ProductData> GetProductDetails(string productId);
     }
 }
