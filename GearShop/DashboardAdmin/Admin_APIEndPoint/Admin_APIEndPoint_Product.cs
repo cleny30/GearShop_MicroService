@@ -21,5 +21,11 @@ namespace DashboardAdmin.Admin_APIEndPoint
 
         public const string GET_NEW_PRODUCT_ID = BASE_URL + "/gateway/products/GetNewProductID/";
 
+        public const string ADD_PRODUCT = BASE_URL + "/gateway/products/InsertProduct";
+
+        public const string ADD_PRODUCT_IMAGE = BASE_URL + "/gateway/products/InsertProductImage";
+
+        public const string ADD_PRODUCT_ATTRIBUTE = BASE_URL + "/gateway/products/InsertProductAttribute";
+
     }
 }

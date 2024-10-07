@@ -25,5 +25,8 @@ namespace DataAccess.Repository
 
         public async Task<string> GetNewProductID(int CatID)
         => await ProductDAO.GetNewProductID(CatID);
+
+        public async Task<bool> InsertProduct(ProductData product)
+        => await ProductDAO.InsertProduct(product);
     }
 }

@@ -1,7 +1,11 @@
 ﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using DashboardAdmin.Admin_APIEndPoint;
+using DataAccess.Core.Cloudiary;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -64,5 +68,82 @@ namespace DashboardAdmin.Service
             return JsonSerializer.Deserialize<string>(strData, options);
         }
 
+        public class InsertProductResult
+        {
+            public bool InsertProductSuccessful { get; set; }
+            public bool InsertProductImageSuccessful { get; set; }
+            public bool InsertProductAttributeSuccessful { get; set; }
+        }
+
+        public async Task<InsertProductResult> InsertNewProduct(ProductData product, ObservableCollection<string> SelectedFiles, List<string> attribute, List<string> description)
+        {
+            CloudinaryManagement cloud = new CloudinaryManagement();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var result = new InsertProductResult();
+            if (product != null)
+            {
+                var productJson = JsonSerializer.Serialize(product, options);
+                var content = new StringContent(productJson, Encoding.UTF8, "application/json");
+
+                var response = await _client.PostAsync(Admin_APIEndPoint_Product.ADD_PRODUCT, content);
+                var strData = await response.Content.ReadAsStringAsync();
+
+                result.InsertProductSuccessful = JsonSerializer.Deserialize<bool>(strData, options);
+                if (result.InsertProductSuccessful)
+                {
+                    List<string> imageLink = new List<string>();
+
+                    foreach (string items in SelectedFiles)
+                    {
+                        // Assuming Upload is an async method
+                        string cloudinaryLink = await cloud.Upload(items, "Products");
+                        imageLink.Add(cloudinaryLink);
+                    }
+
+                    List<ProductImageModel> _img = new List<ProductImageModel>();
+                    foreach (var image in imageLink)
+                    {
+                        _img.Add(new ProductImageModel
+                        {
+                            ProId = product.ProId,
+                            ProImg = image
+                        });
+                    }
+
+                    var productImageJson = JsonSerializer.Serialize(_img, options);
+                    var contentImage = new StringContent(productImageJson, Encoding.UTF8, "application/json");
+
+                    response = await _client.PostAsync(Admin_APIEndPoint_Product.ADD_PRODUCT_IMAGE, contentImage);
+                    strData = await response.Content.ReadAsStringAsync();
+
+                    result.InsertProductImageSuccessful = JsonSerializer.Deserialize<bool>(strData, options);
+
+                    if (result.InsertProductImageSuccessful)
+                    {
+                        List<ProductAttributeModel> _productAttribute = new List<ProductAttributeModel>();
+
+                        foreach (var (attr, desc) in attribute.Zip(description, (attr, desc) => (attr, desc)))
+                        {
+                            _productAttribute.Add(new ProductAttributeModel
+                            {
+                                ProId = product.ProId,
+                                Description = desc,
+                                Feature = attr
+                            });
+                        }
+
+                        var productAttributeJson = JsonSerializer.Serialize(_productAttribute, options);
+                        var contentAttribute = new StringContent(productAttributeJson, Encoding.UTF8, "application/json");
+
+                        response = await _client.PostAsync(Admin_APIEndPoint_Product.ADD_PRODUCT_ATTRIBUTE, contentAttribute);
+                        strData = await response.Content.ReadAsStringAsync();
+
+                        result.InsertProductAttributeSuccessful = JsonSerializer.Deserialize<bool>(strData, options);
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }

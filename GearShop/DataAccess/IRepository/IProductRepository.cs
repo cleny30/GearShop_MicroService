@@ -16,5 +16,6 @@ namespace DataAccess.IRepository
         public Task<List<ProductModel>> GetProductListAdmin();
         public Task<List<ProductData>> SearchProductsByName(string productName);
         public Task<string> GetNewProductID(int CatID);
+        public Task<bool> InsertProduct(ProductData product);
     }
 }

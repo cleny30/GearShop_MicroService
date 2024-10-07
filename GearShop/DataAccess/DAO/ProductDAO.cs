@@ -160,5 +160,32 @@ namespace DataAccess.DAO
             return null;
         }
 
+        public static async Task<bool> InsertProduct(ProductData product)
+        {
+            Product _product = new Product
+            {
+                ProId = product.ProId,
+                ProName = product.ProName,
+                BrandId = product.BrandId,
+                CateId = product.CateId,
+                Discount = product.Discount,
+                ProDes = product.ProDes,
+                ProPrice = product.ProPrice,
+                IsAvailable = true,
+                ProQuan = 0
+            };
+            try
+            {
+                var dbContext = new ProductContext();
+                dbContext.Products.Add(_product);
+                await dbContext.SaveChangesAsync();              
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

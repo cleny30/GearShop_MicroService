@@ -1,5 +1,6 @@
 ﻿using BusinessObject.DTOS;
 using DashboardAdmin.Service;
+using DataAccess.Core.Cloudiary;
 using MaterialDesignThemes.Wpf;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
@@ -20,6 +21,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static DashboardAdmin.Service.ProductPageService;
 
 namespace DashboardAdmin.ProductManagement
 {
@@ -214,7 +216,59 @@ namespace DashboardAdmin.ProductManagement
         //Submit the form
         private async void Submit_Click(object sender, RoutedEventArgs e)
         {
-            
+            CloudinaryManagement cloud = new CloudinaryManagement();
+
+            // Show the overlay
+            Overlay.Visibility = Visibility.Visible;
+
+            // Disable the main window
+            this.IsEnabled = false;
+
+            try
+            {
+                SaveAttributeAndDescription();
+
+                if (Validation())
+                { 
+                    if(_IsUpdate == false)
+                    {
+                        ProductData productModel = new ProductData
+                        {
+                            ProId = txtProductID.Text,
+                            ProName = txtProductName.Text,
+                            ProPrice = double.Parse(txtProductPrice.Text),
+                            CateId = (int)cbCategory.SelectedValue,
+                            BrandId = (int)cbBrand.SelectedValue,
+                            Discount = int.Parse(txtProductDiscount.Text),
+                            ProDes = txtProductDescription.Text,
+                            IsAvailable = true
+                        };
+
+                        var productPageService = new ProductPageService(client);
+
+                        InsertProductResult result = await productPageService.InsertNewProduct(productModel, SelectedFiles, attributesList, descriptionsList); 
+
+                        if(result.InsertProductSuccessful && result.InsertProductImageSuccessful && result.InsertProductAttributeSuccessful)
+                        {
+                            MessageBox.Show("Insert Successful");
+                            this.Close();
+                            AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+                        } else
+                        {
+                            MessageBox.Show("An Error Has Occured!");
+                        }
+                    }
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                // Hide the overlay and enable the window again
+                Overlay.Visibility = Visibility.Collapsed;
+                this.IsEnabled = true;
+            }
         }
 
         //Save attribute and description

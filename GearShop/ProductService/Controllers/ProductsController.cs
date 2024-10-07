@@ -18,11 +18,16 @@ namespace ProductService.Controllers
         private IProductRepository _repository;
         private IBrandRepository _brandRepository;
         private ICategoryRepository _categoryRepository;
-        public ProductsController(IProductRepository repository, IBrandRepository brandRepository, ICategoryRepository categoryRepository)
+        private IProductImageRepository _productImageRepository;
+        private IProductAttributeRepository _productAttributeRepository;
+        public ProductsController(IProductRepository repository, IBrandRepository brandRepository, ICategoryRepository categoryRepository,
+            IProductAttributeRepository productAttributeRepository, IProductImageRepository productImageRepository)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
             _brandRepository = brandRepository;
+            _productImageRepository = productImageRepository;
+            _productAttributeRepository = productAttributeRepository;
         }
 
         [HttpGet("GetAllProducts")]
@@ -33,7 +38,7 @@ namespace ProductService.Controllers
             List<ProductImage> imgs = _repository.GetProductImages();
             List<ProductAttribute> atts = _repository.GetProductAttributes();
 
-            return _service.GetProducts(list,imgs,atts);
+            return _service.GetProducts(list, imgs, atts);
         }
 
         [HttpGet("GetProductListWithoutBrandAndCategory")]
@@ -76,7 +81,7 @@ namespace ProductService.Controllers
         {
 
             List<ProductData> result = await _repository.SearchProductsByName(name);
-            List<ProductImage> imgs =  _repository.GetProductImages();
+            List<ProductImage> imgs = _repository.GetProductImages();
 
             foreach (ProductData pro in result)
             {
@@ -90,6 +95,27 @@ namespace ProductService.Controllers
         {
             string ProductID = await _repository.GetNewProductID(CatID);
             return Ok(ProductID);
+        }
+
+        [HttpPost("InsertProduct")]
+        public async Task<IActionResult> InsertProduct(ProductData product)
+        {
+            bool isSuccess = await _repository.InsertProduct(product);
+            return Ok(isSuccess);
+        }
+
+        [HttpPost("InsertProductImage")]
+        public async Task<IActionResult> InsertImageOfProduct(List<ProductImageModel> imageList)
+        {
+            bool isSuccess = await _productImageRepository.AddImageOfSpecificProduct(imageList);
+            return Ok(isSuccess);
+        }
+
+        [HttpPost("InsertProductAttribute")]
+        public async Task<IActionResult> InsertAttributeOfProduct(List<ProductAttributeModel> productAttributes)
+        {
+            bool isSuccess = await _productAttributeRepository.AddProductAttribute(productAttributes);
+            return Ok(isSuccess);
         }
     }
 }
