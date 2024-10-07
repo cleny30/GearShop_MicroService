@@ -64,6 +64,22 @@ namespace DataAccess.DAO
                 throw new Exception(e.Message);
             }
         }
+        public static async Task<LoginAccountModel> ClientLogin(string username, string pass)
+        {
+            using (var context = new CustomerContext())
+            {
+                var customer = await context.Customers.FirstOrDefaultAsync(c => c.Username == username && c.Password == pass);
+                if (customer != null)
+                {
 
+                    var loginAccount = new LoginAccountModel();
+                    loginAccount.CopyProperties(customer);
+
+                    return loginAccount;
+                }
+            }
+            return null;
+
+        }
     }
 }

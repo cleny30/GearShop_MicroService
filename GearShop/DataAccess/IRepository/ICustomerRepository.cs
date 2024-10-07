@@ -6,5 +6,7 @@ namespace DataAccess.IRepository
     {
         CustomerModel GetCustomerByUserName(string name);
         void UpdateCustomer(CustomerModel customer);
+
+        public Task<LoginAccountModel> LoginCustomer(string userLogin, string pass);
     }
 }

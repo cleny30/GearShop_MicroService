@@ -23,7 +23,7 @@ namespace WebClient.Controllers
         public IActionResult Index()
         {
             string username = _contx.HttpContext.Session.GetString("username");
-            username = null;
+         
             if (string.IsNullOrEmpty(username))
             {
                 var usernameCookie = _contx.HttpContext.Request.Cookies["username"];

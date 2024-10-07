@@ -13,12 +13,12 @@ namespace CustomerService.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepository;
-        private readonly IAccountRepository _accountRepository;
+      
 
-        public CustomersController(ICustomerRepository customerRepository, IAccountRepository accountRepository)
+        public CustomersController(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
-            _accountRepository = accountRepository;
+            
         }
 
         // GET: api/Customers/{username}
@@ -60,7 +60,7 @@ namespace CustomerService.Controllers
         [HttpGet("GetCustomerByUsername/{username}/{pass}")]
         public async Task<IActionResult> LoginAsync(string username, string pass)
         {
-            var account = await _accountRepository.LoginCustomer(username, pass);
+            var account = await _customerRepository.LoginCustomer(username, pass);
 
             if (account != null)
             {
