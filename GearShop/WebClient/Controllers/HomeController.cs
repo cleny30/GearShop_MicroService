@@ -1,14 +1,10 @@
-using BusinessObject;
+﻿
 using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
-using DataAccess.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Net.Http.Headers;
 using WebClient.APIEndPoint;
 using WebClient.Models;
 using WebClient.Service;
@@ -20,64 +16,47 @@ namespace WebClient.Controllers
     public class HomeController : Controller
     {
 
-        private readonly HttpClient _client;
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly HeaderService _headerService;
-        private readonly IHomeRepository repo;
+        private readonly HttpClient client = null;
+        private readonly ShopService _shopService;
 
-        public HomeController(
-            IHttpClientFactory httpClientFactory,
-            IHttpContextAccessor contextAccessor,
-            HeaderService headerService)
+        public HomeController(ShopService shopService)
         {
 
-            _client = httpClientFactory.CreateClient();
-            _contextAccessor = contextAccessor;
+            client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-            _client.DefaultRequestHeaders.Accept.Add(contentType);
-            _headerService = headerService;
+            client.DefaultRequestHeaders.Accept.Add(contentType);
+            _shopService = shopService;
         }
 
         public async Task<IActionResult> Index()
         {
 
-            var sessionHeaderData = _contextAccessor.HttpContext.Session.GetString("HeaderData");
-            var response = await _client.GetAsync(ApiEndpoints_Product.GET_HOME_PRODUCTS);
+            HttpResponseMessage _productcResponse = await client.GetAsync(ApiEndpoints.GET_ALL_PRODUCTS);
+            HttpResponseMessage _brandResponse = await client.GetAsync(ApiEndpoints.GET_ALL_BRANDS);
+            HttpResponseMessage _categoryResponse = await client.GetAsync(ApiEndpoints.GET_ALL_CATEGORIES);
 
-            if (response.IsSuccessStatusCode)
+            string strProduct = await _productcResponse.Content.ReadAsStringAsync();
+            string strBrand = await _brandResponse.Content.ReadAsStringAsync();
+            string strCategory = await _categoryResponse.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
             {
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var jsonData = await response.Content.ReadAsStringAsync();
-                HomeModel homeModel = System.Text.Json.JsonSerializer.Deserialize<HomeModel>(jsonData, options);
+                PropertyNameCaseInsensitive = true
+            };
 
-                // Fetch brand data
-                var brandResponse = await _client.GetAsync(ApiEndpoints_Product.GET_HOME_BRANDS);
-                if (brandResponse.IsSuccessStatusCode)
-                {
-                    var brandJsonData = await brandResponse.Content.ReadAsStringAsync();
-                    List<Brand> brands = System.Text.Json.JsonSerializer.Deserialize<List<Brand>>(brandJsonData, options);
+            List<ProductData> productList = JsonSerializer.Deserialize<List<ProductData>>(strProduct, options);
+            List<Brand> brandList = JsonSerializer.Deserialize<List<Brand>>(strBrand, options);
+            List<Category> categoryList = JsonSerializer.Deserialize<List<Category>>(strCategory, options);
 
-                    // Pass the brand list to the HomeModel
-                    homeModel.Brands = brands;
-                }
-
-                // Fetch cate data
-                var cateResponse = await _client.GetAsync(ApiEndpoints_Product.GET_HOME_CATEGORIES);
-                if (cateResponse.IsSuccessStatusCode)
-                {
-                    var cateJsonData = await cateResponse.Content.ReadAsStringAsync();
-                    List<Category> categories = System.Text.Json.JsonSerializer.Deserialize<List<Category>>(cateJsonData, options);
-
-                    // Pass the brand list to the HomeModel
-                    homeModel.Categories = categories;
-                }
-
-                // Pass the HomeModel to the view
-                return View(homeModel);
-
-            }
-
-            return NoContent();
+            List<CategoryModel> categoryModels = _shopService.GetCategoryList(categoryList).Where(c => c.IsAvailable == true).ToList();
+            List<BrandModel> brandModels = _shopService.GetBrandList(brandList).Where(b => b.IsAvailable == true).ToList();
+            ShopModel data = new ShopModel()
+            {
+                products = productList,
+                brandModels = brandModels,
+                categoryModels = categoryModels,
+            };
+            return View(data);
 
         }
 

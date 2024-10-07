@@ -5,8 +5,6 @@ using WebClient.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<HeaderService>();
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

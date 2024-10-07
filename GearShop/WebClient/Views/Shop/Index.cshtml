@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     ViewData["CategoryModels"] = Model.categoryModels;
     ViewData["BrandModels"] = Model.brandModels;
@@ -32,22 +31,23 @@
         <div class="col-12">
             <nav class="breadcrumb bg-light mb-30">
                 <a class="breadcrumb-item text-dark" href="/Home">Home</a>
-                <a class="breadcrumb-item text-dark" href="/Shop">Shop</a>
-                @if (selectedCategoryIds.FirstOrDefault() != null || selectedBrandIds.FirstOrDefault() != null)
+
+                @if (categoryName == null && brandName == null)
                 {
-                    @if (selectedCategoryIds.FirstOrDefault() != null)
-                    {
-                        <a class="breadcrumb-item text-dark" href="/Shop?category=@selectedCategoryIds.FirstOrDefault()">@categoryName</a>
-                    }
-
-                    @if (selectedBrandIds.FirstOrDefault() != null)
-                    {
-                        <span class="breadcrumb-item active">@brandName</span>
-                    }
+                    <span class="breadcrumb-item active">Shop</span>
                 }
-                
-                
+                else if (categoryName != null && brandName == null)
+                {
+                    <a class="breadcrumb-item text-dark" href="/Shop">Shop</a>
+                    <span class="breadcrumb-item active">@categoryName</span>
+                }
+                else
+                {
+                    <a class="breadcrumb-item text-dark" href="/Shop">Shop</a>
+                    <a class="breadcrumb-item text-dark" href="/Shop?category=@selectedCategoryIds.FirstOrDefault()">@categoryName</a>
+                    <span class="breadcrumb-item active">@brandName</span>
 
+                }
             </nav>
         </div>
     </div>
@@ -188,7 +188,7 @@
             <div class="bg-light p-4 mb-30">
                 <form>
                     @{
-                       int index1 = 0;
+                        int index1 = 0;
                     }
                     @foreach (var item in shopModel.brandModels)
                     {

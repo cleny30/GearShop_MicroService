@@ -21,9 +21,5 @@ namespace ProductService.Controllers
         {
             return _repository.GetCategories();
         }
-        public ActionResult<List<Category>> GetHomeCategories()
-        {
-            return _repository.GetCategories();
-        }
     }
 }
