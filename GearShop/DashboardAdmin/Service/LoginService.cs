@@ -13,23 +13,23 @@ namespace DashboardAdmin.Service
             _client = client;
         }
 
+        public async Task<bool> CheckUsernameExistsAsync(string username)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            // Kiểm tra xem tên người dùng có tồn tại không
+            var response = await _client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_USERNAME_EXISTED}?username={username}");
+            var strData = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<bool>(strData, options);
+        }
+
         public async Task<bool> VerifyCredentialsAsync(string username, string password)
         {
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            // Check if username exists
-            var response = await _client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_USERNAME_EXISTED}?username={username}");
+            // Kiểm tra xem tên người dùng và mật khẩu có khớp không
+            var response = await _client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_MANAGER_EXISTED}?username={username}&password={password}");
             var strData = await response.Content.ReadAsStringAsync();
-            bool usernameExisted = JsonSerializer.Deserialize<bool>(strData, options);
-
-            if (!usernameExisted)
-            {
-                return false;
-            }
-
-            // Check if username and password match
-            response = await _client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_MANAGER_EXISTED}?username={username}&password={password}");
-            strData = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<bool>(strData, options);
         }
     }
