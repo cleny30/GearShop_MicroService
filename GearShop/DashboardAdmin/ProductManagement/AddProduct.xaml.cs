@@ -574,7 +574,40 @@ namespace DashboardAdmin.ProductManagement
 
         private async void Disable_Click(object sender, RoutedEventArgs e)
         {
-            
+            var productPageService = new ProductPageService(client);
+            if (_Product.IsAvailable == true)
+            {
+                // Show a message box to confirm disabling
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to disable this product?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Overlay.Visibility = Visibility.Collapsed;
+                    if (await productPageService.ChangeProductStatus(_Product.ProId, false))
+                    {
+                        MessageBox.Show("Disable Product Successfully!");
+                        this.Close();
+                        AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to enable this product?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Overlay.Visibility = Visibility.Collapsed;
+                    if (await productPageService.ChangeProductStatus(_Product.ProId, true))
+                    {
+                        MessageBox.Show("Enable Product Successfully!");
+                        this.Close();
+                        AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+
+            }
         }
 
         private async Task InputDataForUpdating()

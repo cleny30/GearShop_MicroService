@@ -159,5 +159,12 @@ namespace ProductService.Controllers
             bool isSuccess = await _productAttributeRepository.DeleteProductAttributeByID(ProId);
             return Ok(isSuccess);
         }
+
+        [HttpPut("ChangeProductStatus")]
+        public async Task<IActionResult> ChangeProductStatus(string ProId, bool status)
+        {
+            bool isSuccess = await _repository.ChangeProductStatus(ProId, status);
+            return Ok(isSuccess);
+        }
     }
 }

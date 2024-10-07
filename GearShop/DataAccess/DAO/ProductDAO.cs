@@ -247,5 +247,25 @@ namespace DataAccess.DAO
             
         }
 
+        public static async Task<bool> ChangeProductStatus(string ProId, bool Status)
+        {
+            try
+            {
+                using (var dbContext = new ProductContext())
+                {
+                    var _product = await dbContext.Products.FirstOrDefaultAsync(p => p.ProId == ProId);
+                    _product.IsAvailable = Status;
+                    dbContext.Entry(_product).State = EntityState.Modified;
+                    await dbContext.SaveChangesAsync();
+                    return true; // Operation successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return false;
+            }
+        }
+
     }
 }

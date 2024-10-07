@@ -156,7 +156,8 @@ namespace DashboardAdmin.Service
             return result;
         }
 
-        public async Task<UpdateProductResult> UpdateProduct(ProductData product, ObservableCollection<string> SelectedFilesDelete, ObservableCollection<string> SelectedFilesUpdate, List<string> attribute, List<string> description)
+        public async Task<UpdateProductResult> UpdateProduct(ProductData product, ObservableCollection<string> SelectedFilesDelete, 
+            ObservableCollection<string> SelectedFilesUpdate, List<string> attribute, List<string> description)
         {
             CloudinaryManagement cloud = new CloudinaryManagement();
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -263,7 +264,6 @@ namespace DashboardAdmin.Service
             return result;
         }
        
-
         public async Task<ProductModel> GetProductById(string ProId)
         {
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -296,5 +296,16 @@ namespace DashboardAdmin.Service
 
             return JsonSerializer.Deserialize<List<ProductAttributeModel>>(strData, options);
         }  
+
+        public async Task<bool> ChangeProductStatus(string ProId, bool status)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            // Kiểm tra xem tên người dùng có tồn tại không
+            var response = await _client.PutAsync($"{Admin_APIEndPoint_Product.CHANGE_PRODUCT_STATUS}?ProId={ProId}&status={status}", null);
+            var strData = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<bool>(strData, options);
+        }
     }
 }

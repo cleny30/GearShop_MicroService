@@ -39,5 +39,7 @@ namespace DashboardAdmin.Admin_APIEndPoint
 
         public const string DELETE_ATTRIBUTE_BY_ID = BASE_URL + "/gateway/products/DeleteAttributeByID";
 
+        public const string CHANGE_PRODUCT_STATUS = BASE_URL + "/gateway/products/ChangeProductStatus";
+
     }
 }
