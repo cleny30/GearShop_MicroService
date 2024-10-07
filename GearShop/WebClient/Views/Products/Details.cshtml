@@ -1,0 +1,59 @@
+﻿@model BusinessObject.DTOS.ProductData
+
+@{
+    ViewData["Title"] = Model.ProName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product">Products</a>
+                <span class="breadcrumb-item active">@Model.ProName</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Product Details Start -->
+<div class="container-fluid">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">
+            Product Details
+        </span>
+    </h2>
+    <div class="row px-xl-5">
+        <div class="col-lg-6 mb-5">
+            <div class="product-image">
+                <img src="@Model.ProImg" alt="@Model.ProName" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-5">
+            <div class="bg-light p-30 mb-3">
+                <h3>@Model.ProName</h3>
+                <h4>Price: @Model.ProPrice.ToString("C")</h4>
+                @if (Model.Discount > 0)
+                {
+                    <p class="discount">Discount: @Model.Discount% off</p>
+                }
+                <p>@Model.ProDes</p>
+                <p>Brand: @Model.BrandId?.Name</p>
+                <p>Available Quantity: @Model.ProQuan</p>
+
+                <form asp-action="AddToCart" asp-controller="Cart" method="post">
+                    <input type="hidden" name="productId" value="@Model.ProId" />
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Details End -->
+
+<div class="navigation">
+    <a asp-action="Index" asp-controller="Product">Back to Products</a>
+</div>

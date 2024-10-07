@@ -114,5 +114,28 @@ namespace DataAccess.DAO
             }
         }
 
+        public static async Task<ProductData> GetProductDetails(string productId)
+        {
+            try
+            {
+                using (var context = new ProductContext())
+                {
+                    var product = await context.Products.Include(p => p.ProductImages)
+                        .Include(p => p.ProductAttributes)
+                        .FirstOrDefaultAsync(p => p.ProId == productId);
+
+                    var productData = new ProductData();
+                    productData.CopyProperties(productData);
+                    productData.ProImg = product.ProductImages.Select(img => img.ProImg).ToList();
+                    productData.ProAttribute = product.ProductAttributes.ToDictionary(att => att.Feature, att => att.Description);
+
+                    return productData;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

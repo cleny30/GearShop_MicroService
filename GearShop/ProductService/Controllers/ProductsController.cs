@@ -1,5 +1,6 @@
 ﻿using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
+using DataAccess.DAO;
 using DataAccess.IRepository;
 using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
@@ -83,6 +84,22 @@ namespace ProductService.Controllers
                 pro.ProImg = imgs.Where(img => img.ProId == pro.ProId).Select(img => img.ProImg).ToList();
             }
             return result;
+        }
+
+
+        [HttpGet("GetProductDetails/{productId}")]
+        public async Task<ActionResult<ProductData>> GetProductDetails(string productId)
+        {
+            ProductData product = await _repository.GetProductDetails(productId);
+            List<ProductImage> imgs = _repository.GetProductImages();
+            List<ProductAttribute> atts = _repository.GetProductAttributes();
+
+            product.ProImg = imgs.Where(img => img.ProId == product.ProId).Select(img => img.ProImg).ToList();
+            product.ProAttribute = atts.Where(attribute => attribute.ProId == product.ProId)
+                .GroupBy(attribute => attribute.Feature)
+                .ToDictionary(group => group.Key, group => group.First().Description);
+
+            return Ok(product);
         }
     }
 }

@@ -1,4 +1,7 @@
 using DataAccess.Core;
+using DataAccess.DAO;
+using DataAccess.IRepository;
+using DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,9 @@ builder.Services.ConfigureDependencyInjection();
 // Configure Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ProductDAO>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 

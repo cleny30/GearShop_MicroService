@@ -15,5 +15,7 @@
         public const string GET_ALL_CATEGORIES = $"{BASE_URL}/gateway/categories";
 
         public const string GET_PRODUCT_BY_NAME = $"{BASE_URL}/gateway/products/GetProductByName";
+
+        public const string GET_PRODUCT_DETAILS = $"{BASE_URL}/gateway/products/GetProductDetails";
     }
 }
