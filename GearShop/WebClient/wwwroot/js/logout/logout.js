@@ -1,7 +1,7 @@
 ﻿const handleLogout = () => {
 
     $.ajax({
-        url: '/Account/Logout',
+        url: '/Login/Logout',
         type: "POST",
         success: function (data) {
             sessionStorage.removeItem("username");
