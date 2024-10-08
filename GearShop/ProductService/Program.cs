@@ -1,9 +1,11 @@
 using DataAccess.Core;
+using DataAccess.DAO;
+using DataAccess.IRepository;
+using DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.ConfigureDependencyInjection();
 // Configure Swagger

@@ -27,7 +27,7 @@ namespace ISUZU_NEXT.Server.Core.Extentions
         /// <param name="value"></param>
         public static void SetProperty<T>(this T data, string propertyName, object? value)
         {
-            var property = data ?.GetType().GetProperty(propertyName);
+            var property = data?.GetType().GetProperty(propertyName);
             if (property == null)
             {
                 return;

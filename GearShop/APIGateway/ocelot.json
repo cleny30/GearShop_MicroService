@@ -27,7 +27,6 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "SwaggerKey": "products"
     },
-
     {
       "DownstreamPathTemplate": "/api/Categories/{everything}",
       "DownstreamScheme": "http",
