@@ -3,13 +3,7 @@ using BusinessObject.Core;
 using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
-using Microsoft.CodeAnalysis.Elfie.Model;
-using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DataAccess.DAO
 {

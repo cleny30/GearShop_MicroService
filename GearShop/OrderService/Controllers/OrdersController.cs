@@ -1,9 +1,6 @@
 ﻿using BusinessObject.DTOS;
-using DataAccess.IRepository;
-using DataAccess.Repository;
-using Microsoft.AspNetCore.Http;
+using Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
 
 namespace OrderService.Controllers
 {

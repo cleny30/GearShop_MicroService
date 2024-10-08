@@ -1,7 +1,7 @@
 ﻿using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using DashboardAdmin.Admin_APIEndPoint;
-using DataAccess.Core.Cloudiary;
+using Repository.Core.Cloudiary;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
