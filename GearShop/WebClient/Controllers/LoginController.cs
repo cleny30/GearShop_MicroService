@@ -96,5 +96,14 @@ namespace WebClient.Controllers
 
         }
 
+        [HttpPost("/Login/Logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("username");
+            _contx.HttpContext.Session.Remove("username");
+            _contx.HttpContext.Session.Remove("proId");
+            return Content("OK");
+        }
+
     }
 }
