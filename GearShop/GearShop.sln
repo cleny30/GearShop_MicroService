@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "8", "8", "{EF8DE53E-7692-40
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7", "7", "{2047F330-2B5D-416C-BF51-9D4AD858B6E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{A343525B-8659-410F-8A4D-F2A89646B0D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{A343525B-8659-410F-8A4D-F2A89646B0D6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Repository", "7. Repository", "{E74AA086-F5D4-4815-918F-5D8DE46CF447}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7", "7", "{E74AA086-F5D4-4815-918F-5D8DE46CF447}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +42,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3F05681D-2C2E-46FD-BB4C-22B981FD15DE} = {00000000-0000-0000-0000-000000000000}
+		{A343525B-8659-410F-8A4D-F2A89646B0D6} = {00000000-0000-0000-0000-000000000000}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B224301-0B35-410E-8D1B-9D0B4C868A8A}
