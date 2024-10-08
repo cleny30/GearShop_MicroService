@@ -1,4 +1,4 @@
-using DataAccess.Core;
+using Repository.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 

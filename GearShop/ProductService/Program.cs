@@ -1,7 +1,4 @@
-using DataAccess.Core;
-using DataAccess.DAO;
-using DataAccess.IRepository;
-using DataAccess.Repository;
+using Repository.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 

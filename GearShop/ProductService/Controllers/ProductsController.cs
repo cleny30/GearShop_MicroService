@@ -1,13 +1,7 @@
 ﻿using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
-using DataAccess.IRepository;
-using DataAccess.Repository;
-using Microsoft.AspNetCore.Http;
+using Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using NuGet.Protocol.Core.Types;
-using ProductService.SubService;
-using System.Collections.Generic;
 
 namespace ProductService.Controllers
 {

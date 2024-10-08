@@ -1,14 +1,5 @@
 ﻿using BusinessObject.Core;
 using BusinessObject.DTOS;
-using BusinessObject.Models.Entity;
-using DataAccess.Core.Constants;
-using ISUZU_NEXT.Server.Core.Extentions;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DAO
 {
@@ -25,8 +16,7 @@ namespace DataAccess.DAO
         {
             var productList = ProductDAO.GetProducts();
 
-            return productList.Where(p => p.CateId.Equals((int)CategoryType.Mouse) && p.IsAvailable)
-                              .Take(8)
+            return productList.Take(8)
                               .Select(p => new ProductData
                               {
                                   ProId = p.ProId,
@@ -47,8 +37,7 @@ namespace DataAccess.DAO
         {
             var productList = ProductDAO.GetProducts();
 
-            return productList.Where(p => p.CateId.Equals((int)CategoryType.Keyboard) && p.IsAvailable)
-                              .Take(8)
+            return productList.Take(8)
                               .Select(p => new ProductData
                               {
                                   ProId = p.ProId,
