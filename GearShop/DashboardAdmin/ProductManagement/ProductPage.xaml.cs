@@ -1,4 +1,5 @@
 ﻿using BusinessObject.DTOS;
+using DashboardAdmin.BrandManagement;
 using DashboardAdmin.Service;
 using MaterialDesignThemes.Wpf;
 using System.Collections.ObjectModel;
@@ -143,7 +144,8 @@ namespace DashboardAdmin.ProductManagement
         //Open the Brand Page
         private void BrandButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            BrandWindow brand = new BrandWindow();
+            brand.ShowDialog();
         }
 
 

@@ -41,5 +41,10 @@ namespace DashboardAdmin.Admin_APIEndPoint
 
         public const string CHANGE_PRODUCT_STATUS = BASE_URL + "/gateway/products/ChangeProductStatus";
 
+        public const string CHANGE_BRAND_STATUS = BASE_URL + "/gateway/Brands/ChangeBrandStatus";
+
+        public const string INSERT_NEW_BRAND = BASE_URL + "/gateway/Brands/InsertNewBrand";
+
+        public const string UPDATE_BRAND = BASE_URL + "/gateway/Brands/UpdateBrand";
     }
 }
