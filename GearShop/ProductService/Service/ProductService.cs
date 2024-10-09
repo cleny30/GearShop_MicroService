@@ -32,5 +32,17 @@ namespace ProductService.SubService
             }
             return products;
         }
+
+        public ProductDetailModel GetData(string id, List<Product> pro, List<ProductImage> imgs, List<ProductAttribute> att)
+        {
+            List<ProductData> list = GetProducts(pro, imgs, att);
+            var product = list.FirstOrDefault(p => p.ProId.Equals(id));
+            ProductDetailModel model = new ProductDetailModel()
+            {
+                productData = product,
+                products = list.Where(p => p.CateId == product.CateId).ToList()
+            };
+            return model;
+        }
     }
 }

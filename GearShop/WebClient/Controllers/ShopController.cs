@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using WebClient.APIEndPoint;
-using WebClient.Models;
 using WebClient.Service;
 
 namespace WebClient.Controllers

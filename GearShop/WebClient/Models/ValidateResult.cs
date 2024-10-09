@@ -1,6 +1,6 @@
 ﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace WebClient.Service
+namespace WebClient.Models
 {
     public class ValidateResult
     {
