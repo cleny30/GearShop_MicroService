@@ -1,4 +1,4 @@
-﻿namespace WebClient.Service
+﻿namespace WebClient.Models
 {
     public class Error
     {

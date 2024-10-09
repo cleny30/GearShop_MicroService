@@ -160,5 +160,16 @@ namespace ProductService.Controllers
             bool isSuccess = await _repository.ChangeProductStatus(ProId, status);
             return Ok(isSuccess);
         }
+
+        [HttpGet("GetProductDetail/{ProId}")]
+        public async Task<IActionResult> GetProductDetail(string ProId)
+        {
+            SubService.ProductService _service = new SubService.ProductService();
+            List<Product> list = _repository.GetProducts();
+            List<ProductImage> imgs = _repository.GetProductImages();
+            List<ProductAttribute> atts = _repository.GetProductAttributes();
+             var product = _service.GetData(ProId, list, imgs, atts);
+            return Ok(product);
+        }
     }
 }

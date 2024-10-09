@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
-using WebClient.APIEndPoint;
+using WebClient.Models;
 
 namespace WebClient.Service
 {
