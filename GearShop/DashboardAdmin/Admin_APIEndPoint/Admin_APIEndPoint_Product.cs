@@ -46,5 +46,13 @@ namespace DashboardAdmin.Admin_APIEndPoint
         public const string INSERT_NEW_BRAND = BASE_URL + "/gateway/Brands/InsertNewBrand";
 
         public const string UPDATE_BRAND = BASE_URL + "/gateway/Brands/UpdateBrand";
+
+        public const string IS_KEYWORD_EXISTED = BASE_URL + "/gateway/Categories/IsKeywordExisted";
+
+        public const string CHANGE_CATEGORY_STATUS = BASE_URL + "/gateway/Categories/ChangeCategoryStatus";
+
+        public const string INSERT_NEW_CATEGORY = BASE_URL + "/gateway/Categories/InsertNewCategory";
+
+        public const string UPDATE_CATEGORY = BASE_URL + "/gateway/Categories/UpdateCategory";
     }
 }
