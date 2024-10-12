@@ -1,4 +1,5 @@
 ﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 
 namespace Repository.IRepository
 {
@@ -8,5 +9,6 @@ namespace Repository.IRepository
         void UpdateCustomer(CustomerModel customer);
 
         public Task<LoginAccountModel> LoginCustomer(string userLogin, string pass);
+        public Task<Customer> ChangePassword(ChangePasswordModel model);
     }
 }

@@ -1,27 +1,30 @@
 ﻿using BusinessObject.DTOS;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json;
-using System.Net.Http;
+using System.Net.Http.Json;
 using WebClient.APIEndPoint;
 using WebClient.Models;
 using WebClient.Service;
 
 namespace WebClient.Controllers
 {
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
         private readonly AccountService accountService;
         private readonly IHttpContextAccessor _contx;
         private readonly HttpClient client = null;
 
-        public LoginController(AccountService accountService, IHttpContextAccessor contx)
+
+        public AccountController(AccountService accountService, IHttpContextAccessor contx)
         {
             this.accountService = accountService;
             _contx = contx;
             client = new HttpClient();
         }
-        [HttpGet("/Login")]
-        public IActionResult Index()
+        // GET: Account/ChangePassword
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
         {
             string username = _contx.HttpContext.Session.GetString("username");
 
@@ -36,27 +39,39 @@ namespace WebClient.Controllers
             }
             if (!string.IsNullOrEmpty(username))
             {
-                return Redirect("/Home");
+                return View();
             }
+
+
+
             return View();
         }
-        [HttpPost("/Login/OnPostLoginAsync")]
-        public async Task<IActionResult> OnPostLoginAsync(string username, string password, bool isRemember)
+
+
+
+        [HttpPost("/Account/OnPostChangePasswordAsync")]
+        public async Task<IActionResult> OnPostChangePasswordAsync(string oldpassword, string newpassword, string repassword)
         {
             DataResult data = new DataResult();
-
+            string username = _contx.HttpContext.Session.GetString("username");
             try
             {
-                LoginAccountModel model = new LoginAccountModel
+                if (repassword != newpassword)
+                {
+                    data.Message = "Mật khẩu xác nhận không khớp.";
+                    data.IsSuccess = false;
+                    return Content(data.IsSuccess.ToString());
+                }
+
+                ChangePasswordModel model = new ChangePasswordModel
                 {
                     Username = username,
-                    Password = password
+                    OldPassword = oldpassword,
+                    NewPassword = newpassword
                 };
-                /*  var passClient = accountService.CalculateMD5Hash(model.Password);*/
-                var passClient = password;
 
-                var url = string.Format(ApiEndpoints_Customer.GET_CUSTOMER_BY_USERNAME_LOGIN, username, passClient);
-                var response = await client.GetAsync(url);
+
+                var response = await client.PostAsJsonAsync(ApiEndpoints_Customer.CHANGE_PASSWORD, model);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -65,28 +80,20 @@ namespace WebClient.Controllers
 
                     if (customer == null)
                     {
-                        data.Message = "Login fail";
+                        data.Message = "ChangePassword fail";
                         data.IsSuccess = false;
-                        return Content(data.IsSuccess.ToString());
                     }
                     else
                     {
-                        data.Message = "Login success";
+                        data.Message = "ChangePassword success";
                         data.Result = model;
-                        HttpContext.Session.SetString("username", username);
-                        if (isRemember)
-                        {
-                            HttpContext.Response.Cookies.Append("username", username, new Microsoft.AspNetCore.Http.CookieOptions
-                            {
-                                Expires = DateTime.Now.AddDays(3),
-                            });
-                        }
-                        return Redirect("/Home");
                     }
+
+                    return Redirect("/Account/ChangePassword");
                 }
                 else
                 {
-                    data.Message = "Login fail";
+                    data.Message = "ChangePassword fail";
                     data.IsSuccess = false;
                     return Content(data.IsSuccess.ToString());
                 }
@@ -97,15 +104,5 @@ namespace WebClient.Controllers
             }
 
         }
-
-        [HttpPost("/Login/Logout")]
-        public IActionResult Logout()
-        {
-            Response.Cookies.Delete("username");
-            _contx.HttpContext.Session.Remove("username");
-            _contx.HttpContext.Session.Remove("proId");
-            return Content("OK");
-        }
-
     }
 }
