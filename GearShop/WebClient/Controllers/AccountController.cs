@@ -44,7 +44,7 @@ namespace WebClient.Controllers
 
 
 
-            return View();
+            return Redirect("/Login");
         }
 
 
@@ -66,10 +66,10 @@ namespace WebClient.Controllers
                 ChangePasswordModel model = new ChangePasswordModel
                 {
                     Username = username,
-                    OldPassword = oldpassword,
-                    NewPassword = newpassword
+                    OldPassword = accountService.CalculateMD5Hash(oldpassword),
+                    NewPassword = accountService.CalculateMD5Hash(newpassword)
                 };
-
+                
 
                 var response = await client.PostAsJsonAsync(ApiEndpoints_Customer.CHANGE_PASSWORD, model);
 

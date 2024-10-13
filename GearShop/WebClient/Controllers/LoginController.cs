@@ -52,8 +52,7 @@ namespace WebClient.Controllers
                     Username = username,
                     Password = password
                 };
-                /*  var passClient = accountService.CalculateMD5Hash(model.Password);*/
-                var passClient = password;
+                var passClient = accountService.CalculateMD5Hash(model.Password);
 
                 var url = string.Format(ApiEndpoints_Customer.GET_CUSTOMER_BY_USERNAME_LOGIN, username, passClient);
                 var response = await client.GetAsync(url);
