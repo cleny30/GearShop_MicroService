@@ -1,0 +1,18 @@
+﻿using BusinessObject.DTOS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Repository.IRepository
+{
+    public interface ICartRepository
+    {
+        public List<CartModel> GetCarts();
+        public List<CartModel> GetCartsByUsername(string username);
+        public bool AddCart(CartModel _cart);
+        public bool UpdateCartData(CartModel _cart);
+        public void DeleteCartById(string proId, string username);
+    }
+}
