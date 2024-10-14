@@ -105,7 +105,10 @@
                                 </div>
                             </td>
                             <td class="align-middle text-lg max-w-5">
-                                <span id="total-@item.Product.ProId">@item.CartModel.ProPrice</span>
+                                @{
+                                    var ProPrice = item.CartModel.ProPrice * item.CartModel.Quantity;
+                                }
+                                        <span id="total-@item.Product.ProId">@ProPrice</span>
                             </td>
                             <td class="align-middle">
                                 <button class="btn-common btn mt-0 " data-proId="@item.Product.ProId" onclick="DeleteItem(this)">
