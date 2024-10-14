@@ -76,15 +76,7 @@ namespace CustomerService.Controllers
         {
             try
             {
-                // Change the password
                 var customer = await _customerRepository.ChangePassword(model);
-
-                var service = new EmailService();
-
-                string body = $"<p>Your password have been changed !!!</p>";
-
-                await service.SendEmailAsync(customer.Email, "Change Password", body);
-
 
                 return Ok(new { message = "Password changed successfully." });
             }
