@@ -9,7 +9,7 @@
         public const string UPDATE_CUSTOMER_BY_USERNAME = $"{BASE_URL}/gateway/customers/{{0}}";
 
         public const string GET_CUSTOMER_BY_USERNAME_LOGIN = $"{BASE_URL}/gateway/customers/GetCustomerByUsername/{{0}}/{{1}}";
-      
+        public const string CHANGE_PASSWORD = $"{BASE_URL}/gateway/customers/ChangePassword";
 
     }
 }

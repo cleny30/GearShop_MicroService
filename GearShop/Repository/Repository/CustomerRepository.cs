@@ -1,4 +1,5 @@
 ﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using DataAccess.DAO;
 using Repository.IRepository;
 
@@ -13,5 +14,7 @@ namespace Repository.Repository
         => CustomerDAO.ClientLogin(userLogin, pass);
 
         public void UpdateCustomer(CustomerModel customerDTO) => CustomerDAO.UpdateCustomer(customerDTO);
+
+        public Task<Customer> ChangePassword(ChangePasswordModel model) => CustomerDAO.ClientChangePassword(model);
     }
 }

@@ -81,5 +81,32 @@ namespace DataAccess.DAO
             return null;
 
         }
+
+        public static async Task<Customer> ClientChangePassword(ChangePasswordModel model)
+        {
+
+            using (var context = new CustomerContext())
+            {
+                var customer = await context.Customers.FirstOrDefaultAsync(c => c.Username == model.Username);
+                if (customer != null)
+                {
+                    if (customer.Password != model.OldPassword) throw new Exception("Old Password not correct");
+
+
+                    customer.Password = model.NewPassword;
+
+                    context.Entry(customer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                    await context.SaveChangesAsync();
+
+                    return customer;
+                }
+                else
+                {
+                    throw new Exception("Customer not found");
+                }
+            }
+
+        }
     }
 }
