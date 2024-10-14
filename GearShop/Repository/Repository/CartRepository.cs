@@ -24,10 +24,7 @@ namespace Repository.Repository
             throw new NotImplementedException();
         }
 
-        public List<CartModel> GetCartsByUsername(string username)
-        {
-            throw new NotImplementedException();
-        }
+        public List<CartModel> GetCartsByUsername(string username)=>cartDAO.GetCartsByUsername(username);
 
         public bool UpdateCartData(CartModel _cart)
         {

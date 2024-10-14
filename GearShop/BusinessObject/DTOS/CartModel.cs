@@ -21,7 +21,7 @@ namespace BusinessObject.DTOS
 
     public class UserCartData
     {
-        public CartModel model { get; set; }
+        public CartModel CartModel { get; set; }
 
         public ProductData Product { get; set; }
     }

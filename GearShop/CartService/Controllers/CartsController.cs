@@ -21,5 +21,11 @@ namespace CartService.Controllers
         {
             return cartRepository.AddCart(cart);
         }
+
+        [HttpGet]
+        public ActionResult<List<CartModel>> GetCartByUsername(string username)
+        {
+            return cartRepository.GetCartsByUsername(username);
+        }
     }
 }
