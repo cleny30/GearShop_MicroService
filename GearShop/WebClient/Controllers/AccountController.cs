@@ -52,15 +52,14 @@ namespace WebClient.Controllers
         [HttpPost("/Account/OnPostChangePasswordAsync")]
         public async Task<IActionResult> OnPostChangePasswordAsync(string oldpassword, string newpassword, string repassword)
         {
-            DataResult data = new DataResult();
             string username = _contx.HttpContext.Session.GetString("username");
+
             try
             {
                 if (repassword != newpassword)
                 {
-                    data.Message = "Mật khẩu xác nhận không khớp.";
-                    data.IsSuccess = false;
-                    return Content(data.IsSuccess.ToString());
+                    TempData["ErrorMessage"] = "Mật khẩu xác nhận không khớp.";
+                    return RedirectToAction("ChangePassword");
                 }
 
                 ChangePasswordModel model = new ChangePasswordModel
@@ -69,7 +68,6 @@ namespace WebClient.Controllers
                     OldPassword = accountService.CalculateMD5Hash(oldpassword),
                     NewPassword = accountService.CalculateMD5Hash(newpassword)
                 };
-                
 
                 var response = await client.PostAsJsonAsync(ApiEndpoints_Customer.CHANGE_PASSWORD, model);
 
@@ -80,29 +78,26 @@ namespace WebClient.Controllers
 
                     if (customer == null)
                     {
-                        data.Message = "ChangePassword fail";
-                        data.IsSuccess = false;
+                        TempData["ErrorMessage"] = "ChangePassword failed.";
                     }
                     else
                     {
-                        data.Message = "ChangePassword success";
-                        data.Result = model;
+                        TempData["SuccessMessage"] = "Password changed successfully!";
                     }
 
-                    return Redirect("/Account/ChangePassword");
+                    return RedirectToAction("ChangePassword");
                 }
                 else
                 {
-                    data.Message = "ChangePassword fail";
-                    data.IsSuccess = false;
-                    return Content(data.IsSuccess.ToString());
+                    TempData["ErrorMessage"] = "ChangePassword failed.";
+                    return RedirectToAction("ChangePassword");
                 }
             }
             catch (Exception ex)
             {
-                return Content($"Error: {ex.Message}");
+                TempData["ErrorMessage"] = $"Error: {ex.Message}";
+                return RedirectToAction("ChangePassword");
             }
-
         }
     }
 }
