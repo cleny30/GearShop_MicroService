@@ -59,6 +59,7 @@ namespace WebClient.Controllers
             }
         }
 
+
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(CustomerModel accountModel)
         {
