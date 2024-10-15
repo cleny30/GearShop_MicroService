@@ -66,13 +66,12 @@ namespace DataAccess.DAO
             }
         }
 
-        public bool AddOrUpdateCart(CartModel _cart)
+        public bool Add(CartModel _cart)
         {
             if (_cart == null)
             {
                 throw new ArgumentNullException(nameof(_cart), "CartModel cannot be null");
             }
-
             try
             {
                 using (var dbContext = new CartContext())
@@ -81,87 +80,74 @@ namespace DataAccess.DAO
                     int result = 0;
                     if (existCart == null)
                     {
-                        //TODO ADD
                         Cart cart = new Cart();
+                        //TODO ADD NEW CART
                         cart.Username = _cart.Username;
                         cart.ProPrice = _cart.ProPrice * _cart.Quantity;
-
                         dbContext.Carts.Add(cart);
                         dbContext.SaveChanges();
-                        // Use the CartId from the cart object directly
                         CartItem item = new CartItem();
                         item.CopyProperties(_cart);
                         item.CartId = cart.CartId;
                         item.Price = _cart.ProPrice;
                         dbContext.CartItems.Add(item);
                         result = dbContext.SaveChanges();
-                        return result > 0;
                     }
                     else
                     {
-                        //TODO UPDATE CART
-
-                        var c = dbContext.CartItems.FirstOrDefault(c => c.ProId == _cart.ProId);
+                        existCart.ProPrice += _cart.ProPrice * _cart.Quantity;
+                        dbContext.Entry<Cart>(existCart).State = EntityState.Modified;
+                        dbContext.SaveChanges();
+                        CartItem item = new CartItem();
+                        item.CopyProperties(_cart);
+                        item.CartId = existCart.CartId;
+                        item.Price = _cart.ProPrice;
+                        dbContext.CartItems.Add(item);
+                        result = dbContext.SaveChanges();
                         
-                        if(c == null)
-                        {
-                            //TODO ADD NEW ROW FOR CART ITEM
-                            existCart.ProPrice += _cart.ProPrice * _cart.Quantity;
-                            dbContext.Entry<Cart>(existCart).State = EntityState.Modified;
-                            dbContext.SaveChanges();
-
-                            CartItem item = new CartItem();
-                            item.CopyProperties(_cart);
-                            item.CartId = existCart.CartId;
-                            item.Price = _cart.ProPrice;
-                            dbContext.CartItems.Add(item);
-                            result = dbContext.SaveChanges();
-                        }
-                        else
-                        {
-                            //TODO UPDATE CART ITEM
-                            c.Quantity = _cart.Quantity;
-                            dbContext.Entry<CartItem>(c).State = EntityState.Modified;
-                            result = dbContext.SaveChanges();
-
-                            var totalPrice = dbContext.CartItems
-                                .Where(c => c.CartId == existCart.CartId)
-                                .Sum(c => c.Price * c.Quantity);
-
-                            existCart.ProPrice = totalPrice;
-                            dbContext.Entry<Cart>(existCart).State = EntityState.Modified;
-                            dbContext.SaveChanges();
-                        }
-                        return result > 0;
                     }
+                    return result > 0;
                 }
             }
             catch (Exception ex)
             {
-                // Log the exception using a logging framework
-                // Example: logger.LogError(ex, "An error occurred while adding a cart");
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return false;
             }
-        }
 
-        public bool UpdateCartData(CartModel _cart)
+        }
+        public bool Update(CartModel _cart)
         {
-            Cart cart = new Cart();
-            cart.CopyProperties(_cart);
+            if (_cart == null)
+            {
+                throw new ArgumentNullException(nameof(_cart), "CartModel cannot be null");
+            }
             try
             {
-                var dbContext = new CartContext();
-                dbContext.Entry<Cart>(cart).State = EntityState.Modified;
-                int result = dbContext.SaveChanges();
-                if (result > 0)
+                using (var dbContext = new CartContext())
                 {
-                    return true;
+                    var existCart = dbContext.Carts.FirstOrDefault(c => c.Username == _cart.Username);
+                    var cartItem = dbContext.CartItems.FirstOrDefault(c => c.ProId == _cart.ProId && c.CartId == existCart.CartId);
+                    int result = 0;
+                    if (cartItem != null)
+                    {
+                        //TODO UPDATE CART ITEM
+                        cartItem.Quantity = _cart.Quantity;
+                        dbContext.Entry<CartItem>(cartItem).State = EntityState.Modified;
+                        result = dbContext.SaveChanges();
+
+                        var totalPrice = dbContext.CartItems
+                            .Where(c => c.CartId == existCart.CartId)
+                            .Sum(c => c.Price * c.Quantity);
+
+                        existCart.ProPrice = totalPrice;
+                        dbContext.Entry<Cart>(existCart).State = EntityState.Modified;
+                        dbContext.SaveChanges();
+                    }
+                    return result > 0;
+
                 }
-                else
-                {
-                    return false;
-                }
+                    
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using BusinessObject.DTOS;
+using CartService.SubService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.IRepository;
@@ -16,10 +17,12 @@ namespace CartService.Controllers
             this.cartRepository = cartRepository;
         }
 
-        [HttpPost("AddToCart")]
-        public ActionResult<bool> AddToCart([FromBody] CartModel cart)
+        [HttpPost("AddOrUpdateCart")]
+        public ActionResult<bool> AddOrUpdateCart([FromBody] CartRequest request)
         {
-            return cartRepository.AddCart(cart);
+            Service service = new Service(cartRepository);
+
+            return service.AddOrUpdateCart(request.UserCartData, request.Amount);
         }
 
         [HttpGet]

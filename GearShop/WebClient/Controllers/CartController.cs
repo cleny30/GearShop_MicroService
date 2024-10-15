@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using WebClient.APIEndPoint;
 using WebClient.Models;
@@ -52,6 +53,58 @@ namespace WebClient.Controllers
                 return View(list);
             }
             return RedirectToAction("Index", "Login");
+        }
+
+        [HttpPost]
+        [Route("Cart/AddProductToCart")]
+        public async Task<IActionResult> AddProductToCart(string data, int amount)
+        {
+            string userSession = _contx.HttpContext.Session.GetString("username");
+
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                ProductData productData = System.Text.Json.JsonSerializer.Deserialize<ProductData>(data);
+
+
+                var cartRequest = new CartRequest
+                {
+                    UserCartData = new UserCartData
+                    {
+                        CartModel = new CartModel
+                        {
+                            Username = userSession,
+                            ProId = productData.ProId,
+                            ProName = productData.ProName,
+                        },
+                        Product = productData
+                    },
+                    Amount = amount
+                };
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                string jsonData = JsonSerializer.Serialize(cartRequest, options);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var str = ApiEndPoints_Cart.ADD_OR_UPDATE;
+                var _response = await client.PostAsync(ApiEndPoints_Cart.ADD_OR_UPDATE, content);
+
+                if (_response.IsSuccessStatusCode)
+                {
+                    return Ok(true);
+                }
+                else
+                {
+                    // Handle error response
+                    return StatusCode((int)_response.StatusCode, "Failed to add product to cart.");
+                }
+            }
+            else
+            {
+                return Unauthorized("User session is not available.");
+            }
         }
     }
 }

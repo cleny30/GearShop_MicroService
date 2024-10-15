@@ -12,7 +12,7 @@ namespace Repository.Repository
     public class CartRepository : ICartRepository
     {
         private readonly CartDAO cartDAO = new CartDAO();
-        public bool AddCart(CartModel _cart)=>cartDAO.AddOrUpdateCart(_cart);
+        public bool AddCart(CartModel _cart)=>cartDAO.Add(_cart);
 
         public void DeleteCartById(string proId, string username)
         {
@@ -26,9 +26,6 @@ namespace Repository.Repository
 
         public List<CartModel> GetCartsByUsername(string username)=>cartDAO.GetCartsByUsername(username);
 
-        public bool UpdateCartData(CartModel _cart)
-        {
-            throw new NotImplementedException();
-        }
+        public bool UpdateCartData(CartModel _cart)=> cartDAO.Update(_cart);
     }
 }
