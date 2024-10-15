@@ -54,5 +54,7 @@ namespace DashboardAdmin.Admin_APIEndPoint
         public const string INSERT_NEW_CATEGORY = BASE_URL + "/gateway/Categories/InsertNewCategory";
 
         public const string UPDATE_CATEGORY = BASE_URL + "/gateway/Categories/UpdateCategory";
+
+        public const string ADD_QUANTITY_TO_PRODUCT = BASE_URL + "/gateway/products/AddQuantityToProduct";
     }
 }

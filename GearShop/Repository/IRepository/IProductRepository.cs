@@ -20,5 +20,6 @@ namespace Repository.IRepository
         public Task<ProductModel> GetProductByID(string ProId);
         public Task<bool> UpdateProduct(ProductData product);
         public Task<bool> ChangeProductStatus(string ProId, bool Status);
+        public Task<bool> AddQuantityToProduct(List<ReceiptProductModel> products);
     }
 }

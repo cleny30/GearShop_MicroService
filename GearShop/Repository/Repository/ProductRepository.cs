@@ -37,5 +37,8 @@ namespace Repository.Repository
 
         public async Task<bool> ChangeProductStatus(string ProId, bool Status)
         => await ProductDAO.ChangeProductStatus(ProId, Status);
+
+        public async Task<bool> AddQuantityToProduct(List<ReceiptProductModel> products)
+        => await ProductDAO.AddQuantityToProduct(products);
     }
 }
