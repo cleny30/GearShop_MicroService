@@ -30,5 +30,11 @@ namespace CartService.Controllers
         {
             return cartRepository.GetCartsByUsername(username);
         }
+
+        [HttpPost("UpdateCart")]
+        public ActionResult<bool> UpdateCart([FromBody] CartModel data)
+        {
+            return cartRepository.UpdateCartData(data);
+        }
     }
 }

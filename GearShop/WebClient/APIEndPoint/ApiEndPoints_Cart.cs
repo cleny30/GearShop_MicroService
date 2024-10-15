@@ -7,5 +7,6 @@
         public const string GET_CART_BY_USERNAME = $"{BASE_URL}/gateway/carts";
 
         public const string ADD_OR_UPDATE = $"{BASE_URL}/gateway/carts/AddOrUpdateCart";
+        public const string UPDATE_CART = $"{BASE_URL}/gateway/carts/UpdateCart";
     }
 }
