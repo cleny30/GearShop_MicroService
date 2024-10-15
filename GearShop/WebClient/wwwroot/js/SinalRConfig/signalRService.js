@@ -3,6 +3,10 @@ const connection = new signalR.HubConnectionBuilder()
     .withUrl("/signalrServer?username=" + username)
     .build();
 
+$(document).ready(function () {
+
+})
+
 connection.start()
     .then(() => {
         console.log("Connected to SignalR hub with Connection ID: " + connection.connectionId);
