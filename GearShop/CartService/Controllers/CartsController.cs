@@ -36,5 +36,11 @@ namespace CartService.Controllers
         {
             return cartRepository.UpdateCartData(data);
         }
+
+        [HttpDelete("Delete/{proId}/{username}")]
+        public ActionResult<bool> DeleteCart(string proId, string username)
+        {
+            return cartRepository.DeleteCartById(proId, username);
+        }
     }
 }

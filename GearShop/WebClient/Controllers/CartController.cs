@@ -2,6 +2,7 @@
 using BusinessObject.Models.Entity;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -158,14 +159,25 @@ namespace WebClient.Controllers
             return data;
         }
 
-        //[HttpPost]
-        //public DataResult Delete(string ProId)
-        //{
-        //    string userSession = _contx.HttpContext.Session.GetString("username");
-        //    DataResult data = new DataResult();
-        //    data.IsSuccess = cartService.DeleteCartById(ProId, userSession);
-        //    _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName(userSession).Count()));
-        //    return data;
-        //}
+        [HttpPost]
+        public async Task<DataResult> Delete(string ProId)
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            DataResult data = new DataResult();
+            var url = string.Format(ApiEndPoints_Cart.DELETE_CART, ProId, userSession);
+            HttpResponseMessage response = await client.DeleteAsync(url);
+            if (response.IsSuccessStatusCode) {
+                data.IsSuccess = true;
+                var _cartResponse = await client.GetAsync($"{ApiEndPoints_Cart.GET_CART_BY_USERNAME}?username={userSession}");
+                string strCart = await _cartResponse.Content.ReadAsStringAsync();
+                List<CartModel> cartList = JsonSerializer.Deserialize<List<CartModel>>(strCart, options);
+                _contx.HttpContext.Session.SetString("cartQuantity", Newtonsoft.Json.JsonConvert.SerializeObject(cartList.Count()));
+            }
+            return data;
+        }
     }
 }

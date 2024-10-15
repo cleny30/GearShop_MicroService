@@ -104,7 +104,7 @@ namespace DataAccess.DAO
                         item.Price = _cart.ProPrice;
                         dbContext.CartItems.Add(item);
                         result = dbContext.SaveChanges();
-                        
+
                     }
                     return result > 0;
                 }
@@ -147,7 +147,7 @@ namespace DataAccess.DAO
                     return result > 0;
 
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -155,26 +155,31 @@ namespace DataAccess.DAO
             }
         }
 
-        //public void DeleteCartById(string proId, string username)
-        //{
-        //    var id = proId.Split(',');
-        //    try
-        //    {
-        //        using (var context = new CartContext())
-        //        {
+        public bool DeleteCartById(string proId, string username)
+        {
+            try
+            {
+                using (var dbContext = new CartContext())
+                {
+                    var existCart = dbContext.Carts.FirstOrDefault(c => c.Username == username);
+                    var cart = dbContext.CartItems.FirstOrDefault(c => c.CartId == existCart.CartId && c.ProId == proId);
+                    dbContext.CartItems.Remove(cart);
 
-        //            foreach (var item in id)
-        //            {
-        //                var cart = context.Carts.FirstOrDefault(c => c.Username == username && c.ProId == item);
-        //                context.Carts.Remove(cart);
-        //            }
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
+                    dbContext.SaveChanges();
+
+                    if(dbContext.CartItems.FirstOrDefault(c => c.CartId == existCart.CartId) == null)
+                    {
+                        dbContext.Carts.Remove(existCart);
+                    }
+                    int result = dbContext.SaveChanges();
+
+                    return result > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

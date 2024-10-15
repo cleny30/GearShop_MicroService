@@ -14,10 +14,7 @@ namespace Repository.Repository
         private readonly CartDAO cartDAO = new CartDAO();
         public bool AddCart(CartModel _cart)=>cartDAO.Add(_cart);
 
-        public void DeleteCartById(string proId, string username)
-        {
-            throw new NotImplementedException();
-        }
+        public bool DeleteCartById(string proId, string username)=> cartDAO.DeleteCartById(proId, username);
 
         public List<CartModel> GetCarts()
         {
