@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Models.Entity;
 using Dashboard_Admin;
+using DashboardAdmin.ImportingProductManagament;
 using DashboardAdmin.ProductManagement;
 using System.IO;
 using System.Net.Http;
@@ -47,7 +48,7 @@ namespace DashboardAdmin
 
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
-            //frMain.Content = new ImportProductPage();
+            frMain.Content = new ImportProductPage();
         }
 
         private void ImportReceipt_Click(object sender, RoutedEventArgs e)

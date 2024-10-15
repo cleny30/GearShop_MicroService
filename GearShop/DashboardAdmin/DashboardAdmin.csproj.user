@@ -22,6 +22,15 @@
     <Compile Update="Dashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ImportingProductManagament\ImportProductChooser.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportProductPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportReceiptPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ProductManagement\AddProduct.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -43,6 +52,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Dashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportProductChooser.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportProductPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportReceiptPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
