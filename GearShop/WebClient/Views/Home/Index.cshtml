@@ -16,6 +16,12 @@
     var mouseList = shopModel.products.FindAll(p => p.CateId == mouseCategoryId).Take(8);
     var keyboardList = shopModel.products.FindAll(p => p.CateId == keyboardCategoryId).Take(8);
 }
+<script>
+     var usernameView = '@ViewBag.Username';
+     if (usernameView) {
+         sessionStorage.setItem('username', usernameView);
+     }
+</script>
 
 <!-- Carousel Start -->
 <div class="container-fluid mb-3">
