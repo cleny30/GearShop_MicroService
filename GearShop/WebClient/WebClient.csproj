@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <ProjectReference Include="..\BusinessObject\BusinessObject.csproj" />
+	  <None Include="wwwroot\js\signalr\dist\browser\signalr.js" />
+	  <None Include="wwwroot\js\signalr\dist\browser\signalr.min.js" />
   </ItemGroup>
 
 </Project>
