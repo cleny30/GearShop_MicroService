@@ -41,5 +41,19 @@ namespace ImportProductService.Controllers
             var isSuccess = await _repository.AddReceiptProduct(list);
             return Ok(isSuccess); 
         }
+
+        [HttpGet("GetImportProductByID")]
+        public async Task<IActionResult> GetImportProductByID(int ImportProductId)
+        {
+            ImportProductModel model = await _repository.GetImportProduct(ImportProductId);
+            return Ok(model);
+        }
+
+        [HttpGet("GetReceiptProductByID")]
+        public async Task<IActionResult> GetReceiptProductByID(int ImportProductId)
+        {
+            List<ReceiptProductModel> list = await _repository.GetReceiptProductsByID(ImportProductId);
+            return Ok(list);
+        }
     }
 }

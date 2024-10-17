@@ -53,7 +53,7 @@ namespace DashboardAdmin
 
         private void ImportReceipt_Click(object sender, RoutedEventArgs e)
         {
-            //frMain.Content = new ImportReceiptPage();
+            frMain.Content = new ImportReceiptPage();
         }
 
         private void OrderManagement_Click(object sender, RoutedEventArgs e)
@@ -63,6 +63,22 @@ namespace DashboardAdmin
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            string FilePath = "RememberMe.json";
+            string jsonContent = File.ReadAllText(FilePath);
+            var settings = JsonSerializer.Deserialize<Settings>(jsonContent);
+
+            if (settings != null && settings.RememberMe)
+            {
+            }
+            else
+            {
+                string managerPath = "ManagerUsername.json";
+                if (File.Exists(managerPath))
+                {
+                    File.Delete(managerPath);
+                }
+            }
+
             this.Close();
         }
 
@@ -73,6 +89,13 @@ namespace DashboardAdmin
             string jsonContent = JsonSerializer.Serialize(settings);
 
             File.WriteAllText(FilePath, jsonContent);
+
+            string managerPath = "ManagerUsername.json";
+            if (File.Exists(managerPath))
+            {
+                File.Delete(managerPath);
+            }
+
             Loginpage loginpage = new Loginpage();
             this.Close();
             loginpage.Show();

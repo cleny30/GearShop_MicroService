@@ -13,5 +13,7 @@ namespace Repository.IRepository
         public Task<double> GetMoneySpent();
         public Task<ImportProductModel> CreateImportReceipt(ImportProductModel _ImportProduct);
         public Task<bool> AddReceiptProduct(List<ReceiptProductModel> list);
+        public Task<ImportProductModel> GetImportProduct(int ImportProductId);
+        public Task<List<ReceiptProductModel>> GetReceiptProductsByID(int ImportProductId);
     }
 }

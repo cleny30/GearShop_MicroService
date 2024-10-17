@@ -8,11 +8,11 @@ namespace BusinessObject.DTOS
 {
     public class ImportProductModel
     {
-        public int ReceiptId { get; set; }
+        public int ImportProductId { get; set; }
 
         public DateOnly DateImport { get; set; }
 
-        public string PersonChange { get; set; } = null!;
+        public string PersonInCharge { get; set; } = null!;
 
         public double Payment { get; set; }
     }

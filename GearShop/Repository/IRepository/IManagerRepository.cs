@@ -1,4 +1,5 @@
-﻿using BusinessObject.Models.Entity;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace Repository.IRepository
         public Task<Boolean> CheckUsernameExistedAsync(string username);
 
         public Task<Boolean> CheckManagerExistedAsync(string username, string password);
+
+        public Task<ManagerModel> GetManagerByUsername(string username);
     }
 }

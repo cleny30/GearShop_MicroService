@@ -1,4 +1,5 @@
-﻿using BusinessObject.Models.Entity;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
 using DashboardAdmin;
 using DashboardAdmin.Service;
 using System;
@@ -30,6 +31,7 @@ namespace Dashboard_Admin
 
 
         string filePath = "RememberMe.json";
+        string managerPath = "ManagerUsername.json";
         private readonly HttpClient client;
         
         public Loginpage()
@@ -52,6 +54,8 @@ namespace Dashboard_Admin
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            var loginService = new LoginService(client);
+
             Overlay.Visibility = Visibility.Visible;
             bool? isChecked = RememberMeCheckbox.IsChecked;
             if (await VerificationAsync())
@@ -75,6 +79,22 @@ namespace Dashboard_Admin
                         File.WriteAllText(filePath, jsonContent);
                     }
                 }
+
+                if (!File.Exists(managerPath))
+                {
+                    ManagerModel model = await loginService.GetManagerByUsername(txtUsername.Text);
+
+                    // Create a simple JSON object
+                    var jsonObject = new { Username = model.Fullname};
+
+                    // Serialize the object to a JSON string
+                    string jsonContent = JsonSerializer.Serialize(jsonObject);
+
+                    // Write the JSON content to the file
+                    File.WriteAllText(managerPath, jsonContent);
+                }
+
+
                 Overlay.Visibility = Visibility.Collapsed;
                 MainWindow main = new MainWindow();
                 main.Show();

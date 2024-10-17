@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessObject.DTOS;
+using BusinessObject.Models.Entity;
+using System;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -31,6 +33,16 @@ namespace DashboardAdmin.Service
             var response = await _client.GetAsync($"{Admin_APIEndPoint_Manager.CHECK_MANAGER_EXISTED}?username={username}&password={password}");
             var strData = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<bool>(strData, options);
+        }
+
+        public async Task<ManagerModel> GetManagerByUsername(string username)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            // Kiểm tra xem tên người dùng và mật khẩu có khớp không
+            var response = await _client.GetAsync($"{Admin_APIEndPoint_Manager.GET_MANAGER_BY_USERNAME}?username={username}");
+            var strData = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<ManagerModel>(strData, options);
         }
     }
 }

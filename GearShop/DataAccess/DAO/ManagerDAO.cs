@@ -1,5 +1,7 @@
 ﻿using BusinessObject.Core;
+using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
+using ISUZU_NEXT.Server.Core.Extentions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,25 @@ namespace DataAccess.DAO
                 throw new Exception(e.Message);
             }
             return list;
+        }
+
+        public static async Task<ManagerModel> GetManagerByUsername(string username)
+        {
+            try
+            {
+                using (var dbContext = new ManagerContext())
+                {
+                    Manager _manager = await dbContext.Managers.FirstOrDefaultAsync(x => x.Username == username);
+                    ManagerModel model = new ManagerModel();
+                    model.CopyProperties(_manager);
+                    return model;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as necessary
+                return null;
+            }
         }
 
         public static async Task<Boolean> CheckUsernameExistedAsync(string username)
