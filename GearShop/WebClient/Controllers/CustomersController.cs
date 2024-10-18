@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Core;
 using BusinessObject.DTOS;
+using BusinessObject.Model.Entity;
 using BusinessObject.Models.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -73,6 +74,23 @@ namespace WebClient.Controllers
             string url = string.Format(ApiEndpoints_Customer.UPDATE_CUSTOMER_BY_USERNAME, username);
             HttpResponseMessage response = await client.PutAsync(url, content);
             return Ok(true);
+        }
+        [HttpGet("/Account/MyAddress")]
+        public async Task<IActionResult> MyAddress()
+        {
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return NotFound();
+            }
+            HttpResponseMessage _customerResponse = await client.GetAsync(ApiEndpoints_Customer.GET_ALL_ADDRESS);
+            string strcustomer = await _customerResponse.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<DeliveryAddressModel> addressList = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strcustomer, options);
+            return View(addressList);
         }
     }
 }

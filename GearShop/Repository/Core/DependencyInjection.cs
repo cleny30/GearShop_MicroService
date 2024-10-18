@@ -23,6 +23,7 @@ namespace Repository.Core
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
             services.AddScoped<IProductImageRepository, ProductImageRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
         }
     }
 }
