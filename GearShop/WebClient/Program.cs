@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using WebClient.Service;
 using WebClient;
 
+using WebClient.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -24,6 +26,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

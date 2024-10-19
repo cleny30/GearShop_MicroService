@@ -16,5 +16,10 @@ namespace Repository.Repository
         public void UpdateCustomer(CustomerModel customerDTO) => CustomerDAO.UpdateCustomer(customerDTO);
 
         public Task<Customer> ChangePassword(ChangePasswordModel model) => CustomerDAO.ClientChangePassword(model);
+        public Task<bool> CheckMail(string mail)
+       => CustomerDAO.CheckMail(mail);
+
+        public void ForgetPassword(string mail, string pass)
+        => CustomerDAO.ForgetPassword(mail, pass);
     }
 }

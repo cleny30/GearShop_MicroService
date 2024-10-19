@@ -10,6 +10,7 @@ $(document).ready(function () {
     var $rePassword = $('#rePassword');
     var $submit = $('#submit');
 
+    var otpSentTime; 
 //Vô hiệu hoá nút gửi OTP đến emai và nút Kiểm tra mã OTP
     $BtnSend.prop("disabled", true);
     $BtnOtp.prop("disabled", true);
@@ -19,7 +20,7 @@ $(document).ready(function () {
         $("#EntryOTP").addClass('showform');
         $("#Entryemail").removeClass('showform');
         $('#btnreSend').css('pointer-events', 'none');
-        updateCountdown(20);
+        updateCountdown(30);
     });
 
 
@@ -60,11 +61,12 @@ $(document).ready(function () {
                 data: {
                     email: email,
                 },
-                url: '/Account/CheckEmail'
+                url: '/Account/CheckEmailAsync'
             });
 
             request.done(function (result) {
-                if (result === "false") {
+                var isValid = result === "true"; 
+                if (!isValid) {
                     console.log("result là: " + result);
                     $emailErrorMessage.text("Email does not exist");
                     $BtnSend.prop("disabled", true);
@@ -97,12 +99,17 @@ $(document).ready(function () {
         });
 
         request.done(function (result) {
-            if (result !== null) {
-                console.log("result là: " + result);
-                $ServerOTP.val(result);
+         
+            console.log("Server response: ", result);
+            if (result.otp !== null) {
+                console.log("result là: " + result.otp);
+                $ServerOTP.val(result.otp);
                 console.log("mã server là: " + $ServerOTP.val());
+                otpSentTime = new Date().getTime(); // Lưu thời gian gửi OTP
+               
             }
         });
+      
 
         request.fail(function (jqXHR, textStatus) {
             console.log("Request failed: " + textStatus);
@@ -115,14 +122,20 @@ $(document).ready(function () {
         for (var i = 1; i <= 6; i++) {
             OTP += $('#otp' + i).val();
         }
-
+        var currentTime = new Date().getTime(); 
+        var timeLimit = 1.5 * 60 * 1000;
         var ServerOtp = $ServerOTP.val();
         console.log("JS OTP is: " + OTP);
         console.log("JS ServerOtp is: " + ServerOtp);
+
+        if (otpSentTime && (currentTime - otpSentTime > timeLimit)) {
+            $('#err-otp-msg').text('OTP has expired! Please request a new one.');
+            return;
+        }
         if (OTP === ServerOtp) {
             $("#Resetpass").addClass("showform");
             $("#EntryOTP").removeClass("showform");
-            $('err-otp-msg').text('');
+            $('#err-otp-msg').text('');
         } else {
             $('#err-otp-msg').text('OTP is incorrect!');
         }
@@ -169,40 +182,44 @@ function ResendOTP() {
     var $email = $('#email');
     var email = $email.val();
     var $ServerOTP = $('#ServerOTP');
-    $("#btnreSend").append('<span id="countDown">(20)</span>');
 
 
-    $('#btnreSend').css('pointer-events', 'none');
+    if ($('#countDown').length === 0) {
+        $("#btnreSend").append('<span id="countDown">(30)</span>');
+        $('#btnreSend').css('pointer-events', 'none'); // Vô hiệu hóa nút gửi lại
+        console.log("bam dc");
 
-    console.log("bam dc");
-    var request = $.ajax({
-        type: 'POST',
-        data: {
-            email: email
-        },
-        url: '/Account/SendOTP'
-    });
+        var request = $.ajax({
+            type: 'POST',
+            data: {
+                email: email
+            },
+            url: '/Account/SendOTP'
+        });
 
-    request.done(function (result) {
-        if (result !== null) {
-            console.log("result lÃ : " + result);
-            $ServerOTP.val(result);
-            console.log("mÃ£ server lÃ : " + $ServerOTP.val());
-            updateCountdown(20);
-        }
-    });
+        request.done(function (result) {
+            if (result.otp !== null) {
+                console.log("result là: " + result.otp);
+                $ServerOTP.val(result.otp);
+                console.log("mã server là: " + $ServerOTP.val());
+                otpSentTime = new Date().getTime(); // Lưu thời gian gửi OTP
+                updateCountdown(30); // Bắt đầu đếm ngược
+            }
+        });
+    }
 }
 
+
 function updateCountdown(count) {
-    $('#countDown').text('(' + count + ')');
+    $('#countDown').text('(' + count + ')'); // Cập nhật đếm ngược
 
     if (count <= 0) {
-        // Remove the countdown and enable the "Resend OTP" button
+        // Xóa đếm ngược và cho phép gửi lại
         $('#countDown').remove();
-        $('#btnreSend').css('pointer-events', 'auto');
+        $('#btnreSend').css('pointer-events', 'auto'); // Kích hoạt nút gửi lại
     } else {
         setTimeout(function () {
-            updateCountdown(count - 1);
+            updateCountdown(count - 1); // Gọi lại với giá trị đếm ngược giảm đi 1
         }, 1000);
     }
 }
