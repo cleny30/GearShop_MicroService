@@ -11,5 +11,9 @@
         public const string GET_CUSTOMER_BY_USERNAME_LOGIN = $"{BASE_URL}/gateway/customers/GetCustomerByUsername/{{0}}/{{1}}";
         public const string CHANGE_PASSWORD = $"{BASE_URL}/gateway/customers/ChangePassword";
 
+
+        public const string GET_ALL_ADDRESS = $"{BASE_URL}/gateway/customers/GetAddress?username={{0}}";
+      
+        
     }
 }
