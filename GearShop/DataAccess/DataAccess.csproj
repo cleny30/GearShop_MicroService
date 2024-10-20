@@ -10,20 +10,4 @@
     <ProjectReference Include="..\BusinessObject\BusinessObject.csproj" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resource\Template.Designer.cs">
-      <DependentUpon>Template.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resource\Template.resx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LastGenOutput>Template.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
 </Project>

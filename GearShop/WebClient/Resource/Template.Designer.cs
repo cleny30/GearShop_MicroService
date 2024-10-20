@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.Resource {
+namespace WebClient.Resource {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DataAccess.Resource {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DataAccess.Resource.Template", typeof(Template).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WebClient.Resource.Template", typeof(Template).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

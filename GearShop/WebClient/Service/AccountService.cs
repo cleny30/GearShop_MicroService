@@ -80,13 +80,14 @@ namespace WebClient.Service
                 Console.WriteLine($"OTP created: {otp}");
                 DateTime date = DateTime.Now;
 
-                string htmlContent = "";
+                string resxFilePath = "WebClient.Resource.Template";
 
-                htmlContent = "<div style='width:100%;background-color:grey'>";
-                htmlContent += "<h1>Hi, Thanks for using my service</h1>";
-                htmlContent += "<h2>Please enter OTP text and complete the registration</h2>";
-                htmlContent += "<h2>OTP Text is :" + otp + "</h2>";
-                htmlContent += "</div>";
+                ResourceManager resourceManager = new ResourceManager(resxFilePath, Assembly.GetExecutingAssembly());
+
+                string htmlContent = resourceManager.GetString("Email");
+                htmlContent = htmlContent.Replace("@param01", date.ToString());
+                htmlContent = htmlContent.Replace("@param03", otp);
+                htmlContent = htmlContent.Replace("@param04", _emailSettings.FromEmail);
 
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(_emailSettings.FromEmail);
