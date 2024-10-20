@@ -1,10 +1,7 @@
 ﻿using BusinessObject.DTOS;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json;
-using System.Net.Http.Json;
 using WebClient.APIEndPoint;
-using WebClient.Models;
 using WebClient.Service;
 
 namespace WebClient.Controllers

@@ -1,11 +1,7 @@
 ﻿using BusinessObject.DTOS;
 using Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Repository.Repository;
 
 namespace CustomerService.Controllers
 {
@@ -24,7 +20,7 @@ namespace CustomerService.Controllers
 
 
         // GET: api/Address
-        [HttpGet]
+        [HttpGet("GetAddress")]
         public IActionResult GetAllAddress(string username)
         {
             if (string.IsNullOrEmpty(username))

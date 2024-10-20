@@ -30,7 +30,7 @@ namespace WebClient.Controllers
 
 
         // GET: Customers/Details/{name}
-        [HttpGet]
+        [HttpGet("Account/MyAccount")]
         public async Task<IActionResult> Details()
         {
             string username = httpContextAccessor.HttpContext.Session.GetString("username");
@@ -76,6 +76,7 @@ namespace WebClient.Controllers
             HttpResponseMessage response = await client.PutAsync(url, content);
             return Ok(true);
         }
+
         [HttpGet("/Account/MyAddress")]
         public async Task<IActionResult> MyAddress()
         {
@@ -84,7 +85,8 @@ namespace WebClient.Controllers
             {
                 return NotFound();
             }
-            HttpResponseMessage _customerResponse = await client.GetAsync(ApiEndpoints_Customer.GET_ALL_ADDRESS);
+            string url = string.Format(ApiEndpoints_Customer.GET_ALL_ADDRESS, username);
+            HttpResponseMessage _customerResponse = await client.GetAsync(url);
             string strcustomer = await _customerResponse.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {

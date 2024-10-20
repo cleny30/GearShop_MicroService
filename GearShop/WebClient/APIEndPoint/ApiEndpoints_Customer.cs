@@ -12,7 +12,7 @@
         public const string CHANGE_PASSWORD = $"{BASE_URL}/gateway/customers/ChangePassword";
 
 
-        public const string GET_ALL_ADDRESS = $"{BASE_URL}/gateway/customers?username={{0}}";
+        public const string GET_ALL_ADDRESS = $"{BASE_URL}/gateway/customers/GetAddress?username={{0}}";
       
         
     }
