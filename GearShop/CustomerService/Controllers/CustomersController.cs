@@ -99,5 +99,34 @@ namespace CustomerService.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
             }
         }
+
+        [HttpGet("CheckMail/{mail}")]
+        public async Task<IActionResult> CheckMail(string mail)
+        {
+            bool result = await _customerRepository.CheckMail(mail);
+
+
+            if (result)
+            {
+                return Ok(new { message = "Email exists." });
+            }
+            else
+            {
+                return BadRequest(new { message = "Email not found." });
+            }
+        }
+        [HttpGet("ForgetPassword/{mail}/{pass}")]
+        public IActionResult ForgetPassword(string mail, string pass)
+        {
+            try
+            {
+                _customerRepository.ForgetPassword(mail,pass);
+                return Ok(new { message = "Password reset successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
+        }
     }
 }

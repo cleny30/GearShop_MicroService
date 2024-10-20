@@ -108,5 +108,48 @@ namespace DataAccess.DAO
             }
 
         }
+
+        public static async Task<bool> CheckMail(String mail)
+        {
+
+            using (var context = new CustomerContext())
+            {
+                var customer = await context.Customers.FirstOrDefaultAsync(c => c.Email == mail);
+                if (customer != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        public static void ForgetPassword(string mail, string pass)
+        {
+            try
+            {
+                using (var context = new CustomerContext())
+                {
+                    var customer = context.Customers.FirstOrDefault(x => x.Email == mail);
+
+                    if (customer != null)
+                    {                 
+                        customer.Password = pass;
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception("Customer not found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
