@@ -541,6 +541,7 @@ namespace DashboardAdmin.ProductManagement
             cbCategory.ItemsSource = list.Where(c => c.IsAvailable == true);
             if (_IsUpdate == true)
             {
+                cbCategory.ItemsSource = list;
                 cbCategory.SelectedValue = _Product.CateId;
             }
 

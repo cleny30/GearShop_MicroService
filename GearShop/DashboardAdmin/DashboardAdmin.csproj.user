@@ -7,7 +7,28 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="BrandManagement\BrandFunc.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="BrandManagement\BrandWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CategoryManagement\CategoryFunc.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CategoryManagement\CategoryWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Dashboard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportProductChooser.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportProductPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportReceiptPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ProductManagement\AddProduct.xaml.cs">
@@ -18,7 +39,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="BrandManagement\BrandFunc.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BrandManagement\BrandWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CategoryManagement\CategoryFunc.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CategoryManagement\CategoryWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Dashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportProductChooser.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportProductPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportReceiptPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

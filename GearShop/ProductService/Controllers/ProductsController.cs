@@ -171,5 +171,12 @@ namespace ProductService.Controllers
              var product = _service.GetData(ProId, list, imgs, atts);
             return Ok(product);
         }
+
+        [HttpPut("AddQuantityToProduct")]
+        public async Task<IActionResult> AddQuantityToProduct(List<ReceiptProductModel> products)
+        {
+            var isSuccess = await _repository.AddQuantityToProduct(products);
+            return Ok(isSuccess);
+        }
     }
 }

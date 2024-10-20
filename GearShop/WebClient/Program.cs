@@ -2,6 +2,7 @@ using WebClient.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using WebClient.Service;
+using WebClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddControllersWithViews();
 
 // Explicitly add IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSignalR();
 
 // Configure Dependency Injection (if you have custom DI configuration)
 builder.Services.ConfigureDependencyInjection();
@@ -34,6 +36,7 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 
@@ -41,5 +44,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseSession();
+
+app.MapHub<SignalRServer>("/signalrServer");
+
 app.Run();

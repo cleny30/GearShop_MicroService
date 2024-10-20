@@ -1,7 +1,11 @@
 ﻿using BusinessObject.DTOS;
 using Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Repository;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace CustomerService.Controllers
 {
@@ -83,6 +87,21 @@ namespace CustomerService.Controllers
                 return Ok(account);
             }
             return NotFound();
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model)
+        {
+            try
+            {
+                var customer = await _customerRepository.ChangePassword(model);
+
+                return Ok(new { message = "Password changed successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
         }
     }
 }

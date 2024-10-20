@@ -1,4 +1,6 @@
 ﻿using BusinessObject.DTOS;
+using DashboardAdmin.BrandManagement;
+using DashboardAdmin.CategoryManagement;
 using DashboardAdmin.Service;
 using MaterialDesignThemes.Wpf;
 using System.Collections.ObjectModel;
@@ -137,15 +139,16 @@ namespace DashboardAdmin.ProductManagement
 
         private void CategoryButton_Click(object sender, RoutedEventArgs e)
         {
-           
+            CategoryWindow cate = new CategoryWindow();
+            cate.ShowDialog();
         }
 
         //Open the Brand Page
         private void BrandButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            BrandWindow brand = new BrandWindow();
+            brand.ShowDialog();
         }
-
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
