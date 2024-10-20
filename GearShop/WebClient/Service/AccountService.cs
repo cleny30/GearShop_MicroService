@@ -73,7 +73,6 @@ namespace WebClient.Service
         {
             try
             {
-
                 string reciever = email;
                 Random random = new Random();
 
@@ -90,7 +89,7 @@ namespace WebClient.Service
                 htmlContent += "</div>";
 
                 MailMessage message = new MailMessage();
-                message.From = new MailAddress(_emailSettings.Email);
+                message.From = new MailAddress(_emailSettings.FromEmail);
                 message.Subject = "The OTP to reset password";
                 message.To.Add(new MailAddress(reciever));
                 message.Body = htmlContent;
@@ -98,8 +97,8 @@ namespace WebClient.Service
 
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
-                    Port = _emailSettings.Port,
-                    Credentials = new NetworkCredential(_emailSettings.Email, _emailSettings.Password),
+                    Port = 587,
+                    Credentials = new NetworkCredential(_emailSettings.FromEmail, _emailSettings.EmailPassword),
                     EnableSsl = true,
                 };
 
