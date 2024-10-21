@@ -1,5 +1,6 @@
 ﻿
 using BusinessObject.DTOS;
+using DashboardAdmin.Service;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -31,6 +32,10 @@ namespace DashboardAdmin.OrderManagement
         private async void LoadOrder()
         {
 
+            Title.Header = "PENDING ORDERS";
+            ChangeOrderList(1);
+            PageCount.Text = currentPage.ToString();
+            ConfigDatePicker(false);
         }
 
         private void ConfigDatePicker(bool status)
@@ -38,9 +43,11 @@ namespace DashboardAdmin.OrderManagement
             datePickerTo.IsEnabled = status;
         }
 
-        private void ChangeOrderList(int Status)
+        private async void ChangeOrderList(int Status)
         {
-            List<OrderModel> orderList = orderService.GetOrderList();
+            var orderManagementService = new OrderManagementService(client);
+
+            List<OrderModel> orderList = await orderManagementService.GetOrderList();
             orderList = orderList.Where(o => o.Status == Status).ToList();
             orders = new ObservableCollection<OrderModel>(orderList);
             filteredOrders = new ObservableCollection<OrderModel>(orders);
@@ -138,15 +145,17 @@ namespace DashboardAdmin.OrderManagement
             datePickerTo.SelectedDate = null;
             ChangeOrderList(StatusChange);
         }
-        private void ViewButton_Click(object sender, RoutedEventArgs e)
+        private async void ViewButton_Click(object sender, RoutedEventArgs e)
         {
+            var orderManagementService = new OrderManagementService(client);
+
             var button = sender as Button;
             var dataContext = button.DataContext as OrderModel;
             if (dataContext != null)
             {
                 var OrderID = dataContext.OrderId;
-                OrderModel model = orderService.GetOrderByID(OrderID);
-                List<OrderDetailModel> orderDetailModels = orderDetailService.GetOrderDetailList(model);
+                OrderModel model = await orderManagementService.GetOrderByID(OrderID);
+                List<OrderDetailModel> orderDetailModels = await orderManagementService.GetOrderDetailByOrderID(OrderID);
                 OrderInfo info = new OrderInfo(model, orderDetailModels);
                 info.OrderInfoClosed += OrderInfoWindow_Closed;
                 info.ShowDialog();

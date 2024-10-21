@@ -58,7 +58,7 @@ namespace DashboardAdmin
 
         private void OrderManagement_Click(object sender, RoutedEventArgs e)
         {
-            //frMain.Content = new OrderManagement();
+            frMain.Content = new OrderManagement.OrderManagement();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

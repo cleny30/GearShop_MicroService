@@ -59,4 +59,11 @@ namespace BusinessObject.DTOS
 
         public int Status { get; set; } = 0;
     }
+
+    public class OrderDataForChangingStatus
+    {
+        public string? OrderId { get; set; }
+
+        public int Status { get; set; } = 0;
+    }
 }

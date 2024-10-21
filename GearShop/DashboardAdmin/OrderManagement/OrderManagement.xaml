@@ -84,7 +84,7 @@
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
                                             <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="150"/>
-                                            <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="200"/>
+                                            <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, Converter={StaticResource EndDateConverter}}" Width="200"/>
                                             <DataGridTemplateColumn Width="100">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
