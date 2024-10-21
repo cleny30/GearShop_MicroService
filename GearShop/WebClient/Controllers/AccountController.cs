@@ -1,10 +1,7 @@
 ﻿using BusinessObject.DTOS;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json;
-using System.Net.Http.Json;
 using WebClient.APIEndPoint;
-using WebClient.Models;
 using WebClient.Service;
 
 namespace WebClient.Controllers
@@ -98,6 +95,55 @@ namespace WebClient.Controllers
                 TempData["ErrorMessage"] = $"Error: {ex.Message}";
                 return RedirectToAction("ChangePassword");
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost("/Account/CheckEmailAsync")]
+        public async Task<IActionResult> CheckEmailAsync(string email)
+        {
+            var encodedEmail = Uri.EscapeDataString(email);
+
+            var url = string.Format(ApiEndpoints_Customer.CHECK_MAIL, encodedEmail);
+            Console.WriteLine($"Constructed URL: {url}");
+            var response = await client.GetAsync(url);
+            if (response == null)
+            {
+                Console.WriteLine("Response is null");
+                return Content("false");
+            }
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Content("true");
+            }
+            else
+            {
+                return Content("false");
+            }
+        }
+
+        [HttpPost("/Account/SendOTP")]
+        public IActionResult SendOTP(string email)
+        {
+            var otp = accountService.VerifyEmail(email);
+            Console.WriteLine($"OTP generated: {otp}");
+            return Json(new { otp = otp });
+        }
+
+        [HttpPost("/Account/ForgetPassword")]
+        public IActionResult ForgetPassword(string password, string emailSend)
+        {
+            if (accountService.ForgetPassword(password, emailSend))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
         }
     }
 }
