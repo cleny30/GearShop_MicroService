@@ -1,6 +1,4 @@
 ﻿using BusinessObject.DTOS;
-using BusinessObject.Models.Entity;
-using System;
 using System.Net.Http;
 using System.Text.Json;
 

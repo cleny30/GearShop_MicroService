@@ -107,9 +107,6 @@ namespace DashboardAdmin.OrderManagement
                 MessageBox.Show($"Status of Order ID {_orderModel.OrderId} has been changed from {Status(_orderModel.Status)} to {Status(_orderModel.Status + 1)}");
                 this.Close();
                 OrderInfoClosed?.Invoke(this, EventArgs.Empty);
-
-                //HERE
-                LoadOrder(_orderModel.Username);
             }
             else
             {
@@ -166,9 +163,6 @@ namespace DashboardAdmin.OrderManagement
                 MessageBox.Show($"Status of Order ID {_orderModel.OrderId} has been Cancelled");
                 this.Close();
                 OrderInfoClosed?.Invoke(this, EventArgs.Empty);
-
-                //
-                LoadOrder(_orderModel.Username);
             }
             else
             {
@@ -176,11 +170,5 @@ namespace DashboardAdmin.OrderManagement
             }
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
-
-        private async void LoadOrder(string username)
-        {
-            //await App.InitializeSignalRConnectionAsync("http://localhost:5227/signalrServer");
-            //App.SignalRConnection.LoadOrder(username);
-        }
     }
 }
