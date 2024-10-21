@@ -31,6 +31,9 @@
     <Compile Update="ImportingProductManagament\ImportReceiptPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="OrderManagement\OrderManagement.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ProductManagement\AddProduct.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +67,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OrderManagement\OrderManagement.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ProductManagement\AddProduct.xaml">

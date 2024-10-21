@@ -114,5 +114,21 @@ namespace DataAccess.DAO
 
             return incomeList.Any() ? incomeList.Sum() : 0;
         }
+
+        public static async Task<OrderModel> GetOrderByID(string Order_ID)
+        {
+            OrderModel _order = new OrderModel();
+            try
+            {
+                using ()
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
