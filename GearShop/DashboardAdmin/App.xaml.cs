@@ -14,32 +14,11 @@ namespace DashboardAdmin
     /// </summary>
     public partial class App : Application
     {
-
         private const string FilePath = "RememberMe.json";
-        private static ServiceProvider serviceProvider;
-       // public static SignalRConnectionManager SignalRConnection { get; private set; }
-
         public App()
         {
-           // var serviceCollection = new ServiceCollection();
-            //serviceCollection.ConfigureDependencyInjection();
-           // serviceProvider = serviceCollection.BuildServiceProvider();
+          
         }
-
-        /*
-          public static async Task InitializeSignalRConnectionAsync(string url)
-         {
-             SignalRConnection = new SignalRConnectionManager(url);
-             await SignalRConnection.StartConnectionAsync();
-         }
-         */
-
-       /**
-        *  public static T GetService<T>()
-        {
-            return serviceProvider.GetRequiredService<T>();
-        }
-        */
 
         protected override void OnStartup(StartupEventArgs e)
         {

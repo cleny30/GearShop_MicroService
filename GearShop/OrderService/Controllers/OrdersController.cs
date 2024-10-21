@@ -69,5 +69,27 @@ namespace OrderService.Controllers
             List<OrderDetailModel> list = await _orderDetailRepository.GetAllOrderDetailList();
             return Ok(list);    
         }
+
+        [HttpGet("GetOrderByID")]
+        public async Task<IActionResult> GetOrderByID(string Order_ID)
+        {
+            OrderModel order = await _orderRepository.GetOrderByID(Order_ID);
+            return Ok(order);
+        }
+
+        [HttpGet("GetOrderDetailByOrderID")]
+        public async Task<IActionResult> GetOrderDetailByOrderID(string Order_ID)
+        {
+            List<OrderDetailModel> list = 
+                await _orderDetailRepository.GetOrderDetailsByOrderID(Order_ID);
+            return Ok(list);
+        }
+
+        [HttpPut("ChangeOrderStatus")]
+        public async Task<IActionResult> ChangeOrderStatus(OrderDataForChangingStatus order)
+        {
+            var isSuccessful = await _orderRepository.ChangeOrderStatus(order.OrderId, order.Status);
+            return Ok(isSuccessful);
+        }
     }
 }

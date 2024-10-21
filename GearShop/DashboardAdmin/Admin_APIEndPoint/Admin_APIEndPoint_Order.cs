@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace DashboardAdmin.Admin_APIEndPoint
 {
      public class Admin_APIEndPoint_Order
@@ -21,5 +16,11 @@ namespace DashboardAdmin.Admin_APIEndPoint
         public const string GET_ALL_ORDER_DETAIL_LIST = BASE_URL + "/gateway/orders/GetAllOrderDetailList";
 
         public const string GET_TOP_10_CUSTOMERS = BASE_URL + "/gateway/orders/GetTop10Customers";
+
+        public const string GET_ORDER_BY_ID = BASE_URL + "/gateway/orders/GetOrderByID";
+
+        public const string GET_ORDER_DETAIL_BY_ORDER_ID = BASE_URL + "/gateway/orders/GetOrderDetailByOrderID";
+
+        public const string CHANGE_ORDER_STATUS = BASE_URL + "/gateway/orders/ChangeOrderStatus";
     }
 }

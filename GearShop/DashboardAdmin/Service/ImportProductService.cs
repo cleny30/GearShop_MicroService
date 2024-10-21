@@ -1,14 +1,10 @@
 ﻿using BusinessObject.DTOS;
-using BusinessObject.Models.Entity;
 using DashboardAdmin.Admin_APIEndPoint;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace DashboardAdmin.Service
@@ -34,11 +30,33 @@ namespace DashboardAdmin.Service
                 }
             }
 
+            string managerPath = "ManagerUsername.json";
+            string Fullname = "Admin";
+            if (File.Exists(managerPath))
+            {
+                try
+                {
+                    // Read the JSON content from the file
+                    string jsonContent = File.ReadAllText(managerPath);
+
+                    // Deserialize the JSON content to an anonymous object
+                    var jsonObject = JsonSerializer.Deserialize<JsonElement>(jsonContent);
+
+                    // Extract the Username
+                    Fullname = jsonObject.GetProperty("Username").GetString(); ;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while reading the file: {ex.Message}");
+                }
+            }
+
             ImportProductModel IRmodel = new ImportProductModel
             {
                 DateImport = DateOnly.FromDateTime(DateTime.Now),
                 Payment = cartProducts.Sum(p => p.TotalPrice),
-                PersonChange = "Admin"
+                PersonInCharge = Fullname
             };
 
             List<ReceiptProductModel> list = new List<ReceiptProductModel>();
@@ -54,7 +72,7 @@ namespace DashboardAdmin.Service
 
             ImportProductModel _importProduct = JsonSerializer.Deserialize<ImportProductModel>(strData, options);
 
-            int ID = _importProduct.ReceiptId;
+            int ID = _importProduct.ImportProductId;
             //-------------------
 
             foreach (var items in productModels)
@@ -97,6 +115,40 @@ namespace DashboardAdmin.Service
             }
 
             return false;
+        }
+
+
+        public async Task<List<ImportProductModel>> GetImportProductList()
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var response = await _client.GetAsync(Admin_APIEndPoint_ImportProduct.GET_IMPORT_PRODUCT_LIST);
+
+            var strData = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<List<ImportProductModel>>(strData, options);
+        }
+
+        public async Task<ImportProductModel> GetImportProductById(int ImportProductId)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var response = await _client.GetAsync($"{Admin_APIEndPoint_ImportProduct.GET_IMPORT_PRODUCT_BY_ID}?ImportProductId={ImportProductId}");
+
+            var strData = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<ImportProductModel>(strData, options);
+        }
+
+        public async Task<List<ReceiptProductModel>> GetReceiptProductById(int ImportProductId)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var response = await _client.GetAsync($"{Admin_APIEndPoint_ImportProduct.GET_RECEIPT_PRODUCT_BY_ID}?ImportProductId={ImportProductId}");
+
+            var strData = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<List<ReceiptProductModel>>(strData, options);
         }
 
     }

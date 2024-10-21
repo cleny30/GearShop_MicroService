@@ -1,21 +1,12 @@
-﻿using BusinessObject.Models.Entity;
+﻿
 using Dashboard_Admin;
 using DashboardAdmin.ImportingProductManagament;
 using DashboardAdmin.ProductManagement;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DashboardAdmin
 {
@@ -53,16 +44,32 @@ namespace DashboardAdmin
 
         private void ImportReceipt_Click(object sender, RoutedEventArgs e)
         {
-            //frMain.Content = new ImportReceiptPage();
+            frMain.Content = new ImportReceiptPage();
         }
 
         private void OrderManagement_Click(object sender, RoutedEventArgs e)
         {
-            //frMain.Content = new OrderManagement();
+            frMain.Content = new OrderManagement.OrderManagement();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            string FilePath = "RememberMe.json";
+            string jsonContent = File.ReadAllText(FilePath);
+            var settings = JsonSerializer.Deserialize<Settings>(jsonContent);
+
+            if (settings != null && settings.RememberMe)
+            {
+            }
+            else
+            {
+                string managerPath = "ManagerUsername.json";
+                if (File.Exists(managerPath))
+                {
+                    File.Delete(managerPath);
+                }
+            }
+
             this.Close();
         }
 
@@ -73,6 +80,13 @@ namespace DashboardAdmin
             string jsonContent = JsonSerializer.Serialize(settings);
 
             File.WriteAllText(FilePath, jsonContent);
+
+            string managerPath = "ManagerUsername.json";
+            if (File.Exists(managerPath))
+            {
+                File.Delete(managerPath);
+            }
+
             Loginpage loginpage = new Loginpage();
             this.Close();
             loginpage.Show();

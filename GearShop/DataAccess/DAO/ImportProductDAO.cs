@@ -3,11 +3,6 @@ using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DAO
 {
@@ -56,7 +51,7 @@ namespace DataAccess.DAO
                 { 
                     DateImport = _ImportProduct.DateImport,
                     Payment = _ImportProduct.Payment,
-                    PersonInCharge = _ImportProduct.PersonChange,
+                    PersonInCharge = _ImportProduct.PersonInCharge,
                 };
 
                 await dbContext.ImportProducts.AddAsync(_receipt);
@@ -64,7 +59,7 @@ namespace DataAccess.DAO
 
                 if (check > 0)
                 {
-                    _ImportProduct.ReceiptId = _receipt.ImportProductId;
+                    _ImportProduct.ImportProductId = _receipt.ImportProductId;
                     return _ImportProduct;
                 }
                 else
@@ -106,6 +101,46 @@ namespace DataAccess.DAO
             {
                 // Log the exception if necessary
                 return false;
+            }
+        }
+
+        public static async Task<ImportProductModel> GetImportProduct(int ImportProductId)
+        {
+            ImportProduct _ImportProduct = new ImportProduct();
+            try
+            {
+                var dbContext = new ImportProductContext();
+                _ImportProduct = await dbContext.ImportProducts.FirstOrDefaultAsync(i => i.ImportProductId == ImportProductId);
+                List<ImportProductModel> _list = new List<ImportProductModel>();
+                ImportProductModel model = new ImportProductModel();
+                model.CopyProperties(_ImportProduct);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<List<ReceiptProductModel>> GetReceiptProductsByID(int ImportProductId)
+        {
+            List<ReceiptProduct> list = new List<ReceiptProduct>();
+            try
+            {
+                var dbContext = new ImportProductContext();
+                list = await dbContext.ReceiptProducts.Where(i => i.ImportProductId == ImportProductId).ToListAsync();
+                List<ReceiptProductModel> _list = new List<ReceiptProductModel>();
+                foreach (var item in list)
+                {
+                    ReceiptProductModel model = new ReceiptProductModel();
+                    model.CopyProperties(item);
+                    _list.Add(model);
+                }
+                return _list;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }

@@ -3,13 +3,6 @@ using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using ISUZU_NEXT.Server.Core.Extentions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DataAccess.DAO
 {
     public class ProductDAO

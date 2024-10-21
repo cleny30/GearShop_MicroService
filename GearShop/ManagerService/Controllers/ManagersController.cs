@@ -1,6 +1,7 @@
 ﻿using BusinessObject.Models.Entity;
 using Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using BusinessObject.DTOS;
 
 namespace ManagerService.Controllers
 {
@@ -35,6 +36,13 @@ namespace ManagerService.Controllers
         {
             bool exists = await _repository.CheckManagerExistedAsync(username, password);
             return Ok(exists);
+        }
+
+        [HttpGet("GetManagerByUsername")]
+        public async Task<IActionResult> GetManagerByUsername(string username)
+        {
+            ManagerModel model = await _repository.GetManagerByUsername(username);
+            return Ok(model);
         }
 
     }

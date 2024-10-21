@@ -114,5 +114,56 @@ namespace DataAccess.DAO
 
             return incomeList.Any() ? incomeList.Sum() : 0;
         }
+
+        public static async Task<OrderModel> GetOrderByID(string Order_ID)
+        {
+            OrderModel _order = new OrderModel();
+            try
+            {
+                using (var dbContext = new OrderContext())
+                {
+                    Order order = await dbContext.Orders.
+                        FirstOrDefaultAsync(o => o.OrderId.Equals(Order_ID));
+                    _order.CopyProperties(order);
+                    return _order;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<bool> ChangeOrderStatus(string Order_ID, int Status)
+        {
+            Order order = new Order();
+            try
+            {
+                using (var dbContext = new OrderContext())
+                {
+                    order = await dbContext.Orders.FirstOrDefaultAsync(o => o.OrderId.Equals(Order_ID));
+                    order.Status = Status;
+                    if (Status == 4)
+                    {
+                        order.EndDate = DateOnly.FromDateTime(DateTime.Now);
+
+                    }
+                    dbContext.Entry<Order>(order).State = EntityState.Modified;
+                    int check = await dbContext.SaveChangesAsync();
+                    if (check > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
