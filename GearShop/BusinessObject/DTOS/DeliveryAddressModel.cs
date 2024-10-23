@@ -37,5 +37,5 @@ public class DeliveryAddressModel
     [Required]
     public bool IsDefault { get; set; }
 
-    public virtual Customer Customer { get; set; }
+    public virtual Customer? Customer { get; set; }
 }

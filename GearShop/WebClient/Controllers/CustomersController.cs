@@ -95,5 +95,75 @@ namespace WebClient.Controllers
             List<DeliveryAddressModel> addressList = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strcustomer, options);
             return View(addressList);
         }
+
+
+        [HttpPost("/Account/AddAddress")]
+        public async Task<IActionResult> AddNewAddress(DeliveryAddressModel addressModel)
+        {
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return NotFound("Username không tồn tại.");
+            }
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            string jsonData = JsonSerializer.Serialize(addressModel, options);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            // Gửi yêu cầu POST đến API
+            string url = string.Format(ApiEndpoints_Customer.ADD_NEW_ADDRESS, username);
+            HttpResponseMessage response = await client.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("MyAddress");
+            }
+
+            string errorContent = await response.Content.ReadAsStringAsync();
+            ViewBag.ErrorMessage = $"Có lỗi khi thêm địa chỉ: {errorContent}";
+            return View("Error");
+        }
+
+
+        [HttpPost("/Account/UpdateAddress")]
+        public async Task<IActionResult> UpdateAddress(int id, DeliveryAddressModel addressModel)
+        {
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return NotFound("Username không tồn tại.");
+            }
+
+            if (id != addressModel.Id)
+            {
+                return BadRequest("Dữ liệu địa chỉ không khớp.");
+            }
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            string jsonData = JsonSerializer.Serialize(addressModel, options);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            // Gửi yêu cầu PUT đến API
+            string url = string.Format(ApiEndpoints_Customer.UPDATE_ADDRESS, id);
+            HttpResponseMessage response = await client.PutAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("MyAddress");
+            }
+
+            string errorContent = await response.Content.ReadAsStringAsync();
+            ViewBag.ErrorMessage = $"Có lỗi khi cập nhật địa chỉ: {errorContent}";
+            return View("Error");
+        }
+
+
+
     }
 }

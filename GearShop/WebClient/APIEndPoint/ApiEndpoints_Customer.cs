@@ -15,6 +15,8 @@
 
 
         public const string GET_ALL_ADDRESS = $"{BASE_URL}/gateway/customers/GetAddress?username={{0}}";
+        public const string ADD_NEW_ADDRESS = $"{BASE_URL}/gateway/customers/AddNewAddress?username={{0}}";
+        public const string UPDATE_ADDRESS = $"{BASE_URL}/gateway/customers/UpdateAddress?id={{0}}";
       
         
     }

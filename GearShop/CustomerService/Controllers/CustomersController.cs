@@ -2,6 +2,8 @@
 using Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Repository;
+using DataAccess.DAO;
+using BusinessObject.Model.Entity;
 
 namespace CustomerService.Controllers
 {
@@ -127,6 +129,82 @@ namespace CustomerService.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
             }
+        }
+
+        [HttpGet("AddressByUsername")]
+        public IActionResult GetAddressesByUsername(string username)
+        {
+            var addresses = AddressDAO.GetAddressByUsername(username);
+            if (addresses == null || !addresses.Any())
+            {
+                return NotFound("No addresses found.");
+            }
+            return Ok(addresses);
+        }
+
+        [HttpPost("AddNewAddress")]
+        public IActionResult AddNewAddress([FromBody] DeliveryAddressModel addressModel, string username)
+        {
+            if (addressModel == null)
+            {
+                return BadRequest("Invalid address data.");
+            }
+
+            bool isAdded = AddressDAO.AddNewAddress(addressModel, username);
+            if (isAdded)
+            {
+                return Ok("Address added successfully.");
+            }
+            return StatusCode(500, "An error occurred while adding the address.");
+        }
+
+        [HttpPut("UpdateAddress")]
+        public IActionResult UpdateAddress(int id, [FromBody] DeliveryAddressModel addressModel)
+        {
+            if (addressModel == null || addressModel.Id != id)
+            {
+                return BadRequest("Address data is invalid.");
+            }
+
+            bool isUpdated = AddressDAO.UpdateAddress(addressModel);
+            if (isUpdated)
+            {
+                return Ok("Address updated successfully.");
+            }
+            return StatusCode(500, "An error occurred while updating the address.");
+        }
+
+        [HttpDelete("DeleteAddress")]
+        public IActionResult DeleteAddress(string username, int id)
+        {
+            bool isDeleted = AddressDAO.DeleteAddress(username, id);
+            if (isDeleted)
+            {
+                return Ok("Address deleted successfully.");
+            }
+            return StatusCode(500, "An error occurred while deleting the address.");
+        }
+
+        [HttpGet("find")]
+        public IActionResult FindExistingAddress(string username, string phoneNumber, string fullname, string address, bool isDefault)
+        {
+            var existingAddress = AddressDAO.FindExistingAddressItem(username, phoneNumber, fullname, address, isDefault);
+            if (existingAddress == null)
+            {
+                return NotFound("No matching address found.");
+            }
+            return Ok(existingAddress);
+        }
+
+        [HttpGet("GetAllAddressIsDefault")]
+        public IActionResult GetAllAddressIsDefault(string username)
+        {
+            var addresses = AddressDAO.GetAllAddress(username);
+            if (addresses == null || !addresses.Any())
+            {
+                return NotFound("No addresses found.");
+            }
+            return Ok(addresses);
         }
     }
 }
