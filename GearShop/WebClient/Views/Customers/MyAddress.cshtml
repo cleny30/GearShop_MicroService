@@ -79,33 +79,30 @@
                         <div class="col-md-12 form-group ">
                             @foreach (var item in list)
                             {
-
                                 <label style="margin-right: 3px;">Full Name: </label>
-
-                                <label style="font-weight:bold"> @item.Fullname </label> <label style="margin-left:10px;margin-right:10px;">|</label>
+                                <label style="font-weight:bold"> @item.Fullname </label>
+                                <label style="margin-left:10px;margin-right:10px;">|</label>
 
                                 <label style="margin-right: 3px;">Phone Number: </label>
-
                                 <label style="font-weight:bold"> @item.Phone</label>
-                                @if(item.Specific != null)
+
+                                @if (item.Specific != null)
                                 {
                                     <input class="form-control" type="text" name="accAddress" value="@item.Specific, @item.Address" readonly style="background-color: #fff;">
-                                }else{
+                                }
+                                else
+                                {
                                     <input class="form-control" type="text" name="accAddress" value="@item.Address" readonly style="background-color: #fff;">
                                 }
-                                
+
                                 <div style="display:flex">
-                                    <input type="button" class="addressButton" value="Update" data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" data-isdefault="@item.IsDefault" data-specific="@item.Specific" onclick="UpdateAddress(this)" id="shipto" >
+                                    <input type="button" class="addressButton" value="Update" data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" data-isdefault="@item.IsDefault" data-specific="@item.Specific" onclick="UpdateAddress(this)" id="shipto">
 
                                     <form id="deleteForm-@item.Id" onsubmit="return confirmDeleteAddress(event, '@item.Fullname', '@item.Id')">
                                         <input type="hidden" name="id" value="@item.Id">
                                         <button type="submit" class="addressButton">Delete</button>
                                     </form>
-
                                 </div>
-                     
-
-                             
                             }
                         </div>
                     }
@@ -113,17 +110,12 @@
                     {
                         <div class="hide">
                             <p style="color:red">
-                                You dont have any address. Please enter new address here!
+                                You don't have any address. Please enter a new address here!
                             </p>
-                        </div>
-                    }
-
-                    @if (list.Count < 3)
-                    {
-                        <div class="col-md-12">
                             <button class="addnewButton" onclick="toggleAddNewAddressForm()">Add new address</button>
                         </div>
                     }
+
                 
                 </div>
             </div>
@@ -275,5 +267,5 @@
         </div>
     </div>
 </div>
-<script src="~/js/address/address.js"></script>
-<script src="~/js/address/addressvalidate.js"></script>
+<script src="~/js/address/Address.js"></script>
+<script src="~/js/address/AddressValidate.js"></script>

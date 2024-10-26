@@ -142,47 +142,60 @@ namespace CustomerService.Controllers
             return Ok(addresses);
         }
 
-        [HttpPost("AddNewAddress")]
-        public IActionResult AddNewAddress([FromBody] DeliveryAddressModel addressModel, string username)
+        // Thêm địa chỉ mới cho một người dùng
+        [HttpPost("AddNewAddress/{username}")]
+        public IActionResult AddNewAddress(string username, [FromBody] DeliveryAddressModel addressModel)
         {
-            if (addressModel == null)
+            try
             {
-                return BadRequest("Invalid address data.");
+                var success = AddressDAO.AddNewAddress(addressModel, username);
+                if (success)
+                {
+                    return Ok("Thêm địa chỉ thành công.");
+                }
+                return BadRequest("Không thể thêm địa chỉ.");
             }
-
-            bool isAdded = AddressDAO.AddNewAddress(addressModel, username);
-            if (isAdded)
+            catch (Exception ex)
             {
-                return Ok("Address added successfully.");
+                return StatusCode(500, ex.Message);
             }
-            return StatusCode(500, "An error occurred while adding the address.");
         }
 
+        // Cập nhật một địa chỉ
         [HttpPut("UpdateAddress")]
-        public IActionResult UpdateAddress(int id, [FromBody] DeliveryAddressModel addressModel)
+        public IActionResult UpdateAddress([FromBody] DeliveryAddressModel addressModel)
         {
-            if (addressModel == null || addressModel.Id != id)
+            try
             {
-                return BadRequest("Address data is invalid.");
+                var success = AddressDAO.UpdateAddress(addressModel);
+                if (success)
+                {
+                    return Ok("Cập nhật địa chỉ thành công.");
+                }
+                return NotFound("Không tìm thấy địa chỉ cần cập nhật.");
             }
-
-            bool isUpdated = AddressDAO.UpdateAddress(addressModel);
-            if (isUpdated)
+            catch (Exception ex)
             {
-                return Ok("Address updated successfully.");
+                return StatusCode(500, ex.Message);
             }
-            return StatusCode(500, "An error occurred while updating the address.");
         }
-
-        [HttpDelete("DeleteAddress")]
+        // Xóa một địa chỉ
+        [HttpDelete("DeleteAddress/{username}/{id}")]
         public IActionResult DeleteAddress(string username, int id)
         {
-            bool isDeleted = AddressDAO.DeleteAddress(username, id);
-            if (isDeleted)
+            try
             {
-                return Ok("Address deleted successfully.");
+                var success = AddressDAO.DeleteAddress(username, id);
+                if (success)
+                {
+                    return Ok("Xóa địa chỉ thành công.");
+                }
+                return NotFound("Không tìm thấy địa chỉ cần xóa.");
             }
-            return StatusCode(500, "An error occurred while deleting the address.");
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("find")]
