@@ -24,6 +24,7 @@ namespace BusinessObject.DTOS
         public CartModel CartModel { get; set; }
 
         public ProductData Product { get; set; }
+
     }
     public class CartRequest
     {

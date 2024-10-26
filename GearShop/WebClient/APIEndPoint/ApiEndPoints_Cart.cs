@@ -11,5 +11,7 @@
         public const string UPDATE_CART = $"{BASE_URL}/gateway/carts/UpdateCart";
 
         public const string DELETE_CART = $"{BASE_URL}/gateway/carts/Delete/{{0}}/{{1}}";
+
+        public const string GET_CHECKED_PRODUCTS = $"{BASE_URL}/gateway/carts/GetCheckedProduct/{{0}}/{{1}}";
     }
 }
