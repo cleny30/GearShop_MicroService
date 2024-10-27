@@ -31,6 +31,13 @@ namespace CartService.Controllers
             return cartRepository.GetCartsByUsername(username);
         }
 
+        [HttpGet("GetCheckedProduct/{username}/{proIds}")]
+        public ActionResult<List<UserCartData>> GetCheckedProduct(string username,string proIds)
+        {
+            var productChecked = proIds.Split(",").ToList();
+            return cartRepository.GetUserCartDatas(username, productChecked);
+        }
+
         [HttpPost("UpdateCart")]
         public ActionResult<bool> UpdateCart([FromBody] CartModel data)
         {
