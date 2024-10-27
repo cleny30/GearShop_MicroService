@@ -85,18 +85,34 @@ namespace WebClient.Controllers
             {
                 return NotFound();
             }
+
             string url = string.Format(ApiEndpoints_Customer.GET_ALL_ADDRESS, username);
-            HttpResponseMessage _customerResponse = await client.GetAsync(url);
-            string strcustomer = await _customerResponse.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await client.GetAsync(url);
+            string strcustomer = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<DeliveryAddressModel> addressList = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strcustomer, options);
+
+            List<DeliveryAddressModel> addressList;
+            try
+            {
+                addressList = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strcustomer, options);
+            }
+            catch (JsonException ex)
+            {
+                // Nếu JSON không đúng định dạng, gán danh sách là null
+                ViewBag.ShowAddAddressForm = true;
+                return View(new List<DeliveryAddressModel>()); // Trả về một danh sách trống để tránh lỗi khác
+            }
+
+            ViewBag.ShowAddAddressForm = addressList == null || !addressList.Any();
             return View(addressList);
         }
 
 
+
+        // Sửa phương thức AddNewAddress
         [HttpPost("/Account/AddAddress")]
         public async Task<IActionResult> AddNewAddress(DeliveryAddressModel addressModel)
         {
@@ -106,6 +122,7 @@ namespace WebClient.Controllers
                 return NotFound("Username không tồn tại.");
             }
 
+            addressModel.Username = username; // Gán username cho model
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -127,21 +144,16 @@ namespace WebClient.Controllers
             return View("Error");
         }
 
-
+        // Sửa phương thức UpdateAddress
         [HttpPost("/Account/UpdateAddress")]
-        public async Task<IActionResult> UpdateAddress(int id, DeliveryAddressModel addressModel)
+        public async Task<IActionResult> UpdateAddress(DeliveryAddressModel addressModel)
         {
             string username = httpContextAccessor.HttpContext.Session.GetString("username");
             if (string.IsNullOrEmpty(username))
             {
                 return NotFound("Username không tồn tại.");
             }
-
-            if (id != addressModel.Id)
-            {
-                return BadRequest("Dữ liệu địa chỉ không khớp.");
-            }
-
+            addressModel.Username = username; // Gán username cho model
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -150,12 +162,12 @@ namespace WebClient.Controllers
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
             // Gửi yêu cầu PUT đến API
-            string url = string.Format(ApiEndpoints_Customer.UPDATE_ADDRESS, id);
+            string url = string.Format(ApiEndpoints_Customer.UPDATE_ADDRESS, addressModel.Id); // Cập nhật URL với ID
             HttpResponseMessage response = await client.PutAsync(url, content);
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("MyAddress");
+                return RedirectToAction("MyAddress"); // Chuyển hướng đến danh sách địa chỉ
             }
 
             string errorContent = await response.Content.ReadAsStringAsync();
@@ -164,6 +176,28 @@ namespace WebClient.Controllers
         }
 
 
+        [HttpPost("/Account/DeleteAddress")]
+        public async Task<IActionResult> DeleteAddress(int id)
+        {
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return NotFound("Username không tồn tại.");
+            }
+
+            // Gửi yêu cầu DELETE đến API
+            string url = string.Format(ApiEndpoints_Customer.DELETE_ADDRESS, username, id); // Pass username as well
+            HttpResponseMessage response = await client.DeleteAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("MyAddress");
+            }
+
+            string errorContent = await response.Content.ReadAsStringAsync();
+            ViewBag.ErrorMessage = $"Có lỗi khi xóa địa chỉ: {errorContent}";
+            return View("Error");
+        }
 
     }
 }
