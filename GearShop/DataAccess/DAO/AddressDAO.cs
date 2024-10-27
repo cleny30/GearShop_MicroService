@@ -61,24 +61,26 @@ namespace DataAccess.DAO
                 throw new Exception(e.Message);
             }
         }
-        public static void CheckAllFalse(string username)
+        public static void SetDefaultAddress(string username, int id)
         {
             using (var context = new CustomerContext())
             {
-                bool hasDefaultAddress = context.DeliveryAddresses.Any(c => c.Username == username && c.IsDefault == true);
-                if (!hasDefaultAddress)
+                // Set all addresses for the given username to IsDefault = false
+                var addresses = context.DeliveryAddresses.Where(c => c.Username == username).ToList();
+                foreach (var address in addresses)
                 {
-                    var firstAddress = context.DeliveryAddresses
-                                              .Where(c => c.Username == username)
-                                              .OrderBy(c => c.Id)
-                                              .FirstOrDefault();
-
-                    if (firstAddress != null)
-                    {
-                        firstAddress.IsDefault = true;
-                        context.SaveChanges();
-                    }
+                    address.IsDefault = false;
                 }
+
+                // Find the address with the specified id and set IsDefault = true
+                var defaultAddress = addresses.FirstOrDefault(c => c.Id == id);
+                if (defaultAddress != null)
+                {
+                    defaultAddress.IsDefault = true;
+                }
+
+                // Save changes to the database
+                context.SaveChanges();
             }
         }
 
@@ -94,7 +96,11 @@ namespace DataAccess.DAO
 
                 deliveryAddressModel.Id = newestAddressId + 1;
                 AddNewAddress(deliveryAddressModel);
-                CheckAllFalse(username);
+
+                if (deliveryAddressModel.IsDefault)
+                {
+                    SetDefaultAddress(username, deliveryAddressModel.Id);
+                }
                 return true;
             }
         }
@@ -113,19 +119,13 @@ namespace DataAccess.DAO
                         existingAddress.Phone = deliveryAddressModel.Phone;
                         existingAddress.Address = deliveryAddressModel.Address;
                         existingAddress.Specific = deliveryAddressModel.Specific;
-                        // Check if isDefault is being set to true
+
+                        context.SaveChanges();
+
                         if (deliveryAddressModel.IsDefault)
                         {
-                            // Find all addresses with the same username and set their isDefault to false
-                            var otherAddresses = context.DeliveryAddresses.Where(p => p.Username == deliveryAddressModel.Username && p.Id != existingAddress.Id).ToList();
-                            foreach (var address in otherAddresses)
-                            {
-                                address.IsDefault = false;
-                            }
+                            SetDefaultAddress(deliveryAddressModel.Username, existingAddress.Id);
                         }
-
-                        existingAddress.IsDefault = deliveryAddressModel.IsDefault;
-                        context.SaveChanges();
                         return true;
                     }
                     else

@@ -43,7 +43,6 @@ namespace Repository.Repository
             else
             {
                 AddressDAO.UpdateAddress(deliveryAddressModel);
-                AddressDAO.CheckAllFalse(deliveryAddressModel.Username);
                 return true;
             }
         }
