@@ -1,6 +1,7 @@
 ﻿using BusinessObject.DTOS;
 using BusinessObject.Models.Entity;
 using DataAccess.DAO;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -21,5 +22,8 @@ namespace Repository.Repository
 
         public void ForgetPassword(string mail, string pass)
         => CustomerDAO.ForgetPassword(mail, pass);
+
+        public void Regist(RegistModel userRegist) => CustomerDAO.Register(userRegist);
+        
     }
 }

@@ -2,6 +2,7 @@
 using Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace CustomerService.Controllers
 {
@@ -122,6 +123,21 @@ namespace CustomerService.Controllers
             {
                 _customerRepository.ForgetPassword(mail,pass);
                 return Ok(new { message = "Password reset successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
+        }
+
+
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody] RegistModel customer)
+        {
+            try
+            {
+                _customerRepository.Regist(customer);
+                return Ok(new { message = "Customer registered successfully." });
             }
             catch (Exception ex)
             {

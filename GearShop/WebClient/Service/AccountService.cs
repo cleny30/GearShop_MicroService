@@ -9,6 +9,7 @@ using System.Text;
 using WebClient.Models;
 using WebClient.APIEndPoint;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace WebClient.Service
 {
@@ -129,6 +130,18 @@ namespace WebClient.Service
             string hashPass = CalculateMD5Hash(password);
             Console.WriteLine("pass forget" + hashPass);
             string url = string.Format(ApiEndpoints_Customer.FORGET_PASSWORD, emailSend, hashPass);
+            client.GetAsync(url);
+            return true;
+        }
+
+        public bool Register(RegistModel registModel)
+        {
+            //gan md5
+            string hashPass = CalculateMD5Hash(registModel.Password);
+            //gan nguoc lai
+            registModel.Password = hashPass;
+            Console.WriteLine("pass forget" + hashPass);
+            string url = string.Format(ApiEndpoints_Customer.REGISTER, registModel);
             client.GetAsync(url);
             return true;
         }

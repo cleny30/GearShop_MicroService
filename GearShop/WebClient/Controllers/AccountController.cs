@@ -96,6 +96,8 @@ namespace WebClient.Controllers
                 return RedirectToAction("ChangePassword");
             }
         }
+
+
         [HttpGet]
         public async Task<IActionResult> ForgetPassword()
         {
@@ -145,5 +147,29 @@ namespace WebClient.Controllers
             }
 
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> VerifyEmail()
+        {
+            return View();
+        }
+        [HttpPost("/Account/Register")]
+        public IActionResult Register(RegistModel registModel)
+        {
+            if (accountService.Register(registModel))
+            {
+                var otp = accountService.VerifyEmail(registModel.Email);
+                Console.WriteLine($"OTP generated: {otp}");
+                TempData["SuccessMessage"] = "Registration successful!";
+                return RedirectToAction("VerifyEmail", "Account");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Registration failed. Please try again.";
+                return View("Register");
+            }
+        }
+
     }
 }

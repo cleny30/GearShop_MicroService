@@ -14,5 +14,7 @@ namespace Repository.IRepository
 
         public void ForgetPassword(string mail, string pass);
 
+        public void Regist(RegistModel userRegist);
+
     }
 }

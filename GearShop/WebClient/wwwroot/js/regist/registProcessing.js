@@ -15,7 +15,7 @@ $('#txtUsername').on('change', function () {
 const checkExist = () => {
     console.log("start of check");
     $.ajax({
-        url: '/Register/CheckUserExist',
+        url: '/Signup/CheckUserExist',
         type: "POST",
         data: {
             username: username,
@@ -140,7 +140,7 @@ function validateEmail() {
 }
 const handleRegist = () => {
     $.ajax({
-        url: '/Register/OnPostRegister',
+        url: '/Signup/OnPostRegister',
         type: "POST",
         data: {
             username: username,
