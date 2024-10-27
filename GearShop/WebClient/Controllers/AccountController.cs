@@ -1,6 +1,8 @@
 ﻿using BusinessObject.DTOS;
+using BusinessObject.Model.Entity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using System.Text;
+using System.Text.Json;
 using WebClient.APIEndPoint;
 using WebClient.Service;
 
@@ -71,7 +73,7 @@ namespace WebClient.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
-                    var customer = JsonConvert.DeserializeObject<LoginAccountModel>(jsonString);
+                    var customer = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginAccountModel>(jsonString);
 
                     if (customer == null)
                     {
@@ -144,6 +146,38 @@ namespace WebClient.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAddressOrder(DeliveryAddressModel addressModel)
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            addressModel.Username = userSession;
+
+            string jsonData = JsonSerializer.Serialize(addressModel, options);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            HttpResponseMessage res = await client.PostAsync(ApiEndpoints_Customer.ADD_ADDRESS, content);
+
+            return RedirectToAction("Index", "Order");
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateAddressOrder(DeliveryAddressModel addressModel)
+        {
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            addressModel.Username = userSession;
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            string jsonData = JsonSerializer.Serialize(addressModel, options);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            HttpResponseMessage res = await client.PutAsync(ApiEndpoints_Customer.UPDATE_ADDRESS, content);
+            return RedirectToAction("Index", "Order");
         }
     }
 }

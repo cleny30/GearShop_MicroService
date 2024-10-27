@@ -1,41 +1,21 @@
 ﻿using BusinessObject.Models.Entity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BusinessObject.Model.Entity;
 
 public class DeliveryAddressModel
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    [Column(TypeName = "varchar")]
-    public string Username { get; set; }
+    public string Username { get; set; } = string.Empty;
 
-    [Required]
-    [StringLength(1000)]
-    public string Fullname { get; set; }
+    public string Fullname { get; set; } = string.Empty;
 
-    [Required]
-    [StringLength(11)]
-    [Column(TypeName = "varchar")]
-    public string Phone { get; set; }
+    public string Phone { get; set; } = string.Empty;
 
-    [Required]
-    [StringLength(1000)]
-    public string Address { get; set; }
+    public string Address { get; set; } = string.Empty;
 
-    [Required]
-    [StringLength(500)]
-    public string? Specific { get; set; }
+    public string? Specific { get; set; } = null!;
 
-    [Required]
     public bool IsDefault { get; set; }
-
-    public virtual Customer Customer { get; set; }
 }

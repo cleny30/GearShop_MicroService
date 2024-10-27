@@ -30,7 +30,6 @@ namespace DataAccess.DAO
                         Address = address.Address,
                         Specific = address.Specific,
                         IsDefault = address.IsDefault,
-                        Customer = address.Customer
                     }).ToList();
 
                     return addressModels;
@@ -62,39 +61,82 @@ namespace DataAccess.DAO
                 throw new Exception(e.Message);
             }
         }
+        public static void CheckAllFalse(string username)
+        {
+            using (var context = new CustomerContext())
+            {
+                bool hasDefaultAddress = context.DeliveryAddresses.Any(c => c.Username == username && c.IsDefault == true);
+                if (!hasDefaultAddress)
+                {
+                    var firstAddress = context.DeliveryAddresses
+                                              .Where(c => c.Username == username)
+                                              .OrderBy(c => c.Id)
+                                              .FirstOrDefault();
 
-        public static bool UpdateAddress(DeliveryAddressModel addressModel)
+                    if (firstAddress != null)
+                    {
+                        firstAddress.IsDefault = true;
+                        context.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        public static bool AddNewAddressPartialView(DeliveryAddressModel deliveryAddressModel, string username)
+        {
+            using (var dbContext = new CustomerContext())
+            {
+                // Query the DeliveryAddress table to get the newest address ID
+                int newestAddressId = dbContext.DeliveryAddresses
+                                             .OrderByDescending(a => a.Id)
+                                             .Select(a => a.Id)
+                                             .FirstOrDefault();
+
+                deliveryAddressModel.Id = newestAddressId + 1;
+                AddNewAddress(deliveryAddressModel);
+                CheckAllFalse(username);
+                return true;
+            }
+        }
+
+        public static bool UpdateAddress(DeliveryAddressModel deliveryAddressModel)
         {
             try
             {
                 using (var context = new CustomerContext())
                 {
-                    var existingAddress = context.DeliveryAddresses
-                                                 .FirstOrDefault(x => x.Id == addressModel.Id && x.Username == addressModel.Username);
-
+                    var existingAddress = context.DeliveryAddresses.FirstOrDefault(p => p.Id == deliveryAddressModel.Id);
                     if (existingAddress != null)
                     {
-                        // Map properties from DeliveryAddressModel to DeliveryAddress entity
-                        existingAddress.Fullname = addressModel.Fullname;
-                        existingAddress.Phone = addressModel.Phone;
-                        existingAddress.Address = addressModel.Address;
-                        existingAddress.Specific = addressModel.Specific;
-                        existingAddress.IsDefault = addressModel.IsDefault;
+                        // Update product information
+                        existingAddress.Fullname = deliveryAddressModel.Fullname;
+                        existingAddress.Phone = deliveryAddressModel.Phone;
+                        existingAddress.Address = deliveryAddressModel.Address;
+                        existingAddress.Specific = deliveryAddressModel.Specific;
+                        // Check if isDefault is being set to true
+                        if (deliveryAddressModel.IsDefault)
+                        {
+                            // Find all addresses with the same username and set their isDefault to false
+                            var otherAddresses = context.DeliveryAddresses.Where(p => p.Username == deliveryAddressModel.Username && p.Id != existingAddress.Id).ToList();
+                            foreach (var address in otherAddresses)
+                            {
+                                address.IsDefault = false;
+                            }
+                        }
 
-                        // Mark the address as modified
-                        context.Entry(existingAddress).State = EntityState.Modified;
+                        existingAddress.IsDefault = deliveryAddressModel.IsDefault;
                         context.SaveChanges();
                         return true;
                     }
                     else
                     {
-                        throw new Exception("Address not found");
+                        return false;
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                return false;
             }
         }
 
@@ -123,43 +165,18 @@ namespace DataAccess.DAO
             }
         }
 
-        public static DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname, string address, bool isDefault)
+        public static DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname, string address, bool isdefault)
         {
-            try
+            using (var context = new CustomerContext())
             {
-                using (var context = new CustomerContext())
+                var deliveryAddress = context.DeliveryAddresses.FirstOrDefault(c => c.Username == username && c.Phone == phoneNumber && c.Fullname == fullname && c.Address == address && c.IsDefault == isdefault);
+                if (deliveryAddress != null)
                 {
-                    // Query the database to find an address that matches all the parameters
-                    var existingAddress = context.DeliveryAddresses
-                        .FirstOrDefault(a => a.Username == username
-                                             && a.Phone == phoneNumber
-                                             && a.Fullname == fullname
-                                             && a.Address == address
-                                             && a.IsDefault == isDefault);
-
-                    if (existingAddress != null)
-                    {
-                        // Map the entity to DeliveryAddressModel DTO
-                        return new DeliveryAddressModel
-                        {
-                            Id = existingAddress.Id,
-                            Username = existingAddress.Username,
-                            Fullname = existingAddress.Fullname,
-                            Phone = existingAddress.Phone,
-                            Address = existingAddress.Address,
-                            Specific = existingAddress.Specific,
-                            IsDefault = existingAddress.IsDefault,
-                            Customer = existingAddress.Customer,
-                        };
-                    }
-
-                    // Return null if no matching address is found
-                    return null;
+                    DeliveryAddressModel deliveryAddressModel = new DeliveryAddressModel();
+                    deliveryAddressModel.CopyProperties(deliveryAddress);
+                    return deliveryAddressModel;
                 }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
+                return null;
             }
         }
     }

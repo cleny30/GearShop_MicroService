@@ -7,9 +7,10 @@ namespace Repository.IRepository
     {
       /*  public bool AddNewAddress(DeliveryAddressModel deliAddressModel);*/
         public List<DeliveryAddressModel> GetAllAddress(string username);
-      /*  public bool UpdateAddress(DeliveryAddressModel deliveryAddressModel);
-        public bool DeleteAddress(string username, int id);
-        public DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname, string address, bool isdefault);
-        public void CheckAllFalse(string username);*/
+        public bool AddNewAddress(DeliveryAddressModel deliveryAddressModel, string username);
+        public bool UpdateAddress(DeliveryAddressModel deliveryAddressModel);
+        /*  
+          public bool DeleteAddress(string username, int id);
+          public void CheckAllFalse(string username);*/
     }
 }
