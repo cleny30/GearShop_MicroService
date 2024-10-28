@@ -277,12 +277,12 @@ function confirmDelete() {
             if (response.ok) {
                 // Handle success - e.g., remove the deleted address from UI
                 form.closest('.form-group').remove(); // Remove the entire address block
-             
+
                 location.reload(); // Reload the page after successful deletion
             } else {
-          
-         
-                closeDeleteConfirmation(); 
+
+
+                closeDeleteConfirmation();
             }
         })
         .catch(error => {

@@ -118,7 +118,7 @@
                         </div>
                     }
 
-                    @if (list.Count < 3)
+                    @if (list == null ||  list.Count < 5)
                     {
                         <div class="col-md-12">
                             <button class="addnewButton" onclick="toggleAddNewAddressForm()">Add new address</button>
@@ -131,7 +131,6 @@
     </div>
 </div>
 <!-- Contact End -->
-
 <!-- Form Update Address -->
 <form method="post" class="update_address_form" action="/Account/UpdateAddress">
     <div class="popup-overlay-update hidden" id="updateAddressForm" data-addressID="">
@@ -140,7 +139,7 @@
                 <span class="popup-title-update">Update Address</span>
             </div>
             <div class="popup-form-content-update">
-                <!-- Item -->      
+                <!-- Item -->
                 <input type="hidden" value="" id="idUpdate" name="id">
                 <div class="popup-row-update">
                     <div class="popup-col-update">
@@ -182,8 +181,8 @@
                 </div>
                 <div class="popup-row-update">
                     <label class="popup-checkbox-container-update">
-                        <input type="checkbox" id="defaultAddress" name="isdefault" value="true" >
-                        <span class="popup-checkmark-update"></span>        
+                        <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
+                        <span class="popup-checkmark-update"></span>
                         Default address
                     </label>
                 </div>
@@ -195,6 +194,8 @@
         </div>
     </div>
 </form>
+
+
 
 
 

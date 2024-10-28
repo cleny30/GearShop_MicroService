@@ -1,4 +1,5 @@
-﻿using BusinessObject.Core;
+﻿using Azure;
+using BusinessObject.Core;
 using BusinessObject.DTOS;
 using BusinessObject.Model.Entity;
 using BusinessObject.Models.Entity;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.Identity.Client;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -88,12 +90,100 @@ namespace WebClient.Controllers
             string url = string.Format(ApiEndpoints_Customer.GET_ALL_ADDRESS, username);
             HttpResponseMessage _customerResponse = await client.GetAsync(url);
             string strcustomer = await _customerResponse.Content.ReadAsStringAsync();
+            if (_customerResponse.StatusCode == HttpStatusCode.NotFound)
+            {
+                ViewBag.ErrorMessage = "Không tìm thấy địa chỉ.";
+                return View("MyAddress"); // Chuyển đến form thêm nếu không có địa chỉ
+            }
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
             List<DeliveryAddressModel> addressList = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strcustomer, options);
-            return View(addressList);
+
+          
+
+            return View(addressList); // Hiển thị danh sách địa chỉ nếu đã có
+        }
+
+
+        [HttpPost("/Account/AddAddress")]
+        public async Task<IActionResult> AddAddress(DeliveryAddressModel newAddress)
+        {
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("Login", "Account"); // Chuyển hướng đến trang đăng nhập nếu không có username trong session
+            }
+
+            // Gán tên người dùng cho địa chỉ mới
+            newAddress.Username = username;
+
+            // Chuẩn bị dữ liệu JSON và gọi API để thêm địa chỉ
+            var jsonData = JsonSerializer.Serialize(newAddress);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PostAsync(ApiEndpoints_Customer.ADD_ADDRESS, content);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                ViewBag.ErrorMessage = "Không tìm thấy endpoint để thêm địa chỉ.";
+                return View("Error"); // Hiển thị trang lỗi nếu không tìm thấy endpoint
+            }
+            else if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("MyAddress"); // Chuyển hướng đến trang danh sách địa chỉ nếu thêm thành công
+            }
+            return RedirectToAction("MyAddress");
+        }
+
+
+
+        // PUT: Customers/UpdateAddress
+        [HttpPost("/Account/UpdateAddress")]
+        public async Task<IActionResult> UpdateAddress(DeliveryAddressModel updatedAddress)
+        {
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+            updatedAddress.Username = username;
+
+            var jsonData = JsonSerializer.Serialize(updatedAddress);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync($"{ApiEndpoints_Customer.UPDATE_ADDRESS}/{updatedAddress.Id}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("MyAddress");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Lỗi khi cập nhật địa chỉ.";
+                return View("Error");
+            }
+        }
+
+        [HttpPost("/Account/DeleteAddress")]
+        public async Task<IActionResult> DeleteAddress(int id)
+        {
+            string username = httpContextAccessor.HttpContext.Session.GetString("username");
+
+            // Ensure the username is set before proceeding
+            if (string.IsNullOrEmpty(username))
+            {
+                ViewBag.ErrorMessage = "User not logged in.";
+                return View("Error");
+            }
+
+            HttpResponseMessage response = await client.DeleteAsync($"{ApiEndpoints_Customer.DELETE_ADDRESS}/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("MyAddress"); // Redirect to MyAddress page on success
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Lỗi khi xoá địa chỉ.";
+                return View("Error"); // Display error view on failure
+            }
         }
     }
 }

@@ -140,14 +140,14 @@ namespace DataAccess.DAO
             }
         }
 
-        public static bool DeleteAddress(string username, int id)
+        public static bool DeleteAddress(int id)
         {
             try
             {
                 using (var context = new CustomerContext())
                 {
                     var address = context.DeliveryAddresses
-                                         .FirstOrDefault(x => x.Username == username && x.Id == id);
+                                         .FirstOrDefault(x => x.Id == id);
 
                     if (address != null)
                     {
