@@ -22,22 +22,29 @@ namespace WebClient.Controllers
             return View();
         }
 
-
-        [HttpPost("/Signup/OnPostRegister")]
-        public IActionResult OnPostRegister(RegistModel registModel)
+        [HttpPost("/Account/Register")]
+        public async Task<IActionResult> Register(RegistModel registModel)
         {
-            if (accountService.Register(registModel))
+            try
             {
-                var otp = accountService.VerifyEmail(registModel.Email);
-                Console.WriteLine($"OTP generated: {otp}");
-                TempData["SuccessMessage"] = "Registration successful!";
-                return RedirectToAction("VerifyEmail", "Account");
+                if (await accountService.RegisterAsync(registModel))
+                {
+                    TempData["SuccessMessage"] = "Registration successful! Please check your email for the OTP.";
+                    return RedirectToAction("Index", "Login");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Registration failed. Please try again.";
+                    return View();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Registration failed. Please try again.";
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                TempData["ErrorMessage"] = "An unexpected error occurred. Please try again.";
                 return View("Register");
             }
         }
+
     }
 }

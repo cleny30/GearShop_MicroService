@@ -134,16 +134,44 @@ namespace WebClient.Service
             return true;
         }
 
-        public bool Register(RegistModel registModel)
+        public async Task<bool> RegisterAsync(RegistModel registModel)
         {
-            //gan md5
-            string hashPass = CalculateMD5Hash(registModel.Password);
-            //gan nguoc lai
-            registModel.Password = hashPass;
-            Console.WriteLine("pass forget" + hashPass);
-            string url = string.Format(ApiEndpoints_Customer.REGISTER, registModel);
-            client.GetAsync(url);
-            return true;
+            try
+            {
+                // Hash the password using MD5
+                string hashPass = CalculateMD5Hash(registModel.Password);
+                registModel.Password = hashPass;
+
+                Console.WriteLine("Hashed password: " + hashPass);
+
+                // Construct the API endpoint URL for registration
+                string url = ApiEndpoints_Customer.REGISTER;
+
+                // Convert the registration model to JSON
+                var jsonContent = JsonConvert.SerializeObject(registModel);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                // Make an asynchronous request to the registration endpoint using POST
+                var response = await client.PostAsync(url, content);
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to register. Status code: {response.StatusCode}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred during registration: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                return false;
+            }
         }
+
     }
 }
