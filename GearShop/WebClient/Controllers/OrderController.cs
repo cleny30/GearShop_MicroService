@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using WebClient.APIEndPoint;
 using WebClient.Models;
+using WebClient.Service;
 
 namespace WebClient.Controllers
 {
@@ -13,13 +14,14 @@ namespace WebClient.Controllers
     {
         private readonly IHttpContextAccessor _contx;
         private readonly HttpClient client = null;
-
-        public OrderController(IHttpContextAccessor contx)
+        private readonly OrderService orderService;
+        public OrderController(IHttpContextAccessor contx, OrderService orderService)
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
             _contx = contx;
+            this.orderService = orderService;
         }
 
         [HttpGet("/Order")]
@@ -78,6 +80,45 @@ namespace WebClient.Controllers
         {
             _contx.HttpContext.Session.SetString("proId", string.Join(',', proIds));
             return Content("OK");
+        }
+
+        [HttpPost]
+        public async Task<DataResult> CheckOut(OrderModel order)
+        {
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            var productChecked = _contx.HttpContext.Session.GetString("proId");
+
+            OrderModel orderModel = new OrderModel
+            {
+                Address = order.Address,
+                OrderDes = order.OrderDes == null ? order.OrderDes : "None",
+                Fullname = order.Fullname,
+                Phone = order.Phone,
+                proId = productChecked,
+                StartDate = DateOnly.FromDateTime(DateTime.Now),
+                Status = 1,
+                TotalPrice = order.TotalPrice,
+                Username = userSession,
+            };
+            DataResult result = new DataResult();
+
+            result.IsSuccess = await orderService.Checkout(orderModel);
+            return result;
+        }
+
+        [HttpGet("/Order/PostCheckout")]
+        public IActionResult PostCheckout()
+        {
+            _contx.HttpContext.Session.Remove("proId");
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
     }
 }

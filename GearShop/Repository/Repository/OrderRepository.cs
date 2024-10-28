@@ -6,6 +6,18 @@ namespace Repository.Repository
 {
     public class OrderRepository : IOrderRepository
     {
+        public async Task<bool> AddNewOrder(OrderModel orderModel)
+        => await OrderDAO.AddNewOrder(orderModel);
+
+        public async Task<bool> AddOrderDetail(List<OrderDetailModel> orderDetailModel)
+        {
+            foreach (var item in orderDetailModel)
+            {
+               await OrderDAO.AddOrderDetail(item);
+            }
+            return true;
+        }
+
         public async Task<bool> ChangeOrderStatus(string Order_ID, int Status)
         => await OrderDAO.ChangeOrderStatus(Order_ID, Status);
 
@@ -14,6 +26,8 @@ namespace Repository.Repository
 
         public async Task<double> GetIncomeAsync()
         => await OrderDAO.GetIncomeAsync();
+
+        public async Task<string> GetNewOrderId()=> await OrderDAO.GetNewOrderID();
 
         public async Task<OrderModel> GetOrderByID(string Order_ID)
         => await OrderDAO.GetOrderByID(Order_ID);

@@ -8,6 +8,7 @@ namespace WebClient.Core
         {
             services.AddScoped<ShopService>();
             services.AddScoped<AccountService>();
+            services.AddScoped<OrderService>();
         }
     }
 }

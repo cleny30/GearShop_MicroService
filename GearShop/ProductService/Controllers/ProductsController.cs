@@ -178,5 +178,11 @@ namespace ProductService.Controllers
             var isSuccess = await _repository.AddQuantityToProduct(products);
             return Ok(isSuccess);
         }
+
+        [HttpPut("UpdateQuantityProduct")]
+        public async Task<IActionResult> UpdateQuantityProduct(List<ProductData> products)
+        {
+            return Ok(_repository.UpdateQuantityToProduct(products));
+        }
     }
 }

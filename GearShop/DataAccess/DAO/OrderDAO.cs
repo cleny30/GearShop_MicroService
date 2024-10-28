@@ -165,5 +165,64 @@ namespace DataAccess.DAO
                 return false;
             }
         }
+
+        public static async Task<string> GetNewOrderID()
+        {
+            using (var dbContext = new OrderContext())
+            {
+                var lastOrder = await dbContext.Orders.OrderByDescending(o => o.OrderId).FirstOrDefaultAsync();
+
+                if (lastOrder == null)
+                {
+                    return "OD001"; // Assuming the first order ID starts with "OD001"
+                }
+                else
+                {
+                    string numericPart = lastOrder.OrderId.Substring(2);
+                    int currentNumber = int.Parse(numericPart);
+                    int newNumber = currentNumber + 1;
+                    string newOrderId = $"OD{newNumber:D3}";
+                    return newOrderId;
+                }
+            }
+        }
+
+        public static async Task<bool> AddNewOrder(OrderModel orderModel)
+        {
+            try
+            {
+                using (var dbContext = new OrderContext())
+                {
+                    Order order = new Order();
+                    order.CopyProperties(orderModel);
+                    dbContext.Orders.Add(order);
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static async Task<bool> AddOrderDetail(OrderDetailModel orderDetailModel)
+        {
+            try
+            {
+                using (var dbContext = new OrderContext())
+                {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.CopyProperties(orderDetailModel);
+                    dbContext.OrderDetails.Add(orderDetail);
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
