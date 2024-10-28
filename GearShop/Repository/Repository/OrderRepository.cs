@@ -1,5 +1,6 @@
 ﻿using BusinessObject.DTOS;
 using DataAccess.DAO;
+using NuGet.Protocol.Core.Types;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -37,6 +38,16 @@ namespace Repository.Repository
 
         public List<OrderDataForDashboard> GetOrderListForDashboard()
         => OrderDAO.GetOrderListForDashboard();
+
+        public async Task<List<OrderDataModel>> GetOrdersByCustomer(string username)
+        {
+            var orders = await OrderDAO.GetOrderListByUser(username);
+
+
+            orders = orders.OrderByDescending(o => o.StartDate).ToList();
+
+            return orders;
+        }
 
         public async Task<List<Tuple<string, double>>> GetTop10CustomerAsync()
         => await OrderDAO.GetTop10CustomerAsync();

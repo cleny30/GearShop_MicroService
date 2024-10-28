@@ -27,6 +27,13 @@ namespace OrderService.Controllers
             return Ok(list);
         }
 
+        [HttpGet("GetOrderByUsername")]
+        public async Task<IActionResult> GetOrderByUsername(string username)
+        {
+            List<OrderDataModel> list =  await _orderRepository.GetOrdersByCustomer(username);
+            return Ok(list);
+        }
+
         [HttpGet("GetOrderListForDashboard")]
         public IActionResult GetOrderListForDashboard()
         {

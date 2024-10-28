@@ -5,6 +5,7 @@ namespace Repository.IRepository
     public interface IOrderRepository
     {
         public List<OrderModel> GetOrderList();
+        public Task<List<OrderDataModel>> GetOrdersByCustomer(string username);
         public int GetCompletedOrder();
         public List<OrderDataForDashboard> GetOrderListForDashboard();
         public Task<List<Tuple<string, double>>> GetTop10CustomerAsync();

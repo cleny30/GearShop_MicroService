@@ -46,7 +46,7 @@ namespace BusinessObject.DTOS
         public string? OrderDes { get; set; }
         public int Status { get; set; } = 0;
         public string? Address { get; set; }
-        //public List<OrderDetailModel>? orderDetail { get; set; }
+        public List<OrderDetailModel>? orderDetail { get; set; }
     }
 
     public class OrderDataForDashboard
