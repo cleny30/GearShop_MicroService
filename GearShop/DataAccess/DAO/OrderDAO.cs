@@ -224,5 +224,29 @@ namespace DataAccess.DAO
                 return false;
             }
         }
+
+        public async static Task<List<OrderDataModel>> GetOrderListByUser(string username)
+        {
+            List<Order> orders;
+            try
+            {
+                using (var dbContext = new OrderContext())
+                {
+                    orders = await dbContext.Orders.Where(o => o.Username == username).ToListAsync();
+                    List<OrderDataModel> _orders = new List<OrderDataModel>();
+                    foreach (var order in orders)
+                    {
+                        OrderDataModel _order = new OrderDataModel();
+                        _order.CopyProperties(order);
+                        _orders.Add(_order);
+                    }
+                    return _orders;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
