@@ -289,5 +289,30 @@ namespace DataAccess.DAO
             }
         }
 
+        public static async Task<bool> UpdateQuantityProduct(ProductData productModel)
+        {
+            try
+            {
+                using (var dbContext = new ProductContext())
+                {
+                    var product = dbContext.Products.FirstOrDefault(p => p.ProId == productModel.ProId);
+                    if (product != null)
+                    {
+                        product.ProQuan = productModel.ProQuan;
+                        dbContext.SaveChangesAsync();
+                        return true;
+                    }
+                    else
+                    {
+                        return false; // Product not found
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

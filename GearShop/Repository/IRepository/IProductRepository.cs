@@ -15,5 +15,6 @@ namespace Repository.IRepository
         public Task<bool> UpdateProduct(ProductData product);
         public Task<bool> ChangeProductStatus(string ProId, bool Status);
         public Task<bool> AddQuantityToProduct(List<ReceiptProductModel> products);
+        public Task<bool> UpdateQuantityToProduct(List<ProductData> products);
     }
 }

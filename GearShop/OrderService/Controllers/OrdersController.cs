@@ -27,6 +27,13 @@ namespace OrderService.Controllers
             return Ok(list);
         }
 
+        [HttpGet("GetOrderByUsername")]
+        public async Task<IActionResult> GetOrderByUsername(string username)
+        {
+            List<OrderDataModel> list =  await _orderRepository.GetOrdersByCustomer(username);
+            return Ok(list);
+        }
+
         [HttpGet("GetOrderListForDashboard")]
         public IActionResult GetOrderListForDashboard()
         {
@@ -90,6 +97,26 @@ namespace OrderService.Controllers
         {
             var isSuccessful = await _orderRepository.ChangeOrderStatus(order.OrderId, order.Status);
             return Ok(isSuccessful);
+        }
+
+        [HttpGet("GetNewOrderID")]
+        public async Task<IActionResult> GetNewOrderID()
+        {
+            string orderId = await _orderRepository.GetNewOrderId();
+            return Ok(orderId);
+        }
+
+        [HttpPost("AddOrderModel")]
+        public async Task<IActionResult> AddOrder([FromBody]OrderModel model)
+        {
+            bool result = await _orderRepository.AddNewOrder(model);
+            return Ok(result);
+        }
+
+        [HttpPost("AddOrderDetails")]
+        public async Task<IActionResult> AddOrderDetails(List<OrderDetailModel> model)
+        {
+            return Ok(await _orderRepository.AddOrderDetail(model));
         }
     }
 }

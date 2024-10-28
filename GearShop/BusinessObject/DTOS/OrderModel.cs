@@ -31,11 +31,7 @@ namespace BusinessObject.DTOS
 
         public string Address { get; set; } = null!;
 
-        public string Email { get; set; } = null!;
-
-        public virtual Manager? Manager { get; set; }
-
-        public virtual Customer UsernameNavigation { get; set; } = null!;
+        public string? Email { get; set; }
 
         public string? proId { get; set; }
     }
@@ -50,7 +46,7 @@ namespace BusinessObject.DTOS
         public string? OrderDes { get; set; }
         public int Status { get; set; } = 0;
         public string? Address { get; set; }
-        //public List<OrderDetailModel>? orderDetail { get; set; }
+        public List<OrderDetailModel>? orderDetail { get; set; }
     }
 
     public class OrderDataForDashboard

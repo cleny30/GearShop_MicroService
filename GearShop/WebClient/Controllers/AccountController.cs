@@ -1,9 +1,11 @@
-﻿using BusinessObject.DTOS;
+﻿using Azure;
+using BusinessObject.DTOS;
 using BusinessObject.Model.Entity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
 using WebClient.APIEndPoint;
+using WebClient.Models;
 using WebClient.Service;
 
 namespace WebClient.Controllers
@@ -178,6 +180,64 @@ namespace WebClient.Controllers
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             HttpResponseMessage res = await client.PutAsync(ApiEndpoints_Customer.UPDATE_ADDRESS, content);
             return RedirectToAction("Index", "Order");
+        }
+
+        [HttpGet("/Account/MyOrder")]
+        public async Task<IActionResult> MyOrder(string username)
+        {
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                DataResult dataResult = new DataResult();
+
+                HttpResponseMessage response = await client.GetAsync($"{ApiEndPoints_Order.GET_ORDER_BY_USERNAME}?username={userSession}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string stOrder = await response.Content.ReadAsStringAsync();
+
+                    List<OrderDataModel> orderData = JsonSerializer.Deserialize<List<OrderDataModel>>(stOrder, options);
+                    dataResult.Result = orderData;
+                }
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderDetail(string id)
+        {
+            try
+            {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                DataResult dataResult = new DataResult();
+
+                HttpResponseMessage responseOrder = await client.GetAsync($"{ApiEndPoints_Order.GET_ORDER_BY_ID}?Order_ID={id}");
+                HttpResponseMessage responseDetails = await client.GetAsync($"{ApiEndPoints_Order.GET_ORDER_DETAILS}?Order_ID={id}");
+
+                string stOrder = await responseOrder.Content.ReadAsStringAsync();
+                string stOrderDetails = await responseDetails.Content.ReadAsStringAsync();
+
+                var a = JsonSerializer.Deserialize<OrderModel>(stOrder, options);
+                var orderThis = JsonSerializer.Deserialize<List<OrderDetailModel>>(stOrderDetails, options);
+                var rs = new
+                {
+                    orderDetails = orderThis,
+                    orderDick = a
+                };
+                return Json(rs);
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
         }
     }
 }
