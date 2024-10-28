@@ -323,3 +323,46 @@ const PlaceOrder = () => {
         }
     });
 }
+
+$('.add_address_form').on('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var form = $(this);
+    var url = form.attr('action');
+    var formData = form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        success: function (response) {
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            // Optionally, handle errors here
+        }
+    });
+});
+
+$('.update_address_form').on('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var form = $(this);
+    var url = form.attr('action');
+    var formData = form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        success: function () {
+            // Reload the page upon successful submission
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            // Optionally, handle errors here
+        }
+    });
+});

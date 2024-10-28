@@ -121,7 +121,7 @@
                     @if (list == null ||  list.Count < 5)
                     {
                         <div class="col-md-12">
-                            <button class="addnewButton" onclick="toggleAddNewAddressForm()">Add new address</button>
+                            <button class="addnewButton" onclick="CreateAddress()">Add new address</button>
                         </div>
                     }
                 
@@ -132,138 +132,13 @@
 </div>
 <!-- Contact End -->
 <!-- Form Update Address -->
-<form method="post" class="update_address_form" action="/Account/UpdateAddress">
-    <div class="popup-overlay-update hidden" id="updateAddressForm" data-addressID="">
-        <div class="popup-form-container-update">
-            <div class="popup-header-update">
-                <span class="popup-title-update">Update Address</span>
-            </div>
-            <div class="popup-form-content-update">
-                <!-- Item -->
-                <input type="hidden" value="" id="idUpdate" name="id">
-                <div class="popup-row-update">
-                    <div class="popup-col-update">
-                        <input type="text" value="" placeholder="Your full name" class="popup-input-update" name="fullname" id="fullnameUpdate">
-                        <p style="color: red;"></p>
-                    </div>
-                    <div class="popup-col-update">
-                        <input type="text" value="" placeholder="Phone number" class="popup-input-update" name="phone" id="phonenumUpdate">
-                        <p style="color: red;"></p>
-                    </div>
-                </div>
-                <div class="popup-row-update">
-                    <div class="popup-col-update popup-full-width-update">
-                        <label for="option" class="popup-address-label-update">
-                            <input type="text" value="" class="popup-form-control-update" name="address" id="addressUpdate" readonly>
-                            <p style="color: red;"></p>
-                            <div class="popup-icon-update">
-                                <i class="fa solid fa-chevron-down"></i>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="popup-col-update popup-full-width-update" id="optionFields1">
-                        <select id="provincesUpdate" class="popup-input-update" onchange="getDistrictsUpdate(event)">
-                            <option value="">Select provinces</option>
-                            <!-- Options will be populated here -->
-                        </select>
-
-                        <select id="districtsUpdate" class="popup-input-update" onchange="getWardsUpdate(event)">
-                            <option value="">Select districts</option>
-                        </select>
-                        <select id="wardsUpdate" class="popup-input-update" onchange="AddressFieldUpdate()">
-                            <option value="">Select ward</option>
-                            <!-- Options will be populated here -->
-                        </select>
-                    </div>
-                </div>
-                <div class="popup-row-update">
-                    <input type="text" placeholder="Specific address" class="popup-input-update popup-full-width" name="specific" value="" id="specificAddressUpdate">
-                </div>
-                <div class="popup-row-update">
-                    <label class="popup-checkbox-container-update">
-                        <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
-                        <span class="popup-checkmark-update"></span>
-                        Default address
-                    </label>
-                </div>
-            </div>
-            <div class="popup-footer-update">
-                <button type="button" class="popup-button-update cancel" onclick="closeUpdateAddressForm()">Cancel</button>
-                <button type="submit" class="popup-button-update submit">Submit</button>
-            </div>
-        </div>
-    </div>
-</form>
-
-
-
-
-
-<!-- Form Add Address -->
-<form method="post" class="add_address_form" action="/Account/AddAddress">
-    <div class="popup-overlay hidden" id="addAddressForm">
-    <div class="popup-form-container">
-        <div class="popup-header">
-            <span class="popup-title">Add new address</span>
-        </div>
-        <div class="popup-form-content">
-            <!-- Item -->
-            <div class="popup-row">
-          
-                <div class="popup-col">
-                    <input type="text" placeholder="Your full name" class="popup-input" name="fullname" id="fullName">
-                        <p style="color: red;"></p>
-                </div>
-                <div class="popup-col">
-                    <input type="text" placeholder="Phone number" class="popup-input" name="phone" id="phoneNumber">
-                        <p style="color: red;"></p>
-                </div>
-            </div>
-                <div class="popup-row">
-                    <div class="popup-col popup-full-width">
-                        <label for="option" class="popup-address-label" onclick="toggleShowOption()">
-                            <input type="text" value="" class="popup-form-control" name="address" id="address" readonly>
-                            <p style="color: red;"></p>
-                            <div class="popup-icon">
-                                <i class="fa solid fa-chevron-down"></i>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="popup-col popup-full-width" id="optionFields">
-                        <select id="provinces" class="popup-input" onchange="getDistricts(event)">
-                            <option value="">Select provinces</option>
-                            <!-- Options will be populated here -->
-                        </select>
-
-                        <select id="districts" class="popup-input" onchange="getWards(event)">
-                            <option value="">Select districts</option>
-                        </select>
-                        <select id="wards" class="popup-input" onchange="updateAddressField()">
-                            <option value="">Select ward</option>
-                            <!-- Options will be populated here -->
-                        </select>
-                    </div>
-                </div>
-            <div class="popup-row" >
-           
-                <input type="text" placeholder="Specific address" class="popup-input popup-full-width" name="specific" id="specificAddress">
-            </div>
-            <div class="popup-row">
-                <label class="popup-checkbox-container">
-                        <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
-                        <span class="popup-checkmark"></span>
-                    Default address
-                </label>
-            </div>
-        </div>
-        <div class="popup-footer">
-                <button type="button" class="popup-button cancel" onclick="toggleAddNewAddressForm()">Cancel</button>
-            <button type="submit" class="popup-button submit">Submit</button>
-        </div>
-    </div>
+<div id="editAddress" style="display:none">
+    @Html.Partial("Partial/DeliveryAddress/Edit");
 </div>
-</form>
 
+<div id="createAddress" style="display:none">
+    @Html.Partial("Partial/DeliveryAddress/Create");
+</div>
 
 <div id="deleteConfirmation" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 10px; text-align: center;">

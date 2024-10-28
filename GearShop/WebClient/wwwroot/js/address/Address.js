@@ -1,63 +1,50 @@
 ﻿// Function to open the update address form and populate it with the existing data
-function UpdateAddress(button) {
+const UpdateAddress = (button) => {
     // Get data from the button
-    const fullname = button.getAttribute('data-fullname');
-    const phone = button.getAttribute('data-phonenum');
-    const address = button.getAttribute('data-address');
-    const addressID = button.getAttribute('data-ID');
-    const isdefault = button.getAttribute('data-isdefault');
-    const specific = button.getAttribute('data-specific');
-    const checkbox = document.getElementById('defaultAddress');
-    // Populate the form fields with the existing data
-    document.getElementById('idUpdate').value = addressID;
-    document.getElementById('fullnameUpdate').value = fullname;
-    document.getElementById('phonenumUpdate').value = phone;
-    document.getElementById('addressUpdate').value = address;
-    document.getElementById('specificAddressUpdate').value = specific;
+    const $button = $(button);
+    const fullname = $button.data('fullname');
+    const phone = $button.data('phonenum');
+    const address = $button.data('address');
+    const addressID = $button.data('id');
+    const isdefault = $button.data('isdefault');
+    const specific = $button.data('specific');
+    const $checkbox = $('#defaultAddress');
 
-    if (isdefault === 'True') {
-        checkbox.checked = true;
-        checkbox.disabled = true; // Disable the checkbox if it's checked
+    // Populate the form fields with the existing data
+    $('#idUpdate').val(addressID);
+    $('#fullnameUpdate').val(fullname);
+    $('#phonenumUpdate').val(phone);
+    $('#addressUpdate').val(address);
+    $('#specificAddressUpdate').val(specific);
+
+    if (isdefault === true) {
+        $checkbox.prop('checked', true).prop('disabled', true); // Disable the checkbox if it's checked
     } else {
-        checkbox.checked = false;
-        checkbox.disabled = false; // Enable the checkbox if it's not checked
+        $checkbox.prop('checked', false).prop('disabled', false); // Enable the checkbox if it's not checked
     }
-    document.getElementById('updateAddressForm').setAttribute('data-addressID', addressID);
+
+    $('#updateAddressForm').data('addressid', addressID);
 
     // Show the popup form
-    document.getElementById('updateAddressForm').classList.remove('hidden');
+    $('#editAddress').css('display', 'block');
+    $('#listAddress').css('display', 'none');
 }
 
-function closeUpdateAddressForm() {
-    // Hide the popup form
-    document.getElementById('updateAddressForm').classList.add('hidden');
+const CreateAddress = () => {
+    $('#createAddress').css('display', 'block');
+    $('#listAddress').css('display', 'none');
 }
 
-
-////////////////////////////////
-function toggleShowOption() {
-
-    const optionFields = document.getElementById('optionFields');
-    optionFields.classList.toggle('hidden');
-} function toggleShowOption1() {
-
-    const optionFields = document.getElementById('optionFields1');
-    optionFields.classList.toggle('hidden');
-}
-
-function toggleUpdateAddressForm() {
-    const formOverlay = document.getElementById('updateAddressForm');
-    formOverlay.classList.toggle('hidden');
-}
-
-function toggleAddNewAddressForm() {
-    const formOverlay = document.getElementById('addAddressForm');
-    formOverlay.classList.toggle('hidden');
-}
-
-function AddNewAddress() {
-    // Handle add new address submission
-    alert('Address added successfully!');
+const CloseForm = (type) => {
+    $('#listAddress').css('display', 'block');
+    if (type == 0) {
+        $('#fullName').val('');
+        $('#phoneNumber').val('');
+        $('#address').val('');
+        $('#createAddress').css('display', 'none');
+    } else {
+        $('#editAddress').css('display', 'none');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -257,6 +244,21 @@ async function getWardsUpdate(event) {
     }
 }
 
+function AddressFieldEdit() {
+    const provincesSelect = document.getElementById('provincesUpdate');
+    const districtsSelect = document.getElementById('districtsUpdate');
+    const wardsSelect = document.getElementById('wardsUpdate');
+    const addressInput = document.getElementById('addressUpdate');
+
+    // Lấy giá trị đã chọn từ các dropdown
+
+    const provinceText = provincesSelect.options[provincesSelect.selectedIndex].text;
+    const districtText = districtsSelect.options[districtsSelect.selectedIndex].text;
+    const wardText = wardsSelect.options[wardsSelect.selectedIndex].text;
+
+    // Cập nhật giá trị vào ô input
+    addressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
+}
 function confirmDeleteAddress(event, fullName, itemId) {
     event.preventDefault(); // Prevent form submission
     document.getElementById('deleteAddressName').textContent = fullName; // Set the name to be deleted
@@ -296,3 +298,46 @@ function confirmDelete() {
 function closeDeleteConfirmation() {
     document.getElementById('deleteConfirmation').style.display = 'none'; // Close the confirmation popup
 }
+
+$('.add_address_form').on('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var form = $(this);
+    var url = form.attr('action');
+    var formData = form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        success: function (response) {
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            // Optionally, handle errors here
+        }
+    });
+});
+
+$('.update_address_form').on('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var form = $(this);
+    var url = form.attr('action');
+    var formData = form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        success: function () {
+            // Reload the page upon successful submission
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            // Optionally, handle errors here
+        }
+    });
+});

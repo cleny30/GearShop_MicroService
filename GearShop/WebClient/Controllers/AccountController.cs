@@ -163,9 +163,9 @@ namespace WebClient.Controllers
             string jsonData = JsonSerializer.Serialize(addressModel, options);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             HttpResponseMessage res = await client.PostAsync(ApiEndpoints_Customer.ADD_ADDRESS, content);
-
-            return RedirectToAction("Index", "Order");
+            return Ok();
         }
+
         [HttpPost]
         public async Task<IActionResult> UpdateAddressOrder(DeliveryAddressModel addressModel)
         {
@@ -179,7 +179,7 @@ namespace WebClient.Controllers
             string jsonData = JsonSerializer.Serialize(addressModel, options);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             HttpResponseMessage res = await client.PutAsync(ApiEndpoints_Customer.UPDATE_ADDRESS, content);
-            return RedirectToAction("Index", "Order");
+            return Ok();
         }
 
         [HttpGet("/Account/MyOrder")]
