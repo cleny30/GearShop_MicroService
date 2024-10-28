@@ -7,17 +7,8 @@ namespace Repository.Repository
     public class AddressRepository : IAddressRepository
     {
 
-       /* public bool AddNewAddress(DeliveryAddressModel deliAddressModel)
-            => AddressDAO.AddNewAddress(deliAddressModel);*/
         public List<DeliveryAddressModel> GetAllAddress(string username)
             => AddressDAO.GetAllAddress(username);
-
-        /* public bool UpdateAddress(DeliveryAddressModel deliveryAddressModel)
-             => AddressDAO.UpdateAddress(deliveryAddressModel);
-         public bool DeleteAddress(string username, int id)
-             => AddressDAO.DeleteAddress(username, id);
-
-         public void CheckAllFalse(string username)=> AddressDAO.GetAddressByUsername(username);*/
 
         public bool AddNewAddress(DeliveryAddressModel deliveryAddressModel, string username)
         {
@@ -25,7 +16,7 @@ namespace Repository.Repository
             var existingAddressItem = AddressDAO.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname, deliveryAddressModel.Address, deliveryAddressModel.IsDefault);
             if (existingAddressItem != null)
             {
-                return false; 
+                return false;
             }
             else
             {
@@ -46,5 +37,8 @@ namespace Repository.Repository
                 return true;
             }
         }
+
+        public bool DeleteAddress(int id) => AddressDAO.DeleteAddress(id);
+
     }
 }

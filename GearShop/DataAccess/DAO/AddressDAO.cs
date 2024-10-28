@@ -53,6 +53,7 @@ namespace DataAccess.DAO
 
                     context.DeliveryAddresses.Add(addressEntity);
                     context.SaveChanges();
+                    SetDefaultAddress(addressModel.Username, addressModel.Id);
                     return true;
                 }
             }
@@ -65,22 +66,39 @@ namespace DataAccess.DAO
         {
             using (var context = new CustomerContext())
             {
-                // Set all addresses for the given username to IsDefault = false
+                // Retrieve all addresses for the given username
                 var addresses = context.DeliveryAddresses.Where(c => c.Username == username).ToList();
-                foreach (var address in addresses)
-                {
-                    address.IsDefault = false;
-                }
 
-                // Find the address with the specified id and set IsDefault = true
-                var defaultAddress = addresses.FirstOrDefault(c => c.Id == id);
-                if (defaultAddress != null)
+                // Check if this is the first address being added for the user
+                if (addresses.Count == 0)
                 {
-                    defaultAddress.IsDefault = true;
+                    // If there are no existing addresses, set the new address as default
+                    var newAddress = context.DeliveryAddresses.FirstOrDefault(c => c.Id == id);
+                    if (newAddress != null)
+                    {
+                        newAddress.IsDefault = true;
+                        context.SaveChanges();
+                    }
+                    return;
                 }
+                else
+                {
+                    // Set all existing addresses for the given username to IsDefault = false
+                    foreach (var address in addresses)
+                    {
+                        address.IsDefault = false;
+                    }
 
-                // Save changes to the database
-                context.SaveChanges();
+                    // Find the address with the specified id and set IsDefault = true
+                    var defaultAddress = addresses.FirstOrDefault(c => c.Id == id);
+                    if (defaultAddress != null)
+                    {
+                        defaultAddress.IsDefault = true;
+                    }
+
+                    // Save changes to the database
+                    context.SaveChanges();
+                }
             }
         }
 
@@ -140,14 +158,14 @@ namespace DataAccess.DAO
             }
         }
 
-        public static bool DeleteAddress(string username, int id)
+        public static bool DeleteAddress(int id)
         {
             try
             {
                 using (var context = new CustomerContext())
                 {
                     var address = context.DeliveryAddresses
-                                         .FirstOrDefault(x => x.Username == username && x.Id == id);
+                                         .FirstOrDefault(x => x.Id == id);
 
                     if (address != null)
                     {

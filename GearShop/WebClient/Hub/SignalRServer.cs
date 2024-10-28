@@ -26,7 +26,7 @@ namespace WebClient
         public override Task OnConnectedAsync()
         {
             // You can get the username from the query string or from the context
-            // Here I'm assuming the username is passed in the query string
+  
             var username = Context.GetHttpContext().Request.Query["username"];
 
             if (!string.IsNullOrEmpty(username))

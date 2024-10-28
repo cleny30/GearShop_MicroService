@@ -48,5 +48,10 @@ namespace CustomerService.Controllers
         {
             return _addressRepository.UpdateAddress(addressModel);
         }
+
+        [HttpDelete("{id}")]
+        public bool DeleteAddress(int id) { 
+            return _addressRepository.DeleteAddress(id);
+        }
     }
 }

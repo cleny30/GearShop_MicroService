@@ -21,5 +21,7 @@
         public const string ADD_ADDRESS = $"{BASE_URL}/gateway/addresses";
 
         public const string UPDATE_ADDRESS = $"{BASE_URL}/gateway/addresses";
+
+        public const string DELETE_ADDRESS = $"{BASE_URL}/gateway/addresses";
     }
 }
