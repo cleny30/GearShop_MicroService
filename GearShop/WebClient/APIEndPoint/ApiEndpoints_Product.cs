@@ -17,5 +17,7 @@
         public const string GET_PRODUCT_BY_NAME = $"{BASE_URL}/gateway/products/GetProductByName";
 
         public const string GET_PRODUCT_DETAIL = $"{BASE_URL}/gateway/products/GetProductDetail/{{0}}";
+
+        public const string UPDATE_QUANTITY_PRODUCT = $"{BASE_URL}/gateway/products/UpdateQuantityProduct"; 
     }
 }

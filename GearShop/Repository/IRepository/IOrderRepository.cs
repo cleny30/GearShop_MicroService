@@ -11,5 +11,9 @@ namespace Repository.IRepository
         public Task<double> GetIncomeAsync();
         public Task<OrderModel> GetOrderByID(string Order_ID);
         public Task<bool> ChangeOrderStatus(string Order_ID, int Status);
+
+        public Task<string> GetNewOrderId();
+        public Task<bool> AddOrderDetail(List<OrderDetailModel> orderDetailModel);
+        public Task<bool> AddNewOrder(OrderModel orderModel);
     }
 }

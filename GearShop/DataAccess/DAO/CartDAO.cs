@@ -153,11 +153,16 @@ namespace DataAccess.DAO
         {
             try
             {
+                var id = proId.Split(',');
                 using (var dbContext = new CartContext())
                 {
                     var existCart = dbContext.Carts.FirstOrDefault(c => c.Username == username);
-                    var cart = dbContext.CartItems.FirstOrDefault(c => c.CartId == existCart.CartId && c.ProId == proId);
-                    dbContext.CartItems.Remove(cart);
+
+                    foreach (var item in id)
+                    {
+                        var cart = dbContext.CartItems.FirstOrDefault(c => c.CartId == existCart.CartId && c.ProId == item);
+                        dbContext.CartItems.Remove(cart);
+                    }
 
                     dbContext.SaveChanges();
 

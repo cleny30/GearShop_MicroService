@@ -35,5 +35,14 @@ namespace Repository.Repository
 
         public async Task<bool> AddQuantityToProduct(List<ReceiptProductModel> products)
         => await ProductDAO.AddQuantityToProduct(products);
+
+        public async Task<bool> UpdateQuantityToProduct(List<ProductData> products)
+        {
+            foreach (var item in products)
+            {
+                await ProductDAO.UpdateQuantityProduct(item);
+            }
+            return true;
+        }
     }
 }
