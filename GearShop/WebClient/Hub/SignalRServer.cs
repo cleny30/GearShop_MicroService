@@ -66,9 +66,14 @@ namespace WebClient
 
                 var _cartResponse = await client.GetAsync($"{ApiEndPoints_Cart.GET_CART_BY_USERNAME}?username={userSession}");
                 string strCart = await _cartResponse.Content.ReadAsStringAsync();
-                List<CartModel> cartList = JsonSerializer.Deserialize<List<CartModel>>(strCart, options);
+                List<CartModel> cartList = new List<CartModel>();
 
+                if(!string.IsNullOrEmpty(strCart))
+                {
+                    cartList = JsonSerializer.Deserialize<List<CartModel>>(strCart, options);
+                }
                 int count = cartList.Count();
+                _contx.HttpContext.Session.SetString("cartQuantity", Newtonsoft.Json.JsonConvert.SerializeObject(count));
                 await Clients.Client(connectionId).SendAsync("ReceiveLoadCardData", count);
             }
         }
