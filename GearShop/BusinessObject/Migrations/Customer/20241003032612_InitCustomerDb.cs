@@ -52,6 +52,59 @@ namespace BusinessObject.Migrations.Customer
                 name: "IX_DeliveryAddresses_CustomerUsername",
                 table: "DeliveryAddresses",
                 column: "CustomerUsername");
+
+            migrationBuilder.Sql(@"
+                CREATE TRIGGER [dbo].[SetDefaultAddress]
+                ON [dbo].[DeliveryAddresses]
+                AFTER INSERT
+                AS
+                BEGIN
+                    DECLARE @UserName NVARCHAR(250)
+                    DECLARE @AddressCount INT
+                    DECLARE @InsertedId INT
+
+                    SELECT @UserName = username, @InsertedId = Id
+                    FROM inserted
+
+                    -- Count addresses for the user
+                    SELECT @AddressCount = COUNT(*)
+                    FROM [dbo].[DeliveryAddresses]
+                    WHERE username = @UserName
+
+                    -- Set isDefault if it's the only address
+                    IF @AddressCount = 1
+                    BEGIN
+                        UPDATE [dbo].[DeliveryAddresses]
+                        SET isDefault = 1
+                        WHERE Id = @InsertedId
+                    END
+                END
+            ");
+
+            // Create the UpdateDefaultAddress trigger
+            migrationBuilder.Sql(@"
+                CREATE TRIGGER [dbo].[UpdateDefaultAddress]
+                ON [dbo].[DeliveryAddresses]
+                AFTER INSERT
+                AS
+                BEGIN
+                    DECLARE @UserName NVARCHAR(250)
+                    DECLARE @IsDefault BIT
+                    DECLARE @InsertedId INT
+
+                    SELECT @UserName = username, @IsDefault = isDefault, @InsertedId = Id
+                    FROM inserted
+
+                    -- If the inserted address is marked as default, update other addresses
+                    IF @IsDefault = 1
+                    BEGIN
+                        UPDATE [dbo].[DeliveryAddresses]
+                        SET isDefault = 0
+                        WHERE username = @UserName
+                          AND Id <> @InsertedId
+                    END
+                END
+            ");
         }
 
         /// <inheritdoc />
