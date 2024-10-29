@@ -53,7 +53,6 @@ namespace DataAccess.DAO
 
                     context.DeliveryAddresses.Add(addressEntity);
                     context.SaveChanges();
-                    SetDefaultAddress(addressModel.Username, addressModel.Id);
                     return true;
                 }
             }
@@ -70,7 +69,7 @@ namespace DataAccess.DAO
                 var addresses = context.DeliveryAddresses.Where(c => c.Username == username).ToList();
 
                 // Check if this is the first address being added for the user
-                if (addresses.Count == 0)
+                if (addresses.Count == 1)
                 {
                     // If there are no existing addresses, set the new address as default
                     var newAddress = context.DeliveryAddresses.FirstOrDefault(c => c.Id == id);
@@ -89,12 +88,12 @@ namespace DataAccess.DAO
                         address.IsDefault = false;
                     }
 
-                    // Find the address with the specified id and set IsDefault = true
-                    var defaultAddress = addresses.FirstOrDefault(c => c.Id == id);
-                    if (defaultAddress != null)
-                    {
-                        defaultAddress.IsDefault = true;
-                    }
+                    //// Find the address with the specified id and set IsDefault = true
+                    //var defaultAddress = addresses.FirstOrDefault(c => c.Id == id);
+                    //if (defaultAddress != null)
+                    //{
+                    //    defaultAddress.IsDefault = true;
+                    //}
 
                     // Save changes to the database
                     context.SaveChanges();
@@ -115,10 +114,10 @@ namespace DataAccess.DAO
                 deliveryAddressModel.Id = newestAddressId + 1;
                 AddNewAddress(deliveryAddressModel);
 
-                if (deliveryAddressModel.IsDefault)
-                {
-                    SetDefaultAddress(username, deliveryAddressModel.Id);
-                }
+                //if (deliveryAddressModel.IsDefault)
+                //{
+                //    SetDefaultAddress(username, deliveryAddressModel.Id);
+                //}
                 return true;
             }
         }
@@ -140,10 +139,10 @@ namespace DataAccess.DAO
 
                         context.SaveChanges();
 
-                        if (deliveryAddressModel.IsDefault)
-                        {
-                            SetDefaultAddress(deliveryAddressModel.Username, existingAddress.Id);
-                        }
+                        //if (deliveryAddressModel.IsDefault)
+                        //{
+                        //    SetDefaultAddress(deliveryAddressModel.Username, existingAddress.Id);
+                        //}
                         return true;
                     }
                     else

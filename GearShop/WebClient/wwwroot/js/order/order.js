@@ -326,43 +326,145 @@ const PlaceOrder = () => {
 
 $('.add_address_form').on('submit', function (event) {
     event.preventDefault(); // Prevent the default form submission
+    var fullname = getValueById('fullName');
+    var phone = getValueById('phoneNumber');
+    var address = getValueById('address');
+    var specificAddress = getValueById('specificAddress');
+    var noError = true;
 
-    var form = $(this);
-    var url = form.attr('action');
-    var formData = form.serialize();
 
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: formData,
-        success: function (response) {
-            location.reload();
-        },
-        error: function (xhr, status, error) {
-            console.error('Error:', error);
-            // Optionally, handle errors here
-        }
-    });
+    if (!fullname) {
+        showError('fullName', 'Please enter your full name');
+        noError = false;
+    } else if (fullname.length > 100) {
+        showError('fullName', 'You full name must be less than 100 characters!');
+        noError = false;
+    } else {
+        hideError('fullName');
+    }
+
+
+    if (!phone) {
+        showError('phoneNumber', 'Please enter your phone number!');
+        noError = false;
+    } else if (!isValidPhoneNumber(phone)) {
+        showError('phoneNumber', 'Invalid phone number!');
+        noError = false;
+    } else {
+        hideError('phoneNumber');
+    }
+
+
+    if (!address) {
+        showError('address', 'Please enter address');
+        noError = false;
+    }else {
+        hideError('address');
+    }
+
+
+    if (!specificAddress) {
+        showError('specificAddress', 'Please enter specific address');
+        noError = false;
+    }else {
+        hideError('specificAddress');
+    }
+    if (noError) {
+        var form = $(this);
+        var url = form.attr('action');
+        var formData = form.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            success: function (response) {
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                // Optionally, handle errors here
+            }
+        });
+    }
 });
 
 $('.update_address_form').on('submit', function (event) {
     event.preventDefault(); // Prevent the default form submission
+    var fullname = getValueById('fullnameUpdate');
+    var phone = getValueById('phonenumUpdate');
+    var address = getValueById('addressUpdate');
+    var specificAddress = getValueById('specificAddressUpdate');
+    var noError = true;
 
-    var form = $(this);
-    var url = form.attr('action');
-    var formData = form.serialize();
 
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: formData,
-        success: function () {
-            // Reload the page upon successful submission
-            location.reload();
-        },
-        error: function (xhr, status, error) {
-            console.error('Error:', error);
-            // Optionally, handle errors here
-        }
-    });
-});
+    if (!fullname) {
+        showError('fullnameUpdate', 'Please enter your full name');
+        noError = false;
+    } else if (fullname.length > 100) {
+        showError('fullnameUpdate', 'You full name must be less than 100 characters!');
+        noError = false;
+    } else {
+        hideError('fullnameUpdate');
+    }
+
+
+    if (!phone) {
+        showError('phonenumUpdate', 'Please enter your phone number!');
+        noError = false;
+    } else if (!isValidPhoneNumber(phone)) {
+        showError('phonenumUpdate', 'Invalid phone number!');
+        noError = false;
+    } else {
+        hideError('phonenumUpdate');
+    }
+
+
+    if (!address) {
+        showError('addressUpdate', 'Please enter address');
+        noError = false;
+    } else {
+        hideError('addressUpdate');
+    }
+
+
+    if (!specificAddress) {
+        showError('specificAddressUpdate', 'Please enter specific address');
+        noError = false;
+    } else {
+        hideError('specificAddressUpdate');
+    }
+    if (noError) {
+        var form = $(this);
+        var url = form.attr('action');
+        var formData = form.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            success: function () {
+                // Reload the page upon successful submission
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                // Optionally, handle errors here
+            }
+        });
+    }
+   
+})
+    ; function getValueById(id) {
+    return $('#' + id).val();
+}
+
+// Hiển thị thông báo lỗi cho một trường
+function showError(id, message) {
+    $('#' + id).next('p').text(message);
+}
+
+// Ẩn thông báo lỗi của một trường
+function hideError(id) {
+    $('#' + id).next('p').text('');
+}
