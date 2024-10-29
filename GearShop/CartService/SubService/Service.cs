@@ -14,11 +14,12 @@ namespace CartService.SubService
 
         public bool AddOrUpdateCart(UserCartData data, int amount)
         {
-            var existingCart = cartRepository.GetCartsByUsername(data.CartModel.Username).FirstOrDefault(c => c.ProId == data.Product.ProId);
+            var _cartModel = cartRepository.GetCartsByUsername(data.CartModel.Username);
             var quantityInStock = data.Product.ProQuan;
 
             if (quantityInStock >= 0)
             {
+                var existingCart = _cartModel == null ? null : _cartModel.FirstOrDefault(c => c.ProId == data.Product.ProId);
                 if (existingCart != null)
                 {
                     var check = quantityInStock - (existingCart.Quantity + amount);

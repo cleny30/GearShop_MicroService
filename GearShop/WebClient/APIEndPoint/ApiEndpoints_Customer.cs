@@ -12,7 +12,11 @@
 
         public const string CHANGE_PASSWORD = $"{BASE_URL}/gateway/customers/ChangePassword";
 
-        public const string CHECK_MAIL = $"{BASE_URL}/gateway/customers/CheckMail/{{0}}"; 
+        public const string CHECK_MAIL = $"{BASE_URL}/gateway/customers/CheckMail/{{0}}";  
+        public const string CHECK_MAIL_REGISTER = $"{BASE_URL}/gateway/customers/CheckMailRegister/{{0}}"; 
+
+        public const string REGISTER_CUSTOMER = $"{BASE_URL}/gateway/customers/RegisterUsername"; 
+
 
         public const string FORGET_PASSWORD = $"{BASE_URL}/gateway/customers/ForgetPassword/{{0}}/{{1}}";
 

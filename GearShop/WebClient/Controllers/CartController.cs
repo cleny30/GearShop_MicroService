@@ -41,14 +41,19 @@ namespace WebClient.Controllers
                 string strProduct = await _productcResponse.Content.ReadAsStringAsync();
                 string strCart = await _cartResponse.Content.ReadAsStringAsync();
 
-                List<ProductData> productList = JsonSerializer.Deserialize<List<ProductData>>(strProduct, options);
-                List<CartModel> cartList = JsonSerializer.Deserialize<List<CartModel>>(strCart, options);
+                List<UserCartData> list = new List<UserCartData>();
 
-                List<UserCartData> list = cartList.Select(item => new UserCartData
+                if (!string.IsNullOrEmpty(strCart))
                 {
-                    CartModel = item,
-                    Product = productList.FirstOrDefault(p => p.ProId == item.ProId)
-                }).ToList();
+                    List<ProductData> productList = JsonSerializer.Deserialize<List<ProductData>>(strProduct, options);
+                    List<CartModel> cartList = JsonSerializer.Deserialize<List<CartModel>>(strCart, options);
+
+                    list = cartList.Select(item => new UserCartData
+                    {
+                        CartModel = item,
+                        Product = productList.FirstOrDefault(p => p.ProId == item.ProId)
+                    }).ToList();
+                }
                 return View(list);
             }
             return RedirectToAction("Index", "Login");
