@@ -295,35 +295,6 @@ function AddressFieldEdit() {
     addressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
 }
 
-const PlaceOrder = () => {
-    var fullname = $('#ChosenFNA').val();
-    var phone = $('#ChosenPNA').val();
-    var address = $('#ChosenADA').val();
-    var totalPrice = $('#bill').val();
-    var OrderDes = $('#description').val();
-    $.ajax({
-        url: '/Order/CheckOut',
-        type: "POST",
-        data: {
-            Fullname: fullname,
-            Phone: phone,
-            Address: address,
-            TotalPrice: totalPrice,
-            OrderDes: OrderDes
-        },
-        success: function (data) {
-            if (data.isSuccess === true) {
-                sessionStorage.setItem("completeCheckout", "true");
-                sessionStorage.removeItem("ProId");
-
-                window.location.href = "/Order/PostCheckout";
-            } else {
-                $('#alertOrder').css('display', 'block');
-            }
-        }
-    });
-}
-
 $('.add_address_form').on('submit', function (event) {
     event.preventDefault(); // Prevent the default form submission
     var fullname = getValueById('fullName');
