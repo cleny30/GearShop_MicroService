@@ -21,5 +21,11 @@ namespace Repository.Repository
 
         public void ForgetPassword(string mail, string pass)
         => CustomerDAO.ForgetPassword(mail, pass);
+
+        public Task<bool> CheckUsername(string username)
+        => CustomerDAO.CheckUsername(username);
+
+        public Task<bool> Register(RegisterModel userRegist)
+        => CustomerDAO.Register(userRegist);
     }
 }

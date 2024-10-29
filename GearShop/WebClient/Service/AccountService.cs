@@ -91,7 +91,7 @@ namespace WebClient.Service
 
                 MailMessage message = new MailMessage();
                 message.From = new MailAddress(_emailSettings.FromEmail);
-                message.Subject = "The OTP to reset password";
+                message.Subject = "OTP Check";
                 message.To.Add(new MailAddress(reciever));
                 message.Body = htmlContent;
                 message.IsBodyHtml = true;

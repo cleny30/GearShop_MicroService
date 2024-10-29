@@ -9,10 +9,10 @@ let userExist = false;
 $('#txtUsername').on('change', function () {
     hideError("errUsername");
     username = getValueById("txtUsername").trim();
-    checkExist();
+    checkExistUsername();
 })
 
-const checkExist = () => {
+const checkExistUsername = () => {
     console.log("start of check");
     $.ajax({
         url: '/Register/CheckUserExist',
@@ -47,7 +47,31 @@ $('#txtPhone').on('change', function () {
 $('#txtEmail').on('change', function () {
     hideError("errEmail");
     email = getValueById("txtEmail").trim();
+    checkExistMail();
 })
+const checkExistMail = () => {
+    console.log("start of check");
+    $.ajax({
+        url: '/Register/CheckMailExist',
+        type: "POST",
+        data: {
+            mail: email,
+        },
+        success: function (data) {
+            if (data === "False") {
+                console.log("mail exist");
+                userExist = true;
+                showError("errEmail", "Mail exist");
+            } else {
+                console.log("Mail free to use");
+                userExist = false;
+            }
+        },
+        error: function () {
+            $('#registError').text('An error occurred. Please try again later.').show();
+        }
+    });
+}
 $('#pwdPassword').on('change', function () {
     hideError("errPassword");
     password = getValueById("pwdPassword").trim();
@@ -139,7 +163,7 @@ function validateEmail() {
     return email.match(emailRegex);
 }
 const handleRegist = () => {
-    $.ajax({
+  /*  $.ajax({
         url: '/Register/OnPostRegister',
         type: "POST",
         data: {
@@ -151,7 +175,7 @@ const handleRegist = () => {
             rePassword: rePassword
         },
         success: function (data) {
-            if (data.success === false) {
+            if (data === "False") {
                 console.log("cook");
             } else {
                 window.location.href = '/Login';
@@ -160,7 +184,18 @@ const handleRegist = () => {
         error: function () {
             $('#registError').text('An error occurred. Please try again later.').show();
         }
-    });
+    });*/
+    localStorage.setItem('registrationData', JSON.stringify({
+        username: username,
+        fullname: fullname,
+        phone: phone,
+        email: email,
+        password: password,
+        rePassword: rePassword
+    }));
+
+    // Chuyển hướng đến trang khác
+    window.location.href = '/RegisterOTP';
 }
 
 // Lấy giá tin input

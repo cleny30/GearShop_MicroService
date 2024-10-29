@@ -63,6 +63,24 @@ namespace CustomerService.Controllers
                 return Ok(account);
             }
             return NotFound();
+        }   
+        [HttpPost("RegisterUsername")]
+        public async Task<IActionResult> RegisterAsync(RegisterModel register)
+        {
+            if (register == null)
+            {
+                return BadRequest(new { message = "Invalid registration data." });
+            }
+
+            // Log các giá trị của register
+            Console.WriteLine($"Username: {register.Username}, Email: {register.Email}");
+
+            var account = await _customerRepository.Register(register);
+            if (account)
+            {
+                return Ok(new { message = "Account registered successfully." });
+            }
+            return NotFound();
         }
 
         [HttpPost("ChangePassword")]
@@ -94,7 +112,40 @@ namespace CustomerService.Controllers
             {
                 return BadRequest(new { message = "Email not found." });
             }
+        }   
+
+        [HttpGet("CheckMailRegister/{mail}")]
+        public async Task<IActionResult> CheckMailRegister(string mail)
+        {
+            bool result = await _customerRepository.CheckMail(mail);
+
+
+            if (!result)
+            {
+                return Ok(new { message = "Email not found." });
+            }
+            else
+            {
+                return BadRequest(new { message = "Email exists." });
+            }
+        }  
+
+        [HttpGet("CheckUsername/{username}")]
+        public async Task<IActionResult> CheckUsername(string username)
+        {
+            bool result = await _customerRepository.CheckUsername(username);
+
+
+            if (!result)
+            {
+                return Ok(new { message = "User not found." });
+            }
+            else
+            {
+                return BadRequest(new { message = "User exsit" });
+            }
         }
+
         [HttpGet("ForgetPassword/{mail}/{pass}")]
         public IActionResult ForgetPassword(string mail, string pass)
         {

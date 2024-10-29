@@ -10,7 +10,9 @@ namespace Repository.IRepository
 
         public Task<LoginAccountModel> LoginCustomer(string userLogin, string pass);
         public Task<Customer> ChangePassword(ChangePasswordModel model);
-        public Task<bool> CheckMail(string mail);
+        public Task<bool> CheckMail(string mail);  
+        public Task<bool> CheckUsername(string username);
+        public Task<bool> Register(RegisterModel userRegist);
 
         public void ForgetPassword(string mail, string pass);
 

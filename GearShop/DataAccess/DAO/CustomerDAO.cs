@@ -119,8 +119,47 @@ namespace DataAccess.DAO
                     return false;
                 }
             }
+        }  
+        public static async Task<bool> CheckUsername(String username)
+        {
 
+            using (var context = new CustomerContext())
+            {
+                var customer = await context.Customers.FirstOrDefaultAsync(c => c.Username == username);
+                if (customer != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
+        public static async Task<bool> Register(RegisterModel userRegist)
+        {
+            try
+            {
+                using (var dbContext = new CustomerContext())
+                {
+                    Customer customer = new Customer();
+                    customer.CopyProperties(userRegist);
+
+                    dbContext.Customers.Add(customer);
+
+                    await dbContext.SaveChangesAsync();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log exception nếu cần thiết
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
 
         public static void ForgetPassword(string mail, string pass)
         {
