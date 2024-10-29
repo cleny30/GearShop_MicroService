@@ -34,24 +34,29 @@ namespace DataAccess.DAO
 
         public List<CartModel> GetCartsByUsername(string username)
         {
-            List<CartItem> cart;
             try
             {
                 using (var dbContext = new CartContext())
                 {
-                    cart = dbContext.CartItems.ToList();
+                    var cart = dbContext.Carts.FirstOrDefault(u => u.Username == username);
 
-                    List<CartModel> CartModels = new List<CartModel>();
-
-                    foreach (var item in cart)
+                    if(cart != null)
                     {
-                        CartModel CartModel = new CartModel();
-                        CartModel.CopyProperties(item);
-                        CartModel.ProPrice = item.Price;
-                        CartModel.Username = username;
-                        CartModels.Add(CartModel);
+                        var cartItems = dbContext.CartItems.Where(c => c.CartId == cart.CartId);
+
+                        List<CartModel> CartModels = new List<CartModel>();
+
+                        foreach (var item in cartItems)
+                        {
+                            CartModel CartModel = new CartModel();
+                            CartModel.CopyProperties(item);
+                            CartModel.ProPrice = item.Price;
+                            CartModel.Username = item.Cart.Username;
+                            CartModels.Add(CartModel);
+                        }
+                        return CartModels.Where(u => u.Username == username).ToList();
                     }
-                    return CartModels.Where(u => u.Username == username).ToList();
+                    return null;
                 }
             }
             catch (Exception ex)
