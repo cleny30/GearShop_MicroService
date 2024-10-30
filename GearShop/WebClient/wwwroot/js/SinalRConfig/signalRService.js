@@ -131,3 +131,36 @@ function formatDate(dateString) {
     var year = date.getFullYear();
     return `${day}/${month}/${year}`;
 }
+
+const PlaceOrder = () => {
+    var fullname = $('#ChosenFNA').val();
+    var phone = $('#ChosenPNA').val();
+    var address = $('#ChosenADA').val();
+    var totalPrice = $('#bill').val();
+    var OrderDes = $('#description').val();
+    $.ajax({
+        url: '/Order/CheckOut',
+        type: "POST",
+        data: {
+            Fullname: fullname,
+            Phone: phone,
+            Address: address,
+            TotalPrice: totalPrice,
+            OrderDes: OrderDes
+        },
+        success: function (data) {
+            if (data.isSuccess === true) {
+                sessionStorage.setItem("completeCheckout", "true");
+                sessionStorage.removeItem("ProId");
+                connection.invoke("LoadCartData").catch(function (err) {
+                    return console.error(err.toString());
+                });
+                setTimeout(function () {
+                    window.location.href = "/Order/PostCheckout";
+                }, 2000);
+            } else {
+                $('#alertOrder').css('display', 'block');
+            }
+        }
+    });
+}

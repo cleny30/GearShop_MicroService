@@ -2,7 +2,7 @@
     var fullname = getValueById('fullnameUpdate');
     var phone = getValueById('phonenumUpdate');
     var address = getValueById('addressUpdate');
-
+    var specificAddress = getValueById('specificAddress');
     var noError = true;
 
 
@@ -38,6 +38,16 @@
         hideError('addressUpdate');
     }
 
+
+    if (!specificAddress) {
+        showError('specificAddress', 'Please enter specific address');
+        noError = false;
+    } else if (specificAddress.length < 0) {
+        showError('specificAddress', 'Specific address must be more than 20 character');
+        noError = false;
+    } else {
+        hideError('specificAddress');
+    }
     // Nếu không có lỗi, kiểm tra sự tồn tại của username bằng cách gửi request AJAX đến server
     if (!noError) {
         event.preventDefault();
@@ -49,6 +59,7 @@ $('form.add_address_form').submit(function (event) {
     var fullname = getValueById('fullName');
     var phone = getValueById('phoneNumber');
     var address = getValueById('address');
+    var specificAddress = getValueById('specificAddress');
 
     var noError = true;
   
@@ -85,7 +96,15 @@ $('form.add_address_form').submit(function (event) {
     if (!noError) {
         event.preventDefault();
     }
-
+    if (!specificAddress) {
+        showError('specificAddress', 'Please enter specific address');
+        noError = false;
+    } else if (specificAddress.length < 0) {
+        showError('specificAddress', 'Specific address must be more than 20 character');
+        noError = false;
+    } else {
+        hideError('specificAddress');
+    }
 });
 
 

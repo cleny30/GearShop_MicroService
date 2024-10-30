@@ -46,12 +46,14 @@ namespace WebClient.Controllers
 
                     string strCartData = await response.Content.ReadAsStringAsync();
                     string strAddress = await address.Content.ReadAsStringAsync();
+                    var addresses = new List<DeliveryAddressModel>();
 
+                    if (!string.IsNullOrEmpty(strAddress)) {
+                        addresses = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strAddress, options);
+                    }
                     var list = JsonSerializer.Deserialize<List<UserCartData>>(strCartData, options);
 
-                    var addresses = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strAddress, options);
-
-
+                   
                     if (addresses.Count() == 0)
                     {
                         return RedirectToAction("MyAddress", "Account");
