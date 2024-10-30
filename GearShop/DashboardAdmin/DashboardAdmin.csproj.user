@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="BrandManagement\BrandFunc.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="BrandManagement\BrandWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CategoryManagement\CategoryFunc.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CategoryManagement\CategoryWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dashboard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportProductChooser.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportProductPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportingProductManagament\ImportReceiptPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="OrderManagement\OrderInfo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="OrderManagement\OrderManagement.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ProductManagement\AddProduct.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ProductManagement\ProductPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="BrandManagement\BrandFunc.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BrandManagement\BrandWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CategoryManagement\CategoryFunc.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CategoryManagement\CategoryWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportProductChooser.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportProductPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportingProductManagament\ImportReceiptPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OrderManagement\OrderInfo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OrderManagement\OrderManagement.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ProductManagement\AddProduct.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ProductManagement\ProductPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

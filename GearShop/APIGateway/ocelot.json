@@ -1,0 +1,192 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/managers/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3003
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/managers/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "managers"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/products/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3001
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/products/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "products"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Categories/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3001
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Categories/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "products"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/Brands/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3001
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Brands/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "products"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/customers/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3005
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/customers/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "customers"
+    },
+    {
+      "DownstreamPathTemplate": "/api/addresses/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3005
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/addresses/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "customers"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/carts/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3006
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/carts/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "carts"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/orders/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3002
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/orders/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "orders"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/ImportProducts/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 3004
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ImportProducts/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "ImportProducts"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "managers",
+      "Config": [
+        {
+          "Name": "Manager API",
+          "Version": "v1",
+          "Url": "http://localhost:5001/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "products",
+      "Config": [
+        {
+          "Name": "Products API",
+          "Version": "v1",
+          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "customers",
+      "Config": [
+        {
+          "Name": "Customers API",
+          "Version": "v1",
+          "Url": "http://localhost:5003/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "carts",
+      "Config": [
+        {
+          "Name": "Carts API",
+          "Version": "v1",
+          "Url": "http://localhost:5004/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "orders",
+      "Config": [
+        {
+          "Name": "Orders API",
+          "Version": "v1",
+          "Url": "http://localhost:5005/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "ImportProducts",
+      "Config": [
+        {
+          "Name": "Import Products API",
+          "Version": "v1",
+          "Url": "http://localhost:5006/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}

@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusinessObject.Models.Entity
+{
+    public class OrderDetail
+    {
+        [Column(TypeName = "varchar")]
+        [StringLength(10)]
+        public string OrderId { get; set; }
+
+        [Column(TypeName = "varchar")]
+        [StringLength(10)]
+        public string ProId { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string ProName { get; set; }
+
+        [Required]
+        public int Quantity { get; set; }
+
+        [Required]
+        [Column(TypeName = "float")]
+        public double Price { get; set; }
+
+        public virtual Order Order { get; set; } 
+    }
+}
