@@ -239,5 +239,42 @@ namespace WebClient.Controllers
                 return RedirectToAction("/StatusCodeError");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(string orderId, int status)
+        {
+            try
+            {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                HttpResponseMessage responseOrder = await client.GetAsync($"{ApiEndPoints_Order.GET_ORDER_BY_ID}?Order_ID={orderId}");
+                string stOrder = await responseOrder.Content.ReadAsStringAsync();
+
+                // Get the order by orderId (this step depends on how you retrieve your orders)
+                var order = JsonSerializer.Deserialize<OrderModel>(stOrder, options);
+                order.Status = status;
+                if (order == null)
+                {
+                    return NotFound();
+                }
+                var orderJson = JsonSerializer.Serialize(order, options);
+                var contentOrder = new StringContent(orderJson, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync(ApiEndPoints_Order.CHANGE_ORDER_STATUS, contentOrder);
+                bool isStatusChanged = response.IsSuccessStatusCode;
+                if (!isStatusChanged)
+                {
+                    return StatusCode(500, "Failed to cancel the order.");
+                }
+
+                return Json(new { redirectToUrl = Url.Action("MyOrder", "Account") });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { redirectToUrl = Url.Action("MyOrder", "Account") });
+            }
+        }
     }
 }

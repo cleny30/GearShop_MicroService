@@ -10,5 +10,6 @@
         public const string GET_ORDER_BY_USERNAME = $"{BASE_URL}/gateway/orders/GetOrderByUsername";
         public const string GET_ORDER_BY_ID = $"{BASE_URL}/gateway/orders/GetOrderByID";
         public const string GET_ORDER_DETAILS = $"{BASE_URL}/gateway/orders/GetOrderDetailByOrderID";
+        public const string CHANGE_ORDER_STATUS = BASE_URL + "/gateway/orders/ChangeOrderStatus";
     }
 }
