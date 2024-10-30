@@ -148,6 +148,24 @@ namespace DataAccess.DAO
                         order.EndDate = DateOnly.FromDateTime(DateTime.Now);
 
                     }
+
+                    if (Status == 0)
+                    {
+                        List<OrderDetail> list = new List<OrderDetail>();
+
+                        list = await dbContext.OrderDetails.Where(o => o.OrderId.Equals(order.OrderId)).ToListAsync();
+
+                        using (var productContext = new ProductContext())
+                        {
+                            foreach (var item in list)
+                            {
+                                Product product = productContext.Products.FirstOrDefault(p => p.ProId.Equals(item.ProId));
+                                product.ProQuan += item.Quantity;
+                                productContext.SaveChanges();
+                            }
+                        }
+                        
+                    }
                     dbContext.Entry<Order>(order).State = EntityState.Modified;
                     int check = await dbContext.SaveChangesAsync();
                     if (check > 0)
