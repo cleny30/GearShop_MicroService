@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "host.docker.internal",
+          "Port": 3003
         }
       ],
       "UpstreamPathTemplate": "/gateway/managers/{everything}",
@@ -19,8 +19,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 3001
         }
       ],
       "UpstreamPathTemplate": "/gateway/products/{everything}",
@@ -32,8 +32,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 3001
         }
       ],
       "UpstreamPathTemplate": "/gateway/Categories/{everything}",
@@ -46,8 +46,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 3001
         }
       ],
       "UpstreamPathTemplate": "/gateway/Brands/{everything}",
@@ -60,8 +60,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "host.docker.internal",
+          "Port": 3005
         }
       ],
       "UpstreamPathTemplate": "/gateway/customers/{everything}",
@@ -73,8 +73,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "host.docker.internal",
+          "Port": 3005
         }
       ],
       "UpstreamPathTemplate": "/gateway/addresses/{everything}",
@@ -87,8 +87,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "host.docker.internal",
+          "Port": 3006
         }
       ],
       "UpstreamPathTemplate": "/gateway/carts/{everything}",
@@ -101,8 +101,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "host.docker.internal",
+          "Port": 3002
         }
       ],
       "UpstreamPathTemplate": "/gateway/orders/{everything}",
@@ -115,8 +115,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5006
+          "Host": "host.docker.internal",
+          "Port": 3004
         }
       ],
       "UpstreamPathTemplate": "/gateway/ImportProducts/{everything}",

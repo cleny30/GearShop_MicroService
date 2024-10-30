@@ -49,7 +49,13 @@ namespace WebClient.Controllers
                     var addresses = new List<DeliveryAddressModel>();
 
                     if (!string.IsNullOrEmpty(strAddress)) {
-                        addresses = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strAddress, options);
+                        try
+                        {
+                            addresses = JsonSerializer.Deserialize<List<DeliveryAddressModel>>(strAddress, options);
+                        } catch (Exception ex)
+                        {
+                            return RedirectToAction("MyAddress", "Account");
+                        }
                     }
                     var list = JsonSerializer.Deserialize<List<UserCartData>>(strCartData, options);
 
