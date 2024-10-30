@@ -33,8 +33,8 @@ namespace TestWebClient.Repository
             var cart = new CartModel
             {
                 Username = "testuser",
-                ProId = "P123",
-                ProName = "Product Name",
+                ProId = "CT001",
+                ProName = "Razer Raiju Ultimate1",
                 Quantity = 2,
                 ProPrice = 19.99
             };
@@ -109,8 +109,8 @@ namespace TestWebClient.Repository
             var cartRepository = this.CreateCartRepository();
             var expectedCarts = new List<CartModel>
         {
-            new CartModel { Username = "user1", ProId = "CT001", ProName = "Product 1", Quantity = 2, ProPrice = 19.99 },
-            new CartModel { Username = "user2", ProId = "CT002", ProName = "Product 2", Quantity = 1, ProPrice = 29.99 }
+            new CartModel { Username = "user1", ProId = "CT001", ProName = "Razer Raiju Ultimate1", Quantity = 2, ProPrice = 19.99 },
+            new CartModel { Username = "user2", ProId = "CT002", ProName = "DareU H101X Wireless Pink", Quantity = 1, ProPrice = 29.99 }
         };
 
             this.mockCartRepository.Setup(repo => repo.GetCarts()).Returns(expectedCarts);
@@ -132,8 +132,8 @@ namespace TestWebClient.Repository
             string username = "user1";
             var expectedCarts = new List<CartModel>
         {
-            new CartModel { Username = "user1", ProId = "P123", ProName = "Product 1", Quantity = 2, ProPrice = 19.99 },
-            new CartModel { Username = "user1", ProId = "P456", ProName = "Product 2", Quantity = 1, ProPrice = 29.99 }
+            new CartModel { Username = "user1", ProId = "CT001", ProName = "Razer Raiju Ultimate1", Quantity = 2, ProPrice = 19.99 },
+            new CartModel { Username = "user1", ProId = "CT002", ProName = "DareU H101X Wireless Pink", Quantity = 1, ProPrice = 29.99 }
         };
 
             this.mockCartRepository.Setup(repo => repo.GetCartsByUsername(username)).Returns(expectedCarts);
@@ -176,13 +176,13 @@ namespace TestWebClient.Repository
         {
             new UserCartData
             {
-                CartModel = new CartModel { Username = "user1", ProId = "CT001", ProName = "Product 1", Quantity = 2, ProPrice = 19.99 },
-                Product = new ProductData { ProId = "CT001", CateId = 1, BrandId = 1, ProName = "Product 1", ProQuan = 100, ProPrice = 19.99, ProDes = "Description", Discount = 10, IsAvailable = true }
+                CartModel = new CartModel { Username = "user1", ProId = "CT001", ProName = "Razer Raiju Ultimate1", Quantity = 2, ProPrice = 19.99 },
+                Product = new ProductData { ProId = "CT001", CateId = 1, BrandId = 1, ProName = "Razer Raiju Ultimate1", ProQuan = 100, ProPrice = 19.99, ProDes = "Description", Discount = 10, IsAvailable = true }
             },
             new UserCartData
             {
-                CartModel = new CartModel { Username = "user1", ProId = "MS002", ProName = "Product 2", Quantity = 1, ProPrice = 29.99 },
-                Product = new ProductData { ProId = "MS002", CateId = 2, BrandId = 2, ProName = "Product 2", ProQuan = 50, ProPrice = 29.99, ProDes = "Description", Discount = 5, IsAvailable = true }
+                CartModel = new CartModel { Username = "user1", ProId = "MS002", ProName = "Asus ROG Chakram X", Quantity = 1, ProPrice = 29.99 },
+                Product = new ProductData { ProId = "MS002", CateId = 2, BrandId = 2, ProName = "Asus ROG Chakram X", ProQuan = 50, ProPrice = 29.99, ProDes = "Description", Discount = 5, IsAvailable = true }
             }
         };
 
@@ -225,7 +225,7 @@ namespace TestWebClient.Repository
             {
                 Username = "testuser",
                 ProId = "CT001",
-                ProName = "Product Name",
+                ProName = "Razer Raiju Ultimate1",
                 Quantity = 3,
                 ProPrice = 19.99
             };
