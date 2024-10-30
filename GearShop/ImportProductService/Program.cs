@@ -1,7 +1,10 @@
 using Repository.Core;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(80);
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
